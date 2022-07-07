@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Splunk", "src\Splunk\Splunk.csproj", "{D32BA85F-02FB-4ED0-A1E4-27833ABC6871}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{802E38CD-DC9F-42B8-937A-ECA740CF24A9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D32BA85F-02FB-4ED0-A1E4-27833ABC6871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32BA85F-02FB-4ED0-A1E4-27833ABC6871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D32BA85F-02FB-4ED0-A1E4-27833ABC6871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D32BA85F-02FB-4ED0-A1E4-27833ABC6871}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8B25B71-C1E2-422B-8A36-D8849983B0D6}
+	EndGlobalSection
+EndGlobal
