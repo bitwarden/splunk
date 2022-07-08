@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Threading.Tasks;
 
 namespace Bit.Splunk
 {
@@ -7,9 +6,14 @@ namespace Bit.Splunk
     {
         static void Main(string[] args)
         {
-            var rnd = new Random();
-            Console.WriteLine(DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture) + 
-                " Hello World! " + rnd.Next());
+            MainAsync(args).Wait();
+        }
+
+        static async Task MainAsync(string[] args)
+        {
+            var appSettings = new AppSettings();
+            var splunkApi = new SplunkApi(appSettings);
+            var eventsApiKey = await splunkApi.GetApiKeyAsync();
         }
     }
 }
