@@ -16,11 +16,11 @@ namespace Bit.Splunk
             }
             if (SplunkEnvironment)
             {
-                // Load events_logs.conf
-                var appConfigFile = $"{SplunkHome}/etc/apps/bitwarden_event_logs/local/events_logs.conf";
-                if (File.Exists(appConfigFile))
+                // Load script.conf
+                var scriptConfigFile = $"{SplunkHome}/etc/apps/bitwarden_event_logs/local/script.conf";
+                if (File.Exists(scriptConfigFile))
                 {
-                    var toml = File.ReadAllText(appConfigFile);
+                    var toml = File.ReadAllText(scriptConfigFile);
                     if (!string.IsNullOrWhiteSpace(toml))
                     {
                         var appConfigModel = Toml.ToModel(toml);
@@ -43,6 +43,12 @@ namespace Bit.Splunk
 
                                 var cursorFile = config["cursorFile"] as string;
                                 EventsCursorFile = cursorFile?.ToString();
+
+                                var apiUrl = config["apiUrl"] as string;
+                                if (apiUrl != null)
+                                {
+                                    EventsApiUrl = apiUrl?.ToString();
+                                }
                             }
                         }
                     }
@@ -64,7 +70,7 @@ namespace Bit.Splunk
         public string SplunkUsername { get; set; }
         public string SplunkPassword { get; set; }
         public string SplunkApiUrl = "https://localhost:8089";
-        public string BitwardenApiUrl { get; set; } = "http://api.bitwarden.com";
+        public string EventsApiUrl { get; set; } = "http://api.bitwarden.com";
         public int EventsLimit { get; set; } = 100;
         public DateTime EventsStartDate { get; set; } = DateTime.UtcNow.AddYears(-1);
         public string EventsCursorFile { get; set; }
