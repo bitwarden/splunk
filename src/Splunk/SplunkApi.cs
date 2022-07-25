@@ -1,20 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Bit.Splunk.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Bit.Splunk
 {
     public class SplunkApi
     {
         private readonly AppSettings _appSettings;
+        private readonly ILogger<SplunkApi> _logger;
         private readonly HttpClient _httpClient;
 
-        public SplunkApi(AppSettings appSettings)
+        public SplunkApi(AppSettings appSettings, ILogger<SplunkApi> logger)
         {
             _appSettings = appSettings;
-
+            _logger = logger;
             _httpClient = new HttpClient(new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback =
@@ -22,13 +28,13 @@ namespace Bit.Splunk
             });
         }
 
-        public async Task<string> GetApiKeyAsync()
+        public async Task<EventsApiKey> GetApiKeyAsync()
         {
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri($"{_appSettings.SplunkApiUrl}/servicesNS/nobody/" +
-                "bitwarden_event_logs/storage/passwords/bitwarden_event_logs_realm:api_key:")
+                    "bitwarden_event_logs/storage/passwords/bitwarden_event_logs_realm:api_key:")
             };
 
             var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
@@ -43,6 +49,7 @@ namespace Bit.Splunk
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogWarning("Response from Splunk API unsuccessful. Status code: {0}", response.StatusCode);
                 return null;
             }
 
@@ -61,7 +68,82 @@ namespace Bit.Splunk
                 "ns:feed/ns:entry/ns:content/s:dict/s:key[@name='clear_password']",
                 xmlNamespaceManager);
 
-            return passwordNode?.InnerText;
+            return new EventsApiKey(passwordNode?.InnerText);
+        }
+
+        public async Task<EventsApiCollectionModel> GetLastLogDateAsync()
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"{_appSettings.SplunkApiUrl}/servicesNS/nobody/" +
+                    "bitwarden_event_logs/storage/collections/data/eventsapi?output_mode=json")
+            };
+
+            var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
+            if (!_appSettings.SplunkEnvironment)
+            {
+                var authBytes = Encoding.UTF8.GetBytes($"{_appSettings.SplunkUsername}:{_appSettings.SplunkPassword}");
+                authHeader = $"Basic {Convert.ToBase64String(authBytes)}";
+            }
+
+            request.Headers.Add("Authorization", authHeader);
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Response from Splunk API unsuccessful. Status code: {0}", response.StatusCode);
+                return null;
+            }
+
+            var records = await response.Content.ReadFromJsonAsync<List<EventsApiCollectionModel>>();
+            if (records == null)
+            {
+                return null;
+            }
+
+            return records.OrderByDescending(r => r.Key).FirstOrDefault();
+        }
+
+        public async Task UpsertLastLogDateAsync(string key, DateTime lastLogDate)
+        {
+            var uri = $"{_appSettings.SplunkApiUrl}/servicesNS/nobody/" +
+                $"bitwarden_event_logs/storage/collections/data/eventsapi";
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                uri = string.Concat(uri, "/", key);
+            }
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Content = JsonContent.Create(new { last_log_date = lastLogDate })
+            };
+
+            var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
+            if (!_appSettings.SplunkEnvironment)
+            {
+                var authBytes = Encoding.UTF8.GetBytes($"{_appSettings.SplunkUsername}:{_appSettings.SplunkPassword}");
+                authHeader = $"Basic {Convert.ToBase64String(authBytes)}";
+            }
+
+            request.Headers.Add("Authorization", authHeader);
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Response from Splunk API unsuccessful. Status code: {0}", response.StatusCode);
+            }
+        }
+
+        public bool CanCallApi()
+        {
+            if (string.IsNullOrWhiteSpace(_appSettings.SplunkSessionKey))
+            {
+                return !string.IsNullOrWhiteSpace(_appSettings.SplunkUsername) &&
+                    !string.IsNullOrWhiteSpace(_appSettings.SplunkPassword);
+            }
+            return true;
         }
     }
 }

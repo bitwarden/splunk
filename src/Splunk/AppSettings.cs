@@ -49,6 +49,12 @@ namespace Bit.Splunk
                                 {
                                     EventsApiUrl = apiUrl?.ToString();
                                 }
+
+                                var identityUrl = config["identityUrl"] as string;
+                                if (identityUrl != null)
+                                {
+                                    IdentityUrl = identityUrl?.ToString();
+                                }
                             }
                         }
                     }
@@ -70,7 +76,8 @@ namespace Bit.Splunk
         public string SplunkUsername { get; set; }
         public string SplunkPassword { get; set; }
         public string SplunkApiUrl = "https://localhost:8089";
-        public string EventsApiUrl { get; set; } = "http://api.bitwarden.com";
+        public string EventsApiUrl { get; set; } = "https://api.bitwarden.com";
+        public string IdentityUrl { get; set; } = "https://identity.bitwarden.com";
         public int EventsLimit { get; set; } = 100;
         public DateTime EventsStartDate { get; set; } = DateTime.UtcNow.AddYears(-1);
         public string EventsCursorFile { get; set; }
