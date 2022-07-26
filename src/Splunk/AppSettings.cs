@@ -35,15 +35,6 @@ namespace Bit.Splunk
                                     EventsStartDate = Convert.ToDateTime(startDate);
                                 }
 
-                                var limit = config["limit"] as long?;
-                                if (limit != null)
-                                {
-                                    EventsLimit = Convert.ToInt32(limit);
-                                }
-
-                                var cursorFile = config["cursorFile"] as string;
-                                EventsCursorFile = cursorFile?.ToString();
-
                                 var apiUrl = config["apiUrl"] as string;
                                 if (apiUrl != null)
                                 {
@@ -78,8 +69,6 @@ namespace Bit.Splunk
         public string SplunkApiUrl = "https://localhost:8089";
         public string EventsApiUrl { get; set; } = "https://api.bitwarden.com";
         public string IdentityUrl { get; set; } = "https://identity.bitwarden.com";
-        public int EventsLimit { get; set; } = 100;
         public DateTime EventsStartDate { get; set; } = DateTime.UtcNow.AddYears(-1);
-        public string EventsCursorFile { get; set; }
     }
 }

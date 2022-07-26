@@ -22,12 +22,20 @@ namespace Bit.Splunk
             var appSettings = new AppSettings();
 
             // Set up logging
-            var serilog = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                // TODO: write to file?
-                .CreateLogger();
+            var serilogConfig = new LoggerConfiguration()
+                .Enrich.FromLogContext();
 
+            if (appSettings.SplunkEnvironment)
+            {
+                serilogConfig.WriteTo.File($"{appSettings.SplunkHome}/var/log/splunk/bitwarden_event_logs.log",
+                    rollOnFileSizeLimit: true, fileSizeLimitBytes: 20000000, retainedFileCountLimit: 5);
+            }
+            else
+            {
+                serilogConfig.WriteTo.Console();
+            }
+
+            var serilog = serilogConfig.CreateLogger();
             using var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
@@ -58,7 +66,7 @@ namespace Bit.Splunk
                 return;
             }
 
-            // Start getting events
+            // Start printing events
             var eventsApi = new EventsApi(
                 splunkApi,
                 _eventsApiKey,
