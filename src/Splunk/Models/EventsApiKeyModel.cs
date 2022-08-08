@@ -1,11 +1,11 @@
 ﻿namespace Bit.Splunk.Models
 {
-    public class EventsApiKey
+    public class EventsApiKeyModel
     {
-        public EventsApiKey()
+        public EventsApiKeyModel()
         { }
 
-        public EventsApiKey(string apiKey)
+        public EventsApiKeyModel(string apiKey)
         {
             var parts = apiKey?.Split('_');
             if (parts != null && parts.Length > 1)

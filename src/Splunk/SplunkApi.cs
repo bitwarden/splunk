@@ -28,7 +28,7 @@ namespace Bit.Splunk
             });
         }
 
-        public async Task<EventsApiKey> GetApiKeyAsync()
+        public async Task<EventsApiKeyModel> GetApiKeyAsync()
         {
             var request = new HttpRequestMessage
             {
@@ -61,7 +61,7 @@ namespace Bit.Splunk
                 "ns:feed/ns:entry/ns:content/s:dict/s:key[@name='clear_password']",
                 xmlNamespaceManager);
 
-            return new EventsApiKey(passwordNode?.InnerText);
+            return new EventsApiKeyModel(passwordNode?.InnerText);
         }
 
         public async Task<EventsApiCollectionModel> GetLastLogDateAsync()

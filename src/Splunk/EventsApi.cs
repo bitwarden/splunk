@@ -20,7 +20,7 @@ namespace Bit.Splunk
     {
         private static readonly DateTime _epoc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private readonly SplunkApi _splunkApi;
-        private readonly EventsApiKey _eventsApiKey;
+        private readonly EventsApiKeyModel _eventsApiKey;
         private readonly AppSettings _appSettings;
         private readonly ILogger<EventsApi> _logger;
         private HttpClient _apiClient;
@@ -32,7 +32,7 @@ namespace Bit.Splunk
 
         public EventsApi(
             SplunkApi splunkApi,
-            EventsApiKey eventsApiKey,
+            EventsApiKeyModel eventsApiKey,
             AppSettings appSettings,
             ILogger<EventsApi> logger)
         {

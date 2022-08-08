@@ -9,7 +9,7 @@ namespace Bit.Splunk
     public class Program
     {
         private static ILogger<Program> _logger;
-        private static EventsApiKey _eventsApiKey;
+        private static EventsApiKeyModel _eventsApiKey;
 
         public static void Main(string[] args)
         {
@@ -53,7 +53,7 @@ namespace Bit.Splunk
             }
             if (!appSettings.SplunkEnvironment && _eventsApiKey == null)
             {
-                _eventsApiKey = new EventsApiKey();
+                _eventsApiKey = new EventsApiKeyModel();
                 Console.Write("Events API Client Id: ");
                 _eventsApiKey.ClientId = Console.In.ReadLine()?.Trim();
                 Console.Write("Events API Client Secret: ");
