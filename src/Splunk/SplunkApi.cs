@@ -37,14 +37,7 @@ namespace Bit.Splunk
                     "bitwarden_event_logs/storage/passwords/bitwarden_event_logs_realm:api_key:")
             };
 
-            var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
-            if (!_appSettings.SplunkEnvironment)
-            {
-                var authBytes = Encoding.UTF8.GetBytes($"{_appSettings.SplunkUsername}:{_appSettings.SplunkPassword}");
-                authHeader = $"Basic {Convert.ToBase64String(authBytes)}";
-            }
-
-            request.Headers.Add("Authorization", authHeader);
+            AddAuthorization(request);
 
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
@@ -80,14 +73,7 @@ namespace Bit.Splunk
                     "bitwarden_event_logs/storage/collections/data/eventsapi?output_mode=json")
             };
 
-            var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
-            if (!_appSettings.SplunkEnvironment)
-            {
-                var authBytes = Encoding.UTF8.GetBytes($"{_appSettings.SplunkUsername}:{_appSettings.SplunkPassword}");
-                authHeader = $"Basic {Convert.ToBase64String(authBytes)}";
-            }
-
-            request.Headers.Add("Authorization", authHeader);
+            AddAuthorization(request);
 
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
@@ -120,14 +106,7 @@ namespace Bit.Splunk
                 Content = JsonContent.Create(new { last_log_date = lastLogDate })
             };
 
-            var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
-            if (!_appSettings.SplunkEnvironment)
-            {
-                var authBytes = Encoding.UTF8.GetBytes($"{_appSettings.SplunkUsername}:{_appSettings.SplunkPassword}");
-                authHeader = $"Basic {Convert.ToBase64String(authBytes)}";
-            }
-
-            request.Headers.Add("Authorization", authHeader);
+            AddAuthorization(request);
 
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
@@ -144,6 +123,18 @@ namespace Bit.Splunk
                     !string.IsNullOrWhiteSpace(_appSettings.SplunkPassword);
             }
             return true;
+        }
+
+        private void AddAuthorization(HttpRequestMessage requestMessage)
+        {
+            var authHeader = $"Splunk {_appSettings.SplunkSessionKey}";
+            if (!_appSettings.SplunkEnvironment)
+            {
+                var authBytes = Encoding.UTF8.GetBytes($"{_appSettings.SplunkUsername}:{_appSettings.SplunkPassword}");
+                authHeader = $"Basic {Convert.ToBase64String(authBytes)}";
+            }
+
+            requestMessage.Headers.Add("Authorization", authHeader);
         }
     }
 }
