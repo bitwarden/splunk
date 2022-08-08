@@ -15,7 +15,7 @@ if ($output -eq "") {
 
 function BuildApp($rid) {
     $o = "$output\$rid"
-    Remove-Item -LiteralPath $o -Force -Recurse
+    Remove-Item -LiteralPath $o -Force -Recurse -ErrorAction Ignore
 
     echo "### Building for $rid to $o"
     dotnet publish -c Release -o $o -r $rid `
