@@ -6,10 +6,6 @@ on:
     branches-ignore:
       - 'l10n_master'
       - 'gh-pages'
-    paths-ignore:
-      - '.github/workflows/**'
-  workflow_dispatch:
-    inputs: {}
 
 jobs:
   build-artifacts:
