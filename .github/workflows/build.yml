@@ -28,31 +28,23 @@ jobs:
           echo "Clean"
           dotnet clean -c "Release"
 
-      - name: Publish service (windows)
+      - name: Publish service
         shell: pwsh
         run: |
           ./build.ps1 -task app -os win
-
-      - name: Publish service (linux)
-        shell: pwsh
-        run: |
           ./build.ps1 -task app -os lin
-
-      - name: Publish service (macos)
-        shell: pwsh
-        run: |
           ./build.ps1 -task app -os mac
 
       - name: Upload artifacts (win-x64)
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
-          name: bitwarden_event_logs_win-x64.zip
-          path: build/app/win-x64/bitwarden_event_logs
+          name: bitwarden_event_logs_win-x64
+          path: build/app/win-x64
           if-no-files-found: error
 
       - name: Upload artifacts (win-x86)
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
-          name: bitwarden_event_logs_win-x86.zip
-          path: build/app/win-x86/bitwarden_event_logs
+          name: bitwarden_event_logs_win-x86
+          path: build/app/win-x86
           if-no-files-found: error
