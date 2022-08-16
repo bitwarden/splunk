@@ -31,14 +31,28 @@ jobs:
       - name: Publish service (windows)
         shell: pwsh
         run: |
-          ./build.ps1 -os win
+          ./build.ps1 -task app -os win
 
       - name: Publish service (linux)
         shell: pwsh
         run: |
-          ./build.ps1 -os lin
+          ./build.ps1 -task app -os lin
 
       - name: Publish service (macos)
         shell: pwsh
         run: |
-          ./build.ps1 -os mac
+          ./build.ps1 -task app -os mac
+
+      - name: Upload artifacts (win-x64)
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
+        with:
+          name: bitwarden_event_logs_win-x64.zip
+          path: build/app/win-x64/bitwarden_event_logs
+          if-no-files-found: error
+
+      - name: Upload artifacts (win-x86)
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
+        with:
+          name: bitwarden_event_logs_win-x86.zip
+          path: build/app/win-x86/bitwarden_event_logs
+          if-no-files-found: error

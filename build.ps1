@@ -1,6 +1,8 @@
 param (
+    [string] $task = "",
     [string] $os = "",
-    [string] $output = ""
+    [string] $output = "",
+    [string] $version = ""
 )
 
 # Setup
@@ -11,37 +13,86 @@ if ($output -eq "") {
     $output = "${dir}\build"
 }
 
+$win_rids = @("win-x64", "win-x86")
+$lin_rids = @("linux-x64", "linux-musl-x64", "linux-arm", "linux-arm64")
+$mac_rids = @("osx-x64", "osx.11.0-arm64", "osx.12-arm64")
+
 # Functions
 
-function BuildApp($rid) {
-    $o = "$output\$rid"
-    Remove-Item -LiteralPath $o -Force -Recurse -ErrorAction Ignore
+function GetOsRids() {
+    $rids = @()
+    if ($os -eq "win") {
+        $rids = $win_rids
+    }
+    elseif ($os -eq "lin") {
+        $rids = $lin_rids
+    }
+    elseif ($os -eq "mac") {
+        $rids = $mac_rids
+    }
+    else {
+        echo "ERROR: ``os`` param should be win, lin, or mac."
+    }
+    $rids
+}
 
-    echo "### Building for $rid to $o"
-    dotnet publish -c Release -o $o -r $rid `
-        -p:PublishReadyToRun=true -p:PublishSingleFile=true `
-        --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true
+function BuildBinary() {
+    $rids = GetOsRids
+    foreach ($rid in $rids) {
+        $o = "$output\bin\$rid"
+        Remove-Item -LiteralPath $o -Force -Recurse -ErrorAction Ignore
+
+        echo "### Building binary for $rid to $o"
+        dotnet publish -c Release -o $o -r $rid `
+            -p:PublishReadyToRun=true -p:PublishSingleFile=true `
+            -p:DebugType=None -p:DebugSymbols=false `
+            --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true
+    }
+}
+
+function BuildApp() {
+    $rids = GetOsRids
+    foreach ($rid in $rids) {
+        $bin_out = "$output\bin\$rid"
+        $app_out = "$output\app\$rid\bitwarden_event_logs"
+        $app_bin_out = "$app_out\bin"
+        Remove-Item -LiteralPath $app_out -Force -Recurse -ErrorAction Ignore
+
+        echo "### Building app for $rid to $app_out"
+        Copy-Item -Path "$dir\app\bitwarden_event_logs" -Destination $app_out -Recurse
+        New-Item -ItemType Directory -Path $app_bin_out | Out-Null
+        Copy-Item -Path "$bin_out\*" -Destination $app_bin_out -Recurse
+        if ($rid.Contains("win")) {
+            $o = "$app_out\default\inputs.conf"
+            ((Get-Content -path $o -Raw) -replace "Bitwarden_Splunk", "Bitwarden_Splunk.exe") | `
+                Set-Content -Path $o
+        }
+        if ($version -ne "") {
+            $o = "$app_out\default\app.conf"
+            ((Get-Content -path $o -Raw) -replace "version = 1.0.0", "version = $version") | `
+                Set-Content -Path $o
+        }
+    }
+}
+
+function Clean() {
+    Remove-Item -LiteralPath $output -Force -Recurse -ErrorAction Ignore
 }
 
 # Execute
 
-echo "## Building Splunk"
+echo "## Building Splunk ($task)"
 
-if ($os -eq "win") {
-    BuildApp "win-x64"
-    BuildApp "win-x86"
+if ($task -eq "binary") {
+    BuildBinary
 }
-elseif ($os -eq "lin") {
-    BuildApp "linux-x64"
-    BuildApp "linux-musl-x64"
-    BuildApp "linux-arm"
-    BuildApp "linux-arm64"
+elseif ($task -eq "app") {
+    BuildBinary
+    BuildApp
 }
-elseif ($os -eq "mac") {
-    BuildApp "osx-x64"
-    BuildApp "osx.11.0-arm64"
-    BuildApp "osx.12-arm64"
+elseif ($task -eq "clean") {
+    Clean
 }
 else {
-    echo "ERROR: ``os`` param should be win, lin, or mac."
+    echo "ERROR: ``task`` param should be binary, app, or clean."
 }
