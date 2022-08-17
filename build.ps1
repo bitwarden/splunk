@@ -56,12 +56,20 @@ function BuildApp() {
         $bin_out = "$output\bin\$rid"
         $app_out = "$output\app\$rid\bitwarden_event_logs"
         $app_bin_out = "$app_out\bin"
+        $app_lib_out = "$app_out\lib\Bitwarden_Splunk"
         Remove-Item -LiteralPath $app_out -Force -Recurse -ErrorAction Ignore
 
         echo "### Building app for $rid to $app_out"
         Copy-Item -Path "$dir\app\bitwarden_event_logs" -Destination $app_out -Recurse
+
         New-Item -ItemType Directory -Path $app_bin_out | Out-Null
         Copy-Item -Path "$bin_out\*" -Destination $app_bin_out -Recurse
+
+        New-Item -ItemType Directory -Path $app_lib_out | Out-Null
+        Copy-Item -Path ".\src\Splunk\*" -Destination $app_lib_out -Recurse
+        Remove-Item -LiteralPath "$app_lib_out\bin" -Force -Recurse -ErrorAction Ignore
+        Remove-Item -LiteralPath "$app_lib_out\obj" -Force -Recurse -ErrorAction Ignore
+        
         if ($rid.Contains("win")) {
             $o = "$app_out\default\inputs.conf"
             ((Get-Content -path $o -Raw) -replace "Bitwarden_Splunk", "Bitwarden_Splunk.exe") | `
