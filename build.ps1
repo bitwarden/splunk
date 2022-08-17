@@ -45,7 +45,7 @@ function BuildBinary() {
         echo "### Building binary for $rid to $o"
         dotnet publish -c Release -o $o -r $rid `
             -p:PublishReadyToRun=true -p:PublishSingleFile=true `
-            -p:DebugType=None -p:DebugSymbols=false `
+            -p:DebugType=None -p:DebugSymbols=false -p:PublishTrimmed=true `
             --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true
     }
 }
@@ -69,7 +69,7 @@ function BuildApp() {
         Copy-Item -Path ".\src\Splunk\*" -Destination $app_lib_out -Recurse
         Remove-Item -LiteralPath "$app_lib_out\bin" -Force -Recurse -ErrorAction Ignore
         Remove-Item -LiteralPath "$app_lib_out\obj" -Force -Recurse -ErrorAction Ignore
-        
+
         if ($rid.Contains("win")) {
             $o = "$app_out\default\inputs.conf"
             ((Get-Content -path $o -Raw) -replace "Bitwarden_Splunk", "Bitwarden_Splunk.exe") | `
