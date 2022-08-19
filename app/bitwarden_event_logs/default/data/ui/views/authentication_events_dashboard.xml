@@ -1,0 +1,126 @@
+<form version="1.1">
+  <label>Bitwarden Authentication Events</label>
+  <fieldset submitButton="false" autoRun="false">
+    <input type="time" token="timeframe">
+      <label>Timeframe</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <map>
+        <title>Successful Log In Attempts</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" type=1000 | iplocation ipAddress | lookup geo_countries longitude as lon, latitude as lat | stats count by Country | geom geo_countries featureIdField=Country</query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="mapping.choroplethLayer.colorBins">5</option>
+        <option name="mapping.choroplethLayer.colorMode">auto</option>
+        <option name="mapping.choroplethLayer.maximumColor">0x53a051</option>
+        <option name="mapping.map.center">(55.97,-40.69)</option>
+        <option name="mapping.map.zoom">3</option>
+        <option name="mapping.type">choropleth</option>
+      </map>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Authentication Events by Device</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1000 OR type=1001 OR type=1002 OR type=1003 OR type=1004 OR type=1005 OR type=1006 OR type=1008 OR type=1009) | timechart count by deviceName</query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Authentication Events by Type</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1000 OR type=1001 OR type=1002 OR type=1003 OR type=1004 OR type=1005 OR type=1006 OR type=1008 OR type=1009) | timechart count by typeName</query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Authentication Events by Device</title>
+      <chart>
+        <title>Device</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1000 OR type=1001 OR type=1002 OR type=1003 OR type=1004 OR type=1005 OR type=1006 OR type=1008 OR type=1009) | stats count by deviceName</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Authentication Events by Type</title>
+      <chart>
+        <title>Type</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1000 OR type=1001 OR type=1002 OR type=1003 OR type=1004 OR type=1005 OR type=1006 OR type=1008 OR type=1009) | stats count by typeName</query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Top Failed Log In Attempts</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1005 OR type=1006) |  stats count by actingUserId | sort - count</query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">45</option>
+        <option name="charting.axisTitleX.text">Acting User ID</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Top Successful Log In Attempts</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" type=1000 |  stats count by actingUserId | sort - count</query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">45</option>
+        <option name="charting.axisTitleX.text">Acting User ID</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</form>
