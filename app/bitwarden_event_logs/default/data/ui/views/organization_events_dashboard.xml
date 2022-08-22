@@ -103,4 +103,17 @@
       </chart>
     </panel>
   </row>
+  <row>
+    <panel>
+      <event>
+        <title>Latest Organization Events</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" <![CDATA[(type>=1300 AND type<1800)]]></query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="list.drilldown">none</option>
+      </event>
+    </panel>
+  </row>
 </form>

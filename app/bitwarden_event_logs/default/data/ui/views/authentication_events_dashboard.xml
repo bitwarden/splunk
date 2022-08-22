@@ -123,4 +123,18 @@
       </chart>
     </panel>
   </row>
+  <row>
+    <panel>
+      <event>
+        <title>Latest Authentication Events</title>
+        <search>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1000 OR type=1001 OR type=1002 OR type=1003 OR type=1004 OR type=1005 OR type=1006 OR type=1008 OR type=1009)
+          </query>
+          <earliest>$timeframe.earliest$</earliest>
+          <latest>$timeframe.latest$</latest>
+        </search>
+        <option name="list.drilldown">none</option>
+      </event>
+    </panel>
+  </row>
 </form>
