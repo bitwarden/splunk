@@ -61,7 +61,7 @@ namespace Bit.Splunk
             _identityClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task PrintEventsAsync()
+        public async Task PrintEventLogsAsync()
         {
             var lastEventLog = _splunkApi.CanCallApi() ? await _splunkApi.GetLastLogDateAsync() : null;
             var requestModel = new EventRequestModel
@@ -71,18 +71,19 @@ namespace Bit.Splunk
             };
 
             var events = await GetEventsAsync(requestModel, new List<EventResponseModel>());
-            if (!events?.Any() ?? true)
+            var eventLogs = await HydrateEventsAsync(events);
+            if (!eventLogs?.Any() ?? true)
             {
                 return;
             }
 
             if (_splunkApi.CanCallApi())
             {
-                var lastEventDate = events.OrderByDescending(e => e.Date).First().Date;
+                var lastEventDate = eventLogs.OrderByDescending(e => e.Date).First().Date;
                 await _splunkApi.UpsertLastLogDateAsync(lastEventLog?.Key, lastEventDate);
             }
 
-            foreach (var e in events)
+            foreach (var e in eventLogs)
             {
                 var hash = ComputeObjectHash(e);
                 var json = JsonSerializer.Serialize(e, _jsonOptions);
@@ -160,6 +161,128 @@ namespace Bit.Splunk
                 _logger.LogError(e, "Failed to GET events.");
                 return null;
             }
+        }
+
+        private async Task<List<MemberResponseModel>> GetMembersAsync()
+        {
+            var tokenStateResponse = await HandleTokenStateAsync();
+            if (!tokenStateResponse)
+            {
+                return null;
+            }
+
+            var responseList = new List<MemberResponseModel>();
+            var message = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(string.Concat(_apiClient.BaseAddress, "public/members"))
+            };
+            message.Headers.Add("Authorization", $"Bearer {_accessToken}");
+
+            try
+            {
+                var response = await _apiClient.SendAsync(message);
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Failed to GET members with status code {0}.", response.StatusCode);
+                    return null;
+                }
+                var list = await response.Content.ReadFromJsonAsync<ListResponseModel<MemberResponseModel>>();
+                if (list?.Data?.Any() ?? false)
+                {
+                    responseList.AddRange(list.Data.ToList());
+                }
+                return responseList;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to GET members.");
+                return null;
+            }
+        }
+
+        private async Task<List<GroupResponseModel>> GetGroupsAsync()
+        {
+            var tokenStateResponse = await HandleTokenStateAsync();
+            if (!tokenStateResponse)
+            {
+                return null;
+            }
+
+            var responseList = new List<GroupResponseModel>();
+            var message = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(string.Concat(_apiClient.BaseAddress, "public/groups"))
+            };
+            message.Headers.Add("Authorization", $"Bearer {_accessToken}");
+
+            try
+            {
+                var response = await _apiClient.SendAsync(message);
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Failed to GET groups with status code {0}.", response.StatusCode);
+                    return null;
+                }
+                var list = await response.Content.ReadFromJsonAsync<ListResponseModel<GroupResponseModel>>();
+                if (list?.Data?.Any() ?? false)
+                {
+                    responseList.AddRange(list.Data.ToList());
+                }
+                return responseList;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to GET groups.");
+                return null;
+            }
+        }
+
+        private async Task<List<EventLogModel>> HydrateEventsAsync(List<EventResponseModel> events)
+        {
+            var eventLogs = new List<EventLogModel>();
+            if (!events?.Any() ?? true)
+            {
+                return eventLogs;
+            }
+            List<MemberResponseModel> members = null;
+            List<GroupResponseModel> groups = null;
+            foreach (var ev in events)
+            {
+                var e = new EventLogModel(ev);
+                if (e.GroupId.HasValue)
+                {
+                    if (groups == null)
+                    {
+                        groups = await GetGroupsAsync();
+                    }
+                    var group = groups?.FirstOrDefault(g => g.Id == e.GroupId.Value);
+                    e.GroupName = group?.Name;
+                }
+                if (e.MemberId.HasValue)
+                {
+                    if (members == null)
+                    {
+                        members = await GetMembersAsync();
+                    }
+                    var member = members?.FirstOrDefault(m => m.Id == e.MemberId.Value);
+                    e.MemberName = member?.Name;
+                    e.MemberEmail = member?.Email;
+                }
+                if (e.ActingUserId.HasValue)
+                {
+                    if (members == null)
+                    {
+                        members = await GetMembersAsync();
+                    }
+                    var member = members?.FirstOrDefault(m => m.UserId == e.ActingUserId.Value);
+                    e.ActingUserName = member?.Name;
+                    e.ActingUserEmail = member?.Email;
+                }
+                eventLogs.Add(e);
+            }
+            return eventLogs;
         }
 
         private async Task<bool> HandleTokenStateAsync()

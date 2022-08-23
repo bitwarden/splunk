@@ -72,7 +72,7 @@ namespace Bit.Splunk
                 _eventsApiKey,
                 appSettings,
                 loggerFactory.CreateLogger<BitwardenApi>());
-            await eventsApi.PrintEventsAsync();
+            await eventsApi.PrintEventLogsAsync();
         }
     }
 }
