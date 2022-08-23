@@ -16,13 +16,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bit.Splunk
 {
-    public class EventsApi
+    public class BitwardenApi
     {
         private static readonly DateTime _epoc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private readonly SplunkApi _splunkApi;
         private readonly EventsApiKeyModel _eventsApiKey;
         private readonly AppSettings _appSettings;
-        private readonly ILogger<EventsApi> _logger;
+        private readonly ILogger<BitwardenApi> _logger;
         private HttpClient _apiClient;
         private HttpClient _identityClient;
         private JsonDocument _decodedToken;
@@ -30,11 +30,11 @@ namespace Bit.Splunk
         private string _accessToken;
         private JsonSerializerOptions _jsonOptions;
 
-        public EventsApi(
+        public BitwardenApi(
             SplunkApi splunkApi,
             EventsApiKeyModel eventsApiKey,
             AppSettings appSettings,
-            ILogger<EventsApi> logger)
+            ILogger<BitwardenApi> logger)
         {
             _splunkApi = splunkApi;
             _eventsApiKey = eventsApiKey;

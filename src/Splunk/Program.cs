@@ -67,11 +67,11 @@ namespace Bit.Splunk
             }
 
             // Start printing events
-            var eventsApi = new EventsApi(
+            var eventsApi = new BitwardenApi(
                 splunkApi,
                 _eventsApiKey,
                 appSettings,
-                loggerFactory.CreateLogger<EventsApi>());
+                loggerFactory.CreateLogger<BitwardenApi>());
             await eventsApi.PrintEventsAsync();
         }
     }
