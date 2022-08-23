@@ -8,6 +8,13 @@
         <latest>now</latest>
       </default>
     </input>
+    <input type="dropdown" token="top_users_by">
+      <label>Top Users By</label>
+      <default>User Email</default>
+      <choice value="actingUserId">User ID</choice>
+      <choice value="actingUserEmail">User Email</choice>
+      <choice value="actingUserName">User Name</choice>
+    </input>
   </fieldset>
   <row>
     <panel>
@@ -91,12 +98,12 @@
       <chart>
         <title>Top Failed Log In Attempts</title>
         <search>
-          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1005 OR type=1006) |  stats count by actingUserId | sort - count</query>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" (type=1005 OR type=1006) | stats count by $top_users_by$ | sort - count</query>
           <earliest>$timeframe.earliest$</earliest>
           <latest>$timeframe.latest$</latest>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">45</option>
-        <option name="charting.axisTitleX.text">Acting User ID</option>
+        <option name="charting.axisTitleX.text">Acting User</option>
         <option name="charting.chart">column</option>
         <option name="charting.chart.showDataLabels">all</option>
         <option name="charting.chart.stackMode">default</option>
@@ -110,12 +117,12 @@
       <chart>
         <title>Top Successful Log In Attempts</title>
         <search>
-          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" type=1000 |  stats count by actingUserId | sort - count</query>
+          <query>`bitwarden_event_logs_index` sourcetype="bitwarden:events" type=1000 | stats count by $top_users_by$ | sort - count</query>
           <earliest>$timeframe.earliest$</earliest>
           <latest>$timeframe.latest$</latest>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">45</option>
-        <option name="charting.axisTitleX.text">Acting User ID</option>
+        <option name="charting.axisTitleX.text">Acting User</option>
         <option name="charting.chart">column</option>
         <option name="charting.chart.stackMode">default</option>
         <option name="charting.drilldown">none</option>
