@@ -75,6 +75,46 @@ async function update_configuration_file(
   );
 };
 
+async function does_configuration_file_stanza_exist(
+  splunk_js_sdk_service,
+  configuration_file_name,
+  stanza_name,
+) {
+  // Retrieve the accessor used to get a configuration file
+  var splunk_js_sdk_service_configurations = splunk_js_sdk_service.configurations(
+      {
+          // Name space information not provided
+      },
+  );
+  splunk_js_sdk_service_configurations = await promisify(splunk_js_sdk_service_configurations.fetch)();
+
+  // Check for the existence of the configuration file
+  var configuration_file_exist = does_configuration_file_exist(
+      splunk_js_sdk_service_configurations,
+      configuration_file_name,
+  );
+
+  // If the configuration file doesn't exist, there can't be a stanza
+  if (!configuration_file_exist) {
+     return false;
+  }
+
+  // Retrieves the configuration file accessor
+  var configuration_file_accessor = get_configuration_file(
+      splunk_js_sdk_service_configurations,
+      configuration_file_name,
+  );
+  configuration_file_accessor = await promisify(configuration_file_accessor.fetch)();
+
+  // Checks to see if the stanza exists
+  var stanza_exist = does_stanza_exist(
+      configuration_file_accessor,
+      stanza_name,
+  );
+
+  return stanza_exist;
+};
+
 function create_configuration_file(
   configurations_accessor,
   configuration_file_name,
@@ -194,4 +234,5 @@ function update_stanza_properties(
 
 export {
   update_configuration_file,
+  does_configuration_file_stanza_exist,
 }

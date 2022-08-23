@@ -1,6 +1,12 @@
 import { promisify } from './util.js'
 import * as SplunkHelpers from './splunk_helpers.js'
 
+async function get_indexes(splunk_js_sdk_service) {
+  const splunk_js_sdk_indexes = splunk_js_sdk_service.indexes();
+  await promisify(splunk_js_sdk_indexes.fetch)();
+  return splunk_js_sdk_indexes.list();
+};
+
 async function complete_setup(splunk_js_sdk_service) {
   var configuration_file_name = "app";
   var stanza_name = "install";
@@ -55,4 +61,5 @@ export {
   reload_splunk_app,
   redirect_to_splunk_app_homepage,
   create_splunk_js_sdk_service,
+  get_indexes,
 }
