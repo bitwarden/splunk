@@ -26,24 +26,25 @@ namespace Bit.Splunk
                         var appConfigModel = Toml.ToModel(toml);
                         if (appConfigModel != null)
                         {
-                            var config = appConfigModel["config"] as TomlTable;
-                            if (config != null)
+                            if (appConfigModel.ContainsKey("config"))
                             {
-                                var startDate = config["startDate"] as TomlDateTime?;
-                                if (startDate != null)
+                                var config = appConfigModel["config"] as TomlTable;
+
+                                if (config.ContainsKey("startDate"))
                                 {
+                                    var startDate = config["startDate"] as TomlDateTime?;
                                     EventsStartDate = Convert.ToDateTime(startDate);
                                 }
 
-                                var apiUrl = config["apiUrl"] as string;
-                                if (apiUrl != null)
+                                if (config.ContainsKey("apiUrl"))
                                 {
+                                    var apiUrl = config["apiUrl"] as string;
                                     EventsApiUrl = apiUrl?.ToString();
                                 }
 
-                                var identityUrl = config["identityUrl"] as string;
-                                if (identityUrl != null)
+                                if (config.ContainsKey("identityUrl"))
                                 {
+                                    var identityUrl = config["identityUrl"] as string;
                                     IdentityUrl = identityUrl?.ToString();
                                 }
                             }

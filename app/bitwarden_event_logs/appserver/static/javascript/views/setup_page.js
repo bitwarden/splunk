@@ -62,7 +62,10 @@ export async function perform(splunk_js_sdk, setup_options) {
             service,
             "script",
             "config",
-            { apiUrl, identityUrl },
+            {
+                apiUrl: '"' + apiUrl + '"', 
+                identityUrl: '"' + identityUrl + '"'
+            },
         );
         
         // Complete setup
