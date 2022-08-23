@@ -1,4 +1,4 @@
-import * as Setup from "./store_secret.js";
+import * as Setup from "./setup_page.js";
 
 define(["react", "splunkjs/splunk"], function(react, splunk_js_sdk){
   const e = react.createElement;

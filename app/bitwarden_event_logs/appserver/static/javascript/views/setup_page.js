@@ -1,7 +1,8 @@
 "use strict";
 
-import * as Splunk from './splunk_helpers.js'
-import * as Config from './setup_configuration.js'
+import * as Splunk from './splunk_helpers.js';
+import * as Config from './setup_configuration.js';
+import * as StoragePasswords from './storage_passwords.js';
 
 export async function getIndexes(splunk_js_sdk) {
     // Create the Splunk JS SDK Service object
@@ -36,19 +37,12 @@ export async function perform(splunk_js_sdk, setup_options) {
         let { clientId, clientSecret, index, serverUrl, ...properties } = setup_options;
 
         // Store secrets
-        var storagePasswords = service.storagePasswords();
-        storagePasswords.create({
-                name: "api_key", 
-                realm: "bitwarden_event_logs_realm", 
-                password: clientId + "_" + clientSecret
-            }, 
-            function(err, storagePassword) {
-                if (err) {
-                    console.warn(err);
-                } else {
-                    console.log(storagePassword.properties());
-                }
-           });
+        await StoragePasswords.write_secret(
+            service,
+            "bitwarden_event_logs_realm",
+            "api_key",
+            clientId + "_" + clientSecret
+        );
 
         // Update inputs.conf
         var inputsStanza = "script://$SPLUNK_HOME/etc/apps/bitwarden_event_logs/bin/Bitwarden_Splunk";
