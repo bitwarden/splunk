@@ -44,6 +44,12 @@ jobs:
       - name: TEST STEP
         run: |
           ls -alh build/bin
+          echo "**********"
+          ls -alh build/bin/linux-x64
+          echo "**********"
+          ls -alh build/bin/osx-x64
+          echo "**********"
+          ls -alh build/bin/win-x64
           exit 1
 
       - name: Publish service
