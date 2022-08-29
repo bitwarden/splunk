@@ -83,9 +83,7 @@ jobs:
         if: ${{ startsWith( matrix.runtime_identifier, 'win') }}
         env:
           APP_OUT: build/bitwarden_event_logs
-        run: |
-          sed -i 's/Bitwarden_Splunk/Bitwarden_Splunk.exe/' ${APP_OUT}/default/inputs.conf
-          cat ${APP_OUT}/default/inputs.conf
+        run: sed -i 's/Bitwarden_Splunk/Bitwarden_Splunk.exe/' ${APP_OUT}/default/inputs.conf
 
       - name: Upload artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
