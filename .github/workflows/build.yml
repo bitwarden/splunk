@@ -53,7 +53,7 @@ jobs:
           mkdir -p ${BIN_OUT}
           mkdir -p ${LIB_OUT}
 
-          cp -R app/bitwarden_event_logs ${APP_OUT}
+          cp -R app/bitwarden_event_logs/* ${APP_OUT}
           cp -R src/Splunk/* ${LIB_OUT}
           dotnet publish -c Release -o "${BIN_OUT}" -r "${RUNTIME_IDENTIFIER}"
 
