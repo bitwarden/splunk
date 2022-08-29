@@ -66,17 +66,11 @@ jobs:
 
       - name: Fix inputs config on Windows
         if: ${{ startsWith( matrix.runtime_identifier, 'win') }}
+        env:
+          APP_OUT: build/bitwarden_event_logs
         run: |
-          echo "THIS RAN ON WINDOWS!"
-
-      - name: TEST STEP
-        run: |
-          ls -alh build/bitwarden_event_logs
-          echo "**********"
-          ls -alh build/bitwarden_event_logs/bin
-          echo "**********"
-          ls -alh build/bitwarden_event_logs/lib/Bitwarden_Splunk
-          echo "**********"
+          sed -i '' 's/Bitwarden_Splunk/Bitwarden_Splunk.exe/' ${APP_OUT}/default/inputs.conf
+          cat ${APP_OUT}/default/inputs.conf
 
       - name: Upload artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
