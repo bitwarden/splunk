@@ -44,24 +44,26 @@ jobs:
 
       - name: Build Splunk App
         env:
-          BIN_OUT: app/bitwarden_event_logs/bin
-          LIB_OUT: app/bitwarden_event_logs/lib/Bitwarden_Splunk
+          APP_OUT: build/bitwarden_event_logs
+          BIN_OUT: build/bitwarden_event_logs/bin
+          LIB_OUT: build/bitwarden_event_logs/lib/Bitwarden_Splunk
           RUNTIME_IDENTIFIER: ${{ matrix.runtime_identifier }}
         run: |
           # Create directories
           mkdir -p ${BIN_OUT}
           mkdir -p ${LIB_OUT}
 
+          cp -R app/bitwarden_event_logs ${APP_OUT}
           cp -R src/Splunk/* ${LIB_OUT}
           dotnet publish -c Release -o "${BIN_OUT}" -r "${RUNTIME_IDENTIFIER}"
 
       - name: TEST STEP
         run: |
-          ls -alh app/bitwarden_event_logs
+          ls -alh build/bitwarden_event_logs
           echo "**********"
-          ls -alh app/bitwarden_event_logs/bin
+          ls -alh build/bitwarden_event_logs/bin
           echo "**********"
-          ls -alh app/bitwarden_event_logs/lib/Bitwarden_Splunk
+          ls -alh build/bitwarden_event_logs/lib/Bitwarden_Splunk
           echo "**********"
           exit 1
 
