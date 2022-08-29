@@ -9,6 +9,21 @@ on:
   workflow_dispatch:
 
 jobs:
+  cloc:
+    name: CLOC
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+
+      - name: Install cloc
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install cloc
+      - name: Print lines of code
+        run: cloc --include-lang C#,PowerShell,CSS,JavaScript,XML --vcs git
+
+
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
@@ -27,7 +42,7 @@ jobs:
           - runtime_identifier: osx.12-arm64
     steps:
       - name: Checkout repo
-        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
 
       - name: Print environment
         run: |
@@ -69,7 +84,7 @@ jobs:
         env:
           APP_OUT: build/bitwarden_event_logs
         run: |
-          sed -i '' 's/Bitwarden_Splunk/Bitwarden_Splunk.exe/' ${APP_OUT}/default/inputs.conf
+          sed -i 's/Bitwarden_Splunk/Bitwarden_Splunk.exe/' ${APP_OUT}/default/inputs.conf
           cat ${APP_OUT}/default/inputs.conf
 
       - name: Upload artifact
@@ -78,3 +93,49 @@ jobs:
           name: bitwarden_event_logs_${{ matrix.runtime_identifier }}
           path: build
           if-no-files-found: error
+
+
+  check-failures:
+    name: Check for failures
+    if: always()
+    runs-on: ubuntu-22.04
+    needs:
+      - cloc
+      - build-artifacts
+    steps:
+      - name: Check if any job failed
+        if: |
+          github.ref == 'refs/heads/master'
+          || github.ref == 'refs/heads/rc'
+          || github.ref == 'refs/heads/hotfix-rc'
+        env:
+          CLOC_STATUS: ${{ needs.cloc.result }}
+          BUILD_ARTIFACTS_STATUS: ${{ needs.build-artifacts.result }}
+        run: |
+          if [ "$CLOC_STATUS" = "failure" ]; then
+              exit 1
+          elif [ "$BUILD_ARTIFACTS_STATUS" = "failure" ]; then
+              exit 1
+          fi
+
+      - name: Login to Azure - Prod Subscription
+        uses: Azure/login@1f63701bf3e6892515f1b7ce2d2bf1708b46beaf
+        if: failure()
+        with:
+          creds: ${{ secrets.AZURE_PROD_KV_CREDENTIALS }}
+
+      - name: Retrieve secrets
+        id: retrieve-secrets
+        uses: Azure/get-keyvault-secrets@b5c723b9ac7870c022b8c35befe620b7009b336f
+        if: failure()
+        with:
+          keyvault: "bitwarden-prod-kv"
+          secrets: "devops-alerts-slack-webhook-url"
+
+      - name: Notify Slack on failure
+        uses: act10ns/slack@da3191ebe2e67f49b46880b4633f5591a96d1d33  # v1.2.2
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ steps.retrieve-secrets.outputs.devops-alerts-slack-webhook-url }}
+        with:
+          status: ${{ job.status }}
