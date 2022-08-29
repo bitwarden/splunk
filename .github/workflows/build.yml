@@ -70,5 +70,5 @@ jobs:
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
           name: bitwarden_event_logs_${{ matrix.runtime_identifier }}
-          path: build/bitwarden_event_logs
+          path: build
           if-no-files-found: error
