@@ -65,7 +65,7 @@ jobs:
           rm -rf ${LIB_OUT}/obj
 
       - name: Fix inputs config on Windows
-        if: ${{ startsWith( matrix.runtime_identifier, "win")}}
+        if: ${{ startsWith( matrix.runtime_identifier, 'win') }}
         run: |
           echo "THIS RAN ON WINDOWS!"
 
