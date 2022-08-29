@@ -65,74 +65,10 @@ jobs:
           echo "**********"
           ls -alh build/bitwarden_event_logs/lib/Bitwarden_Splunk
           echo "**********"
-          exit 1
 
-      - name: Publish service
-        shell: pwsh
-        run: |
-          ./build.ps1 -task app -os win
-          ./build.ps1 -task app -os lin
-          ./build.ps1 -task app -os mac
-
-      - name: Upload artifacts (win-x64)
+      - name: Upload artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
-          name: bitwarden_event_logs_win-x64
-          path: build/app/win-x64
-          if-no-files-found: error
-
-      - name: Upload artifacts (win-x86)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_win-x86
-          path: build/app/win-x86
-          if-no-files-found: error
-
-      - name: Upload artifacts (linux-x64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_linux-x64
-          path: build/app/linux-x64
-          if-no-files-found: error
-
-      - name: Upload artifacts (linux-musl-x64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_linux-musl-x64
-          path: build/app/linux-musl-x64
-          if-no-files-found: error
-
-      - name: Upload artifacts (linux-arm64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_linux-arm64
-          path: build/app/linux-arm64
-          if-no-files-found: error
-
-      - name: Upload artifacts (linux-arm)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_linux-arm
-          path: build/app/linux-arm
-          if-no-files-found: error
-
-      - name: Upload artifacts (osx-x64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_osx-x64
-          path: build/app/osx-x64
-          if-no-files-found: error
-
-      - name: Upload artifacts (osx.12-arm64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_osx.12-arm64
-          path: build/app/osx.12-arm64
-          if-no-files-found: error
-
-      - name: Upload artifacts (osx.11.0-arm64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_osx.11.0-arm64
-          path: build/app/osx.11.0-arm64
+          name: bitwarden_event_logs_${{ matrix.runtime_identifier }}
+          path: build/bitwarden_event_logs
           if-no-files-found: error
