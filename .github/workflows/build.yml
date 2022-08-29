@@ -53,9 +53,21 @@ jobs:
           mkdir -p ${BIN_OUT}
           mkdir -p ${LIB_OUT}
 
+          # Copy required files
           cp -R app/bitwarden_event_logs/* ${APP_OUT}
           cp -R src/Splunk/* ${LIB_OUT}
+
+          # Build app
           dotnet publish -c Release -o "${BIN_OUT}" -r "${RUNTIME_IDENTIFIER}"
+
+          # Clean up files
+          rm -rf ${LIB_OUT}/bin
+          rm -rf ${LIB_OUT}/obj
+
+      - name: Fix inputs config on Windows
+        if: ${{ startsWith( matrix.runtime_identifier, "win")}}
+        run: |
+          echo "THIS RAN ON WINDOWS!"
 
       - name: TEST STEP
         run: |
