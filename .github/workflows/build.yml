@@ -80,7 +80,7 @@ jobs:
           rm -rf ${LIB_OUT}/obj
 
           # Create tar archive
-          tar -cvzf bitwarden_event_logs_${RUNTIME_IDENTIFIER} -C build bitwarden_event_logs
+          tar -cvzf bitwarden_event_logs_${RUNTIME_IDENTIFIER}.tar.gz -C build bitwarden_event_logs
 
           ls -alh .
           ls -alh ./build
@@ -95,7 +95,7 @@ jobs:
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
           name: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
-          path: build
+          path: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
           if-no-files-found: error
 
 
