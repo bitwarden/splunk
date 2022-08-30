@@ -79,6 +79,12 @@ jobs:
           rm -rf ${LIB_OUT}/bin
           rm -rf ${LIB_OUT}/obj
 
+          # Create tar archive
+          tar -cvzf bitwarden_event_logs_${RUNTIME_IDENTIFIER} -C build bitwarden_event_logs
+
+          ls -alh .
+          ls -alh ./build
+
       - name: Fix inputs config on Windows
         if: ${{ startsWith( matrix.runtime_identifier, 'win') }}
         env:
@@ -88,7 +94,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
-          name: bitwarden_event_logs_${{ matrix.runtime_identifier }}
+          name: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
           path: build
           if-no-files-found: error
 
