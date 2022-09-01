@@ -104,9 +104,9 @@ jobs:
           echo "*********"
           grep -q "[WARNING]" "output.txt"
           echo "*********"
-          if grep -q "[WARNING]" "output.txt"; then
+          if grep -q "WARNING" "output.txt"; then
             echo "NO WARNING"
-          elif ! grep -q "[INFO]" "output.txt"; then
+          elif ! grep -q "INFO" "output.txt"; then
             echo "THERE IS INFO"
           fi
 
