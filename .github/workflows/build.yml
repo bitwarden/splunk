@@ -104,7 +104,8 @@ jobs:
           echo "*********"
           grep -q "[WARNING]" "output.txt"
           echo "*********"
-          if grep -q "[WARNING]" "output.txt"; then
+          if grep -q "[WARNING]" "output.txt"
+          then
             echo "WARNING"
           fi
 
