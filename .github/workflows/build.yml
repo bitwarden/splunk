@@ -98,16 +98,12 @@ jobs:
 
       - name: Validate artifact
         run: |
-          which python
-          which python3
-          which python3.10
-          which python3.9
           wget https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
           pip install splunk-packaging-toolkit-1.0.1.tar.gz
-          OUTPUT=$(slim validate bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz)
-          echo $OUTPUT | grep -q '[WARNING]'
+          slim validate bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz 2>&1 | tee output.txt
+          cat output.txt | grep -q "[WARNING]"
           echo "*********"
-          if echo $OUTPUT | grep -q '[WARNING]'; then
+          if cat output.txt | grep -q "[WARNING]"; then
             echo "WARNING"
           endif
 
