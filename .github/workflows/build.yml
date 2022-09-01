@@ -93,7 +93,6 @@ jobs:
 
       - name: Validate artifact
         run: |
-          find / -name "*python*"
           which python
           which python3
           which python3.10
