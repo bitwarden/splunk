@@ -105,7 +105,7 @@ jobs:
           echo "*********"
           if cat output.txt | grep -q "[WARNING]"; then
             echo "WARNING"
-          endif
+          fi
 
       - name: Upload artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
