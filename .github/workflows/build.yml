@@ -102,11 +102,11 @@ jobs:
           pip install splunk-packaging-toolkit-1.0.1.tar.gz
           slim validate bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz 2>&1 | tee output.txt
           echo "*********"
-          grep -q "[WARNING]" "output.txt"
+          grep -q "WARNING" "output.txt"
           echo "*********"
           if grep -q "WARNING" "output.txt"; then
             echo "NO WARNING"
-          elif ! grep -q "INFO" "output.txt"; then
+          elif grep -q "INFO" "output.txt"; then
             echo "THERE IS INFO"
           fi
 
