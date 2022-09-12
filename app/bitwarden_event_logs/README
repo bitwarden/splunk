@@ -1,19 +1,15 @@
 # Purpose
 
-<Purpose of app>
+To process Bitwarden event logs in order to display the data in Splunk
 
 # Description
 
-<Description of how app works>
-
-# Prerequisites
-
-<Prerequisites or required dependencies>
+Processes Bitwarden event logs in order to display the data in Splunk
 
 # Author
 
-<Who developed app>
+Bitwarden Inc.
 
 # Support
 
-<Who to contact for app support>
+support@bitwarden.com
