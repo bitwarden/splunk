@@ -14,13 +14,16 @@ on:
           - Redeploy
           - Dry Run
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   setup:
     name: Setup
     runs-on: ubuntu-22.04
     outputs:
       release_version: ${{ steps.version.outputs.version }}
-      branch-name: ${{ steps.branch.outputs.branch-name }}
     steps:
       - name: Branch check
         if: ${{ github.event.inputs.release_type != 'Dry Run' }}
@@ -31,6 +34,7 @@ jobs:
             echo "==================================="
             exit 1
           fi
+
       - name: Checkout repo
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
@@ -42,8 +46,110 @@ jobs:
           project-type: dotnet
           file: Directory.Build.props
 
-      - name: Get branch name
-        id: branch
+
+  splunkbase:
+    name: Upload to Splunkbase
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app_id: 0000
+            runtime_identifier: win-x86
+          - app_id: 0000
+            runtime_identifier: win-x64
+          - app_id: 0000
+            runtime_identifier: linux-x64
+          - app_id: 0000
+            runtime_identifier: linux-musl-x64
+          - app_id: 0000
+            runtime_identifier: linux-arm
+          - app_id: 0000
+            runtime_identifier: linux-arm64
+          - app_id: 0000
+            runtime_identifier: osx-x64
+          - app_id: 0000
+            runtime_identifier: osx.11.0-arm64
+          - app_id: 0000
+            runtime_identifier: osx.12-arm64
+    steps:
+      - name: Download ${{ matrix.runtime_identifier }} artifact
+        if: ${{ github.event.inputs.release_type != 'Dry Run' }}
+        uses: bitwarden/gh-actions/download-artifacts@23433be15ed6fd046ce12b6889c5184a8d9c8783
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: ${{ github.ref_name }}
+          artifacts: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
+          path: artifacts
+
+      - name: Download ${{ matrix.runtime_identifier }} artifact
+        if: ${{ github.event.inputs.release_type == 'Dry Run' }}
+        uses: bitwarden/gh-actions/download-artifacts@23433be15ed6fd046ce12b6889c5184a8d9c8783
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: master
+          artifacts: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
+          path: artifacts
+
+      - name: Upload artifacts to Splunkbase
+        if: ${{ github.event.inputs.release_type != 'Dry Run' }}
+        env:
+          APP_ID: ${{ matrix.app_id }}
+          RUNTIME_IDENTIFIER: ${{ matrix.runtime_identifier }}
+          USERNAME: team-devops@bitwarden.com
         run: |
-          BRANCH_NAME=$(basename ${{ github.ref }})
-          echo "::set-output name=branch-name::$BRANCH_NAME"
+          curl \
+            -u ${USERNAME} \
+            --request POST \
+            -F "filename=artifacts/bitwarden_event_logs_${RUNTIME_IDENTIFIER}.tar.gz" \
+            -F "splunk_versions=9.0,8.2,8.1,8.0" \
+            -F "visibility=true" \
+             https://splunkbase.splunk.com/api/v1/app/${APP_ID}/new_release/
+
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-22.04
+    needs: setup
+    steps:
+      - name: Download all artifacts
+        if: ${{ github.event.inputs.release_type == 'Dry Run' }}
+        uses: bitwarden/gh-actions/download-artifacts@23433be15ed6fd046ce12b6889c5184a8d9c8783
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: master
+          path: artifacts
+
+      - name: Download all artifacts
+        if: ${{ github.event.inputs.release_type != 'Dry Run' }}
+        uses: bitwarden/gh-actions/download-artifacts@23433be15ed6fd046ce12b6889c5184a8d9c8783
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: ${{ github.ref_name }}
+          path: artifacts
+
+      - name: Create GitHub release
+        uses: ncipollo/release-action@95215a3cb6e6a1908b3c44e00b4fdb15548b1e09
+        if: ${{ github.event.inputs.release_type != 'Dry Run' }}
+        env:
+          PKG_VERSION: ${{ needs.setup.outputs.release_version }}
+        with:
+          artifacts: "artifacts/bitwarden_event_logs_win-x86.tar.gz,
+            artifacts/bitwarden_event_logs_win-x64.tar.gz,
+            artifacts/bitwarden_event_logs_linux-x64.tar.gz,
+            artifacts/bitwarden_event_logs_linux-musl-x64.tar.gz,
+            artifacts/bitwarden_event_logs_linux-arm.tar.gz,
+            artifacts/bitwarden_event_logs_linux-arm64.tar.gz,
+            artifacts/bitwarden_event_logs_osx-x64.tar.gz,
+            artifacts/bitwarden_event_logs_osx.11.0-arm64.tar.gz,
+            artifacts/bitwarden_event_logs_osx.12-arm64.tar.gz"
+          commit: ${{ github.sha }}
+          tag: v${{ env.PKG_VERSION }}
+          name: Version ${{ env.PKG_VERSION }}
+          body: "<insert release notes here>"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
