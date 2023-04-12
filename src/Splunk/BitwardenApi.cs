@@ -66,7 +66,7 @@ namespace Bit.Splunk
             var lastEventLog = _splunkApi.CanCallApi() ? await _splunkApi.GetLastLogDateAsync() : null;
             var requestModel = new EventRequestModel
             {
-                Start = lastEventLog?.LastLogDate.AddMilliseconds(1) ?? _appSettings.EventsStartDate,
+                Start = lastEventLog?.LastLogDate?.AddMilliseconds(1) ?? _appSettings.EventsStartDate,
                 End = DateTime.UtcNow.AddHours(1)
             };
 
