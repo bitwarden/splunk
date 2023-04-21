@@ -56,8 +56,8 @@ export async function perform(splunk_js_sdk, setup_options) {
 
         // Update script.conf
         const isBitwardenCloud = serverUrl === "https://bitwarden.com" || serverUrl === "bitwarden.com";
-        const apiUrl = isBitwardenCloud ? "https://api.bitwarden.com" : serverUrl + "/api";
-        const identityUrl = isBitwardenCloud ? "https://identity.bitwarden.com" : serverUrl + "/identity";
+        const apiUrl = isBitwardenCloud ? "https://api.bitwarden.com" : serverUrl + "/api/";
+        const identityUrl = isBitwardenCloud ? "https://identity.bitwarden.com" : serverUrl + "/identity/";
         await Splunk.update_configuration_file(
             service,
             "script",
