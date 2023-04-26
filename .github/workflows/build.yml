@@ -11,7 +11,7 @@ on:
 jobs:
   cloc:
     name: CLOC
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
@@ -20,6 +20,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install cloc
+
       - name: Print lines of code
         run: cloc --include-lang C#,PowerShell,CSS,JavaScript,XML --vcs git
 
