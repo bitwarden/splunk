@@ -6,14 +6,44 @@ on:
     branches-ignore:
       - 'l10n_master'
       - 'gh-pages'
+  workflow_dispatch:
 
 jobs:
-  build-artifacts:
-    name: Build artifacts
-    runs-on: windows-2022
+  cloc:
+    name: CLOC
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
-        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+
+      - name: Install cloc
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install cloc
+
+      - name: Print lines of code
+        run: cloc --include-lang C#,PowerShell,CSS,JavaScript,XML --vcs git
+
+
+  build-artifacts:
+    name: Build artifacts
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runtime_identifier: win-x86
+          - runtime_identifier: win-x64
+          - runtime_identifier: linux-x64
+          - runtime_identifier: linux-musl-x64
+          - runtime_identifier: linux-arm
+          - runtime_identifier: linux-arm64
+          - runtime_identifier: osx-x64
+          - runtime_identifier: osx.11.0-arm64
+          - runtime_identifier: osx.12-arm64
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
 
       - name: Print environment
         run: |
@@ -28,72 +58,110 @@ jobs:
           echo "Clean"
           dotnet clean -c "Release"
 
-      - name: Publish service
-        shell: pwsh
+      - name: Build Splunk App
+        env:
+          APP_OUT: build/bitwarden_event_logs
+          BIN_OUT: build/bitwarden_event_logs/bin
+          LIB_OUT: build/bitwarden_event_logs/lib/Bitwarden_Splunk
+          RUNTIME_IDENTIFIER: ${{ matrix.runtime_identifier }}
         run: |
-          ./build.ps1 -task app -os win
-          ./build.ps1 -task app -os lin
-          ./build.ps1 -task app -os mac
+          # Create directories
+          mkdir -p ${BIN_OUT}
+          mkdir -p ${LIB_OUT}
 
-      - name: Upload artifacts (win-x64)
+          # Copy required files
+          cp -R app/bitwarden_event_logs/* ${APP_OUT}
+          cp -R src/Splunk/* ${LIB_OUT}
+
+          # Build app
+          dotnet publish -c Release -o "${BIN_OUT}" -r "${RUNTIME_IDENTIFIER}"
+
+          # Clean up files
+          rm -rf ${LIB_OUT}/bin
+          rm -rf ${LIB_OUT}/obj
+
+      - name: Fix inputs config on Windows
+        if: ${{ startsWith( matrix.runtime_identifier, 'win') }}
+        env:
+          APP_OUT: build/bitwarden_event_logs
+        run: sed -i 's/Bitwarden_Splunk/Bitwarden_Splunk.exe/' ${APP_OUT}/default/inputs.conf
+
+      - name: Create archive
+        env:
+          RUNTIME_IDENTIFIER: ${{ matrix.runtime_identifier }}
+        run: |
+          # Create tar archive
+          tar -cvzf bitwarden_event_logs_${RUNTIME_IDENTIFIER}.tar.gz -C build bitwarden_event_logs
+
+      - name: Setup Python 3.9
+        uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5
+        with:
+          python-version: '3.9'
+
+      - name: Validate artifact
+        run: |
+          wget https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
+          pip install splunk-packaging-toolkit-1.0.1.tar.gz
+          echo "****************************************"
+          slim validate bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz 2>&1 | tee output.txt
+          echo "****************************************"
+          if grep -q "\[WARNING\]" "output.txt"; then
+            echo "WARNING(s) found."
+            exit 1
+          elif grep -q "\[ERROR\]" "output.txt"; then
+            echo "ERROR(s) found."
+            exit 1
+          fi
+
+      - name: Upload artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
-          name: bitwarden_event_logs_win-x64
-          path: build/app/win-x64
+          name: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
+          path: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
           if-no-files-found: error
 
-      - name: Upload artifacts (win-x86)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_win-x86
-          path: build/app/win-x86
-          if-no-files-found: error
 
-      - name: Upload artifacts (linux-x64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_linux-x64
-          path: build/app/linux-x64
-          if-no-files-found: error
+  check-failures:
+    name: Check for failures
+    if: always()
+    runs-on: ubuntu-22.04
+    needs:
+      - cloc
+      - build-artifacts
+    steps:
+      - name: Check if any job failed
+        if: |
+          github.ref == 'refs/heads/master'
+          || github.ref == 'refs/heads/rc'
+          || github.ref == 'refs/heads/hotfix-rc'
+        env:
+          CLOC_STATUS: ${{ needs.cloc.result }}
+          BUILD_ARTIFACTS_STATUS: ${{ needs.build-artifacts.result }}
+        run: |
+          if [ "$CLOC_STATUS" = "failure" ]; then
+              exit 1
+          elif [ "$BUILD_ARTIFACTS_STATUS" = "failure" ]; then
+              exit 1
+          fi
 
-      - name: Upload artifacts (linux-musl-x64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
+      - name: Login to Azure - CI subscription
+        uses: Azure/login@1f63701bf3e6892515f1b7ce2d2bf1708b46beaf
+        if: failure()
         with:
-          name: bitwarden_event_logs_linux-musl-x64
-          path: build/app/linux-musl-x64
-          if-no-files-found: error
+          creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
 
-      - name: Upload artifacts (linux-arm64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
+      - name: Retrieve secrets
+        id: retrieve-secrets
+        uses: Azure/get-keyvault-secrets@b5c723b9ac7870c022b8c35befe620b7009b336f
+        if: failure()
         with:
-          name: bitwarden_event_logs_linux-arm64
-          path: build/app/linux-arm64
-          if-no-files-found: error
+          keyvault: "bitwarden-ci-kv"
+          secrets: "devops-alerts-slack-webhook-url"
 
-      - name: Upload artifacts (linux-arm)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
+      - name: Notify Slack on failure
+        uses: act10ns/slack@da3191ebe2e67f49b46880b4633f5591a96d1d33
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ steps.retrieve-secrets.outputs.devops-alerts-slack-webhook-url }}
         with:
-          name: bitwarden_event_logs_linux-arm
-          path: build/app/linux-arm
-          if-no-files-found: error
-
-      - name: Upload artifacts (osx-x64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_osx-x64
-          path: build/app/osx-x64
-          if-no-files-found: error
-
-      - name: Upload artifacts (osx.12-arm64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_osx.12-arm64
-          path: build/app/osx.12-arm64
-          if-no-files-found: error
-
-      - name: Upload artifacts (osx.11.0-arm64)
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
-        with:
-          name: bitwarden_event_logs_osx.11.0-arm64
-          path: build/app/osx.11.0-arm64
-          if-no-files-found: error
+          status: ${{ job.status }}
