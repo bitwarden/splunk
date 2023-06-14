@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
       - name: Install cloc
         run: |
@@ -43,7 +43,7 @@ jobs:
           - runtime_identifier: osx.12-arm64
     steps:
       - name: Checkout repo
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
       - name: Print environment
         run: |
@@ -94,7 +94,7 @@ jobs:
           tar -cvzf bitwarden_event_logs_${RUNTIME_IDENTIFIER}.tar.gz -C build bitwarden_event_logs
 
       - name: Setup Python 3.9
-        uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5
+        uses: actions/setup-python@bd6b4b6205c4dbad673328db7b31b7fab9e241c0 # v4.6.1
         with:
           python-version: '3.9'
 
@@ -114,7 +114,7 @@ jobs:
           fi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
         with:
           name: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
           path: bitwarden_event_logs_${{ matrix.runtime_identifier }}.tar.gz
@@ -145,21 +145,21 @@ jobs:
           fi
 
       - name: Login to Azure - CI subscription
-        uses: Azure/login@1f63701bf3e6892515f1b7ce2d2bf1708b46beaf
+        uses: Azure/login@1f63701bf3e6892515f1b7ce2d2bf1708b46beaf # v1.4.3
         if: failure()
         with:
           creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
 
       - name: Retrieve secrets
         id: retrieve-secrets
-        uses: Azure/get-keyvault-secrets@b5c723b9ac7870c022b8c35befe620b7009b336f
+        uses: bitwarden/gh-actions/get-keyvault-secrets@c86ced0dc8c9daeecf057a6333e6f318db9c5a2b
         if: failure()
         with:
-          keyvault: "bitwarden-ci-kv"
+          keyvault: "bitwarden-ci"
           secrets: "devops-alerts-slack-webhook-url"
 
       - name: Notify Slack on failure
-        uses: act10ns/slack@da3191ebe2e67f49b46880b4633f5591a96d1d33
+        uses: act10ns/slack@ed1309ab9862e57e9e583e51c7889486b9a00b0f # v2.0.0
         if: failure()
         env:
           SLACK_WEBHOOK_URL: ${{ steps.retrieve-secrets.outputs.devops-alerts-slack-webhook-url }}
