@@ -150,7 +150,7 @@ jobs:
 
       - name: Retrieve secrets
         id: retrieve-secrets
-        uses: bitwarden/gh-actions/get-keyvault-secrets@f096207b7a2f31723165aee6ad03e91716686e78
+        uses: bitwarden/gh-actions/get-keyvault-secrets@d336bf2a81ed935756f914c71ae32c2da2fe2782
         if: failure()
         with:
           keyvault: "bitwarden-ci"
