@@ -45,12 +45,12 @@ export async function perform(splunk_js_sdk, setup_options) {
         );
 
         // Update inputs.conf
-        var inputsStanza = "script://$SPLUNK_HOME/etc/apps/bitwarden_event_logs/bin/Bitwarden_Splunk";
-        var isLinux = await Splunk.does_configuration_file_stanza_exist(service, "inputs", inputsStanza);
+        // TODO
+        var inputsStanza = "script://$SPLUNK_HOME/etc/apps/bitwarden_event_logs/bin/bitwarden_splunk.py";
         await Splunk.update_configuration_file(
             service,
             "inputs",
-            inputsStanza + (isLinux ? "" : ".exe"),
+            inputsStanza,
             { disabled: 0, index: index },
         );
 
