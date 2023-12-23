@@ -58,8 +58,9 @@ jobs:
         run: |
           mkdir package/bin
           cp -R src/* package/bin/
-          ucc-gen build
-          ucc-gen package --path  output/bitwarden_event_logs
+#          TODO take version from branch name / tag
+          ucc-gen build --ta-version 2.0.0
+          ucc-gen package --path output/bitwarden_event_logs
 
       - name: Build Splunk App
         run: |

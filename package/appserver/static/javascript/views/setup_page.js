@@ -45,13 +45,11 @@ export async function perform(splunk_js_sdk, setup_options) {
         );
 
         // Update inputs.conf
-        // TODO
-        var inputsStanza = "script://$SPLUNK_HOME/etc/apps/bitwarden_event_logs/bin/bitwarden_splunk.py";
         await Splunk.update_configuration_file(
             service,
             "inputs",
-            inputsStanza,
-            { disabled: 0, index: index },
+            "script://event_logs_collector",
+            { index: index },
         );
 
         // Update script.conf
