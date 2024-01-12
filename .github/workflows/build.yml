@@ -56,11 +56,10 @@ jobs:
 
       - name: Build Splunk App
         run: |
-          poetry shell
           mkdir package/bin
           cp -R src/* package/bin/
-          ucc-gen build --ta-version 2.0.0
-          ucc-gen package --path output/bitwarden_event_logs -o output/
+          poetry run ucc-gen build --ta-version 2.0.0
+          poetry run ucc-gen package --path output/bitwarden_event_logs -o output/
 
       - name: Validate artifact
         run: |
