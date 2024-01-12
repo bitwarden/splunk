@@ -8,6 +8,7 @@ poetry export -f requirements.txt --output package/lib/requirements.txt
 cp -R src/* package/bin/
 
 ucc-gen build --ta-version 2.0.0
+rm -rf output/bitwarden_event_logs/default/restmap.conf
 ucc-gen package --path output/bitwarden_event_logs/ -o output/
 
 docker cp output/bitwarden_event_logs-2.0.0.tar.gz splunk:/opt/splunk
