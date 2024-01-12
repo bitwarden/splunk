@@ -163,4 +163,5 @@ output/
 package/bin/
 package/lib/
 
+requests.http
 splunk_session.txt

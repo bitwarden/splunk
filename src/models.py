@@ -35,15 +35,48 @@ class BitwardenEventsRequest:
 @dataclass
 class BitwardenEvent:
     type: int
+    date: datetime
     itemId: Optional[str]
     collectionId: Optional[str]
     groupId: Optional[str]
     policyId: Optional[str]
     memberId: Optional[str]
     actingUserId: Optional[str]
-    date: datetime
     device: Optional[int]
     ipAddress: Optional[str]
+
+
+@dataclass
+class BitwardenEnhancedEvent(BitwardenEvent):
+    groupName: Optional[str]
+    actingUserName: Optional[str]
+    actingUserEmail: Optional[str]
+    memberName: Optional[str]
+    memberEmail: Optional[str]
+
+
+@dataclass
+class BitwardenGroup:
+    id: str
+    name: str
+
+
+@dataclass
+class BitwardenGroupsResponse:
+    data: List[BitwardenGroup]
+
+
+@dataclass
+class BitwardenMember:
+    id: str
+    email: str
+    userId: str
+    name: Optional[str]
+
+
+@dataclass
+class BitwardenMembersResponse:
+    data: List[BitwardenMember]
 
 
 @dataclass

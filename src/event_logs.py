@@ -3,10 +3,11 @@ import sys
 from dataclasses import asdict, is_dataclass
 from datetime import datetime, date, timedelta, timezone
 from logging import Logger
-from typing import Any, Optional, List
+from typing import Any, Optional, List, Dict
 
 from bitwarden_api import BitwardenApi
-from models import BitwardenEventsRequest, EventLogsCheckpoint, SettingsConfig
+from models import BitwardenEventsRequest, EventLogsCheckpoint, SettingsConfig, BitwardenEvent, \
+    BitwardenEnhancedEvent, BitwardenGroup, BitwardenMember
 from utils import get_logger, obj_to_json
 from splunk_api import SplunkApi
 
@@ -20,6 +21,8 @@ class EventLogsWriter:
         self.bitwarden_api = bitwarden_api
         self.checkpoint = checkpoint
         self.settings_config = settings_config
+        self.bitwarden_groups = self.__get_bitwarden_groups()
+        self.bitwarden_members_id, self.bitwarden_members_user_id = self.__get_bitwarden_members()
 
     def read_events(self):
         self.logger.debug('reading events')
@@ -37,7 +40,9 @@ class EventLogsWriter:
                                                   next_request.end,
                                                   events_response.continuationToken)
 
-            yield next_request, events_response.data
+            events = self.__enhance_bitwarden_events(events_response.data)
+
+            yield next_request, events
 
             if events_response.continuationToken is None:
                 break
@@ -90,3 +95,49 @@ class EventLogsWriter:
         self.logger.debug('writing event log json %s', obj_json)
 
         print(obj_json)
+
+    def __get_bitwarden_groups(self):
+        response = self.bitwarden_api.get_groups()
+
+        return {group.id: group for group in response.data}
+
+    def __get_bitwarden_members(self):
+        response = self.bitwarden_api.get_members()
+
+        return ({member.id: member for member in response.data},
+                {member.userId: member for member in response.data})
+
+    def __enhance_bitwarden_events(self, bitwarden_events: List[BitwardenEvent]) -> List[BitwardenEnhancedEvent]:
+
+        events = []
+
+        for bitwarden_event in bitwarden_events:
+            group: Optional[BitwardenGroup] = None
+            member: Optional[BitwardenMember] = None
+            acting_user: Optional[BitwardenMember] = None
+
+            if bitwarden_event.groupId is not None:
+                group = self.bitwarden_groups.get(bitwarden_event.groupId, None)
+
+            if bitwarden_event.memberId is not None:
+                member = self.bitwarden_members_id.get(bitwarden_event.memberId, None)
+
+            if bitwarden_event.actingUserId is not None:
+                acting_user = self.bitwarden_members_user_id.get(bitwarden_event.actingUserId, None)
+
+            group_name = group.name if group is not None else None
+            member_name = member.name if member is not None else None
+            member_email = member.email if member is not None else None
+            acting_user_name = acting_user.name if acting_user is not None else None
+            acting_user_email = acting_user.email if acting_user is not None else None
+
+            event = BitwardenEnhancedEvent(**asdict(bitwarden_event),
+                                           groupName=group_name,
+                                           memberName=member_name,
+                                           memberEmail=member_email,
+                                           actingUserName=acting_user_name,
+                                           actingUserEmail=acting_user_email)
+
+            events.append(event)
+
+        return events

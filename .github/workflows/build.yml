@@ -22,7 +22,7 @@ jobs:
           sudo apt-get -y install cloc
 
       - name: Print lines of code
-        run: cloc --include-lang C#,PowerShell,CSS,JavaScript,XML --vcs git
+        run: cloc --include-lang CSS,JavaScript,XML,Python --vcs git
 
 
   build-artifacts:
@@ -54,32 +54,19 @@ jobs:
           mkdir package/lib
           poetry export -f requirements.txt --output package/lib/requirements.txt
 
-      - name: Build
+      - name: Build Splunk App
         run: |
           mkdir package/bin
           cp -R src/* package/bin/
-#          TODO take version from branch name / tag
           ucc-gen build --ta-version 2.0.0
-          ucc-gen package --path output/bitwarden_event_logs
-
-      - name: Build Splunk App
-        run: |
-          
-          # Copy required files
-          pip install -r requirements.txt -t ${APP_OUT}/bin
-          cp -R src/bitwarden_event_logs/* ${APP_OUT}/bin
-
-      - name: Create archive
-        run: |
-          # Create tar archive
-          tar -cvzf bitwarden_event_logs.tar.gz -C build bitwarden_event_logs
+          ucc-gen package --path output/bitwarden_event_logs -o output/
 
       - name: Validate artifact
         run: |
           wget https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
           pip install splunk-packaging-toolkit-1.0.1.tar.gz
           echo "****************************************"
-          slim validate bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
+          slim validate output/bitwarden_event_logs-2.0.0.tar.gz 2>&1 | tee output.txt
           echo "****************************************"
           if grep -q "\[WARNING\]" "output.txt"; then
             echo "WARNING(s) found."
@@ -92,8 +79,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
-          name: bitwarden_event_logs.tar.gz
-          path: bitwarden_event_logs.tar.gz
+          name: bitwarden_event_logs-2.0.0.tar.gz
+          path: bitwarden_event_logs-2.0.0.tar.gz
           if-no-files-found: error
 
 

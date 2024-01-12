@@ -1,10 +1,18 @@
+from typing import Optional, Dict, Any
+
 import requests
 
-from mappers import get_bitwarden_event
+from mappers import (
+    get_bitwarden_event,
+    get_bitwarden_group,
+    get_bitwarden_member
+)
 from models import (
     BitwardenApiConfig,
     BitwardenEventsResponse,
-    BitwardenEventsRequest
+    BitwardenEventsRequest,
+    BitwardenGroupsResponse,
+    BitwardenMembersResponse
 )
 
 from utils import get_logger
@@ -54,22 +62,17 @@ class BitwardenApi:
                                  headers=headers,
                                  data=data,
                                  timeout=REQUESTS_TIMEOUT)
-        self.logger.debug('Response status code %s', response.status_code)
-        response.raise_for_status()
 
-        response_json = response.json()
-        self.logger.debug('Response json %s', response_json)
+        response_dict = self.__get_response_json(response)
 
-        if 'access_token' not in response_json:
+        if 'access_token' not in response_dict:
             raise Exception('Access token not found in response')
 
-        return response_json["access_token"]
+        return response_dict["access_token"]
 
     def get_events(self, request: BitwardenEventsRequest) -> BitwardenEventsResponse:
         url = _join_urls(self.api_config.events_api_url, "/public/events")
-        headers = {
-            "Authorization": f"Bearer {self.access_token}"
-        }
+
         query_params = {
             "start": request.start,
             "end": request.end
@@ -78,20 +81,51 @@ class BitwardenApi:
         if request.continuation_token is not None:
             query_params["continuationToken"] = request.continuation_token
 
-        self.logger.debug('Request url %s, headers %s, query params %s',
+        response_dict = self.__send_get_request(url, query_params)
+
+        data = [get_bitwarden_event(item_dict) for item_dict in response_dict.get("data", [])]
+
+        return BitwardenEventsResponse(data=data,
+                                       continuationToken=response_dict.get("continuationToken", None))
+
+    def get_groups(self):
+        url = _join_urls(self.api_config.events_api_url, "/public/groups")
+
+        response_dict = self.__send_get_request(url, None)
+
+        data = [get_bitwarden_group(item_dict) for item_dict in response_dict.get("data", [])]
+
+        return BitwardenGroupsResponse(data)
+
+    def get_members(self):
+        url = _join_urls(self.api_config.events_api_url, "/public/members")
+
+        response_dict = self.__send_get_request(url, None)
+
+        data = [get_bitwarden_member(item_dict) for item_dict in response_dict.get("data", [])]
+
+        return BitwardenMembersResponse(data)
+
+    def __send_get_request(self, url: str, query_params: Optional[Dict[str, Any]]) -> Any:
+        headers = {
+            "Authorization": f"Bearer {self.access_token}"
+        }
+
+        self.logger.debug('Request url %s, headers %s query params %s',
                           url, headers, query_params)
 
         response = requests.get(url,
                                 headers=headers,
                                 params=query_params,
                                 timeout=REQUESTS_TIMEOUT)
+
+        return self.__get_response_json(response)
+
+    def __get_response_json(self, response):
         self.logger.debug('Response status code %s', response.status_code)
         response.raise_for_status()
 
         response_dict = response.json()
-        self.logger.debug('Response %s', response_dict)
+        self.logger.debug('Response data %s', response_dict)
 
-        data = [get_bitwarden_event(item_dict) for item_dict in response_dict.get("data", [])]
-
-        return BitwardenEventsResponse(data,
-                                       response_dict.get("continuationToken", None))
+        return response_dict
