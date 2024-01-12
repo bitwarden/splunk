@@ -162,3 +162,5 @@ cython_debug/
 output/
 package/bin/
 package/lib/
+
+splunk_session.txt
