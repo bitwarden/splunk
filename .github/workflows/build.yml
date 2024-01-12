@@ -56,6 +56,7 @@ jobs:
 
       - name: Build Splunk App
         run: |
+          poetry shell
           mkdir package/bin
           cp -R src/* package/bin/
           ucc-gen build --ta-version 2.0.0
