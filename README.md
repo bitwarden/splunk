@@ -19,7 +19,7 @@ Install dependencies: `poetry install --with dev`
 
 - Install docker.
 - Run splunk enterprise
-  `docker run -d -p 8001:8000 -p 8089:8089 -e SPLUNK_START_ARGS='--accept-license' -e SPLUNK_PASSWORD='password' splunk/splunk:latest`
+  `docker run --rm --name splunk -d -p 8001:8000 -p 8089:8089 -e SPLUNK_START_ARGS='--accept-license' -e SPLUNK_PASSWORD='password' splunk/splunk:latest`
 - Access Splunk url in the browser: https://localhost:8081
 - Enter credentials, login: `admin`, password: `password`
 - TODO developer license
