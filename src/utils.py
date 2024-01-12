@@ -52,4 +52,6 @@ def obj_to_json(obj):
     else:
         raise Exception("Object of type %s is not json serializable", type(obj))
 
-    return json.dumps(obj_dict, default=json_serial)
+    return json.dumps(obj_dict,
+                      default=json_serial,
+                      separators=(",", ":"))
