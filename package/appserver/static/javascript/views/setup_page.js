@@ -48,7 +48,7 @@ export async function perform(splunk_js_sdk, setup_options) {
         await Splunk.update_configuration_file(
             service,
             "inputs",
-            "script://event_logs_collector",
+            "script://./bin/bitwarden_event_logs.py",
             { index: index },
         );
 

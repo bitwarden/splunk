@@ -86,21 +86,6 @@ class BitwardenEventsResponse:
 
 
 @dataclass
-class SplunkEvent:
-    actingUserEmail: str
-    actingUserId: str
-    actingUserName: str
-    date: datetime
-    device: int
-    # hash: str
-    ipAddress: str
-    memberEmail: str
-    memberId: str
-    memberName: str
-    type: int
-
-
-@dataclass
 class EventLogsCheckpoint:
     key_id: Optional[str] = None
     next_request: Optional[BitwardenEventsRequest] = None

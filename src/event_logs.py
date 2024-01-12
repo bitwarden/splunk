@@ -1,15 +1,19 @@
-import json
 import sys
-from dataclasses import asdict, is_dataclass
-from datetime import datetime, date, timedelta, timezone
-from logging import Logger
-from typing import Any, Optional, List, Dict
+from dataclasses import asdict
+from datetime import datetime, timedelta, timezone
+from typing import Any, Optional, List
 
 from bitwarden_api import BitwardenApi
-from models import BitwardenEventsRequest, EventLogsCheckpoint, SettingsConfig, BitwardenEvent, \
-    BitwardenEnhancedEvent, BitwardenGroup, BitwardenMember
+from models import (
+    BitwardenEventsRequest,
+    EventLogsCheckpoint,
+    SettingsConfig,
+    BitwardenEvent,
+    BitwardenEnhancedEvent,
+    BitwardenGroup,
+    BitwardenMember
+)
 from utils import get_logger, obj_to_json
-from splunk_api import SplunkApi
 
 
 class EventLogsWriter:

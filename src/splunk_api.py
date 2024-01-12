@@ -5,8 +5,7 @@ from splunklib.client import (
     Service,
     StoragePassword,
     ConfigurationFile,
-    KVStoreCollection,
-    Configurations, KVStoreCollections, KVStoreCollectionData
+    KVStoreCollection
 )
 
 from utils import get_logger

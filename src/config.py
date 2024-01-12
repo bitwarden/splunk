@@ -3,7 +3,9 @@ from typing import Optional, Dict, Any, List
 from mappers import datetime_from_str
 from models import (
     SettingsConfig,
-    BitwardenApiKey, EventLogsCheckpoint, BitwardenEventsRequest
+    BitwardenApiKey,
+    EventLogsCheckpoint,
+    BitwardenEventsRequest
 )
 
 
@@ -63,5 +65,3 @@ def parse_checkpoint(events_api_config_list: Optional[List[Any]]) -> EventLogsCh
     return EventLogsCheckpoint(events_api_config['_key'],
                                next_request,
                                last_log_date)
-
-
