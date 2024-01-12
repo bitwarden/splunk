@@ -77,7 +77,7 @@ jobs:
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
           name: bitwarden_event_logs-2.0.0.tar.gz
-          path: bitwarden_event_logs-2.0.0.tar.gz
+          path: output/bitwarden_event_logs-2.0.0.tar.gz
           if-no-files-found: error
 
 
