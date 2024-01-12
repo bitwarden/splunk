@@ -163,6 +163,7 @@ output/
 package/bin/
 package/lib/
 !package/app.manifest
+!package/README/*
 
 requests.http
 splunk_session.txt
