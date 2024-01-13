@@ -32,8 +32,7 @@ def get_logger() -> logging.Logger:
         logger.setLevel(logging.DEBUG)
     else:
         Logs.set_context(namespace='bitwarden',
-                         # TODO change to INFO
-                         log_level=logging.DEBUG)
+                         log_level=logging.INFO)
         logger = Logs().get_logger('event_logs')
 
     return logger
