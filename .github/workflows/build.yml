@@ -68,7 +68,7 @@ jobs:
           rm -rf output/bitwarden_event_logs_beta/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
           rm -rf output/bitwarden_event_logs_beta/README/bitwarden_event_logs_settings.conf.spec
           poetry run ucc-gen package --path output/bitwarden_event_logs_beta -o output/
-          mv output/bitwarden_event_logs-*.tar.gz output/bitwarden_event_logs.tar.gz
+          mv output/bitwarden_event_logs*.tar.gz output/bitwarden_event_logs.tar.gz
 
       - name: Validate artifact
         run: |
