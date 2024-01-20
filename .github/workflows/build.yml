@@ -58,26 +58,43 @@ jobs:
         run: |
           mkdir package/bin
           cp -R src/* package/bin/
-          poetry run ucc-gen build --ta-version 2.0.0
-          rm -rf output/bitwarden_event_logs/default/restmap.conf
-          poetry run ucc-gen package --path output/bitwarden_event_logs -o output/
+          poetry run ucc-gen build --ta-version 2.0.1
+          # cleanup python files
+          rm -rf output/bitwarden_event_logs_beta/{bin,lib}/__pycache__
+          rm -rf output/bitwarden_event_logs_beta/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
+          # remove ucc-gen not used files
+          rm -rf output/bitwarden_event_logs_beta/appserver/static/{css,js,openapi.json}
+          rm -rf output/bitwarden_event_logs_beta/appserver/templates/base.html
+          rm -rf output/bitwarden_event_logs_beta/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
+          rm -rf output/bitwarden_event_logs_beta/README/bitwarden_event_logs_settings.conf.spec
+          poetry run ucc-gen package --path output/bitwarden_event_logs_beta -o output/
+          mv output/bitwarden_event_logs-*.tar.gz output/bitwarden_event_logs.tar.gz
 
       - name: Validate artifact
         run: |
-          poetry run slim validate output/bitwarden_event_logs-2.0.0.tar.gz 2>&1 | tee output.txt
-          if grep -q "\[WARNING\]" "output.txt"; then
-            echo "WARNING(s) found."
-            exit 1
-          elif grep -q "\[ERROR\]" "output.txt"; then
+          poetry run slim validate output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
+          cat output.txt
+          if grep -q "\[ERROR\]" "output.txt"; then
             echo "ERROR(s) found."
+            exit 1
+          fi
+          rm -f output.txt
+          poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
+          cat output.txt
+          if ! grep -q -E "error:[ \t]+0" "output.txt"; then
+            echo "ERRORS(s) found."
+            exit 1
+          fi
+          if ! grep -q -E "failure:[ \t]+0" "output.txt"; then
+            echo "ERRORS(s) found."
             exit 1
           fi
 
       - name: Upload artifact
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
-          name: bitwarden_event_logs-2.0.0.tar.gz
-          path: output/bitwarden_event_logs-2.0.0.tar.gz
+          name: bitwarden_event_logs.tar.gz
+          path: output/bitwarden_event_logs.tar.gz
           if-no-files-found: error
 
 

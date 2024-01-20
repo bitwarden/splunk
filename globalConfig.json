@@ -3,41 +3,17 @@
         "configuration": {
             "tabs": [
                 {
-                    "name": "logging",
+                    "name": "Setup",
                     "entity": [
                         {
                             "type": "singleSelect",
-                            "label": "Log level",
-                            "options": {
-                                "disableSearch": true,
-                                "autoCompleteFields": [
-                                    {
-                                        "value": "DEBUG",
-                                        "label": "DEBUG"
-                                    },
-                                    {
-                                        "value": "INFO",
-                                        "label": "INFO"
-                                    },
-                                    {
-                                        "value": "WARN",
-                                        "label": "WARN"
-                                    },
-                                    {
-                                        "value": "ERROR",
-                                        "label": "ERROR"
-                                    },
-                                    {
-                                        "value": "CRITICAL",
-                                        "label": "CRITICAL"
-                                    }
-                                ]
-                            },
-                            "defaultValue": "INFO",
-                            "field": "loglevel"
+                            "label": "Client id",
+                            "options": {},
+                            "defaultValue": "",
+                            "field": "client_id"
                         }
                     ],
-                    "title": "Logging"
+                    "title": "Setup"
                 }
             ],
             "title": "Configuration",
@@ -45,10 +21,10 @@
         }
     },
     "meta": {
-        "name": "bitwarden_event_logs",
+        "name": "bitwarden_event_logs_beta",
         "restRoot": "bitwarden_event_logs",
-        "version": "2.0.0",
-        "displayName": "Bitwarden Event Logs",
+        "version": "2.0.2",
+        "displayName": "Bitwarden Event Logs (beta)",
         "schemaVersion": "0.0.3"
     }
 }

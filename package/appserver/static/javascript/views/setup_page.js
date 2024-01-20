@@ -20,7 +20,7 @@ export async function getIndexes(splunk_js_sdk) {
 }
 
 export async function perform(splunk_js_sdk, setup_options) {
-    var app_name = "bitwarden_event_logs";
+    var app_name = "bitwarden_event_logs_beta";
     var application_name_space = {
         owner: "nobody",
         app: app_name,
@@ -48,7 +48,7 @@ export async function perform(splunk_js_sdk, setup_options) {
         await Splunk.update_configuration_file(
             service,
             "inputs",
-            "script://./bin/bitwarden_event_logs.py",
+            "script://$SPLUNK_HOME/etc/apps/bitwarden_event_logs_beta/bin/bitwarden_event_logs.py",
             { index: index },
         );
 
