@@ -73,14 +73,12 @@ jobs:
       - name: Validate artifact
         run: |
           poetry run slim validate output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
-          cat output.txt
           if grep -q "\[ERROR\]" "output.txt"; then
             echo "ERROR(s) found."
             exit 1
           fi
           rm -f output.txt
           poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
-          cat output.txt
           if ! grep -q -E "error:[ \t]+0" "output.txt"; then
             echo "ERRORS(s) found."
             exit 1
