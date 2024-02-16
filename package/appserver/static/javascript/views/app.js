@@ -12,7 +12,8 @@ define(["react", "splunkjs/splunk"], function(react, splunk_js_sdk){
         clientSecret: '',
         index: 'main',
         indexOptions: [],
-        serverUrl: 'https://bitwarden.com'
+        serverUrl: 'https://bitwarden.com',
+        startDate: ''
       };
 
       this.handleChange = this.handleChange.bind(this);
@@ -73,6 +74,13 @@ define(["react", "splunkjs/splunk"], function(react, splunk_js_sdk){
               "Server URL ",
               e("br"),
               e("input", { type: "text", name: "serverUrl", value: this.state.serverUrl, onChange: this.handleChange })
+            ]),
+            e("h3", null, "Choose the earliest Bitwarden event date to retrieve (Default is 1 year)."),
+            e("h4", null, "This is intended to be set only on first time setup. Make sure you have no other Bitwarden events to avoid duplications."),
+            e("label", null, [
+              "Start date (optional)",
+              e("br"),
+              e("input", { type: "date", name: "startDate", value: this.state.startDate, onChange: this.handleChange })
             ]),
             e("input", { type: "submit", value: "Submit" })
           ])

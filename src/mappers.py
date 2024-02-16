@@ -65,7 +65,7 @@ def get_bitwarden_api_config(settings_config: SettingsConfig,
 
 
 def datetime_from_str(date_str: Optional[str]) -> Optional[datetime]:
-    if date_str is None:
+    if date_str is None or date_str.strip() == '':
         return None
 
     if "." not in date_str:

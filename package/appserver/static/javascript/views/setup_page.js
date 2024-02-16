@@ -34,7 +34,7 @@ export async function perform(splunk_js_sdk, setup_options) {
             application_name_space,
         );
 
-        let { clientId, clientSecret, index, serverUrl, ...properties } = setup_options;
+        let { clientId, clientSecret, index, serverUrl, startDate, ...properties } = setup_options;
 
         // Store secrets
         await StoragePasswords.write_secret(
@@ -62,7 +62,8 @@ export async function perform(splunk_js_sdk, setup_options) {
             "config",
             {
                 apiUrl: apiUrl,
-                identityUrl: identityUrl
+                identityUrl: identityUrl,
+                startDate: startDate
             },
         );
         
