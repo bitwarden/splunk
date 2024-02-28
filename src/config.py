@@ -8,7 +8,7 @@ from models import (
     BitwardenEventsRequest
 )
 from splunk_api import SplunkApi
-from utils import get_logger, set_logging_level, obj_to_json
+from utils import get_logger, set_logging_level, obj_to_json, app_name
 
 
 class Config:
@@ -27,7 +27,7 @@ class Config:
         return settings_config
 
     def get_bitwarden_api_key(self):
-        bitwarden_api_key_dict = self.splunk_api.get_storage_password("bitwarden_event_logs_realm:api_key")
+        bitwarden_api_key_dict = self.splunk_api.get_storage_password(f"${app_name}_realm:api_key")
         bitwarden_api_key = Config.__parse_bitwarden_api_key(bitwarden_api_key_dict)
 
         self.logger.debug('bitwarden api key %s', bitwarden_api_key)

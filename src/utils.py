@@ -9,6 +9,7 @@ from solnlib.log import Logs
 
 from mappers import datetime_to_str
 
+app_name = "bitwarden_event_logs_beta"
 
 def read_session_token() -> str:
     session_token = sys.stdin.readline(5000).strip()
@@ -27,13 +28,12 @@ def set_logging_level(logging_level: str):
 
 def get_logger() -> logging.Logger:
     if not is_splunk_environment():
-        logger = logging.Logger("bitwarden_event_logs")
+        logger = logging.Logger(app_name)
         logger.addHandler(logging.StreamHandler(sys.stdout))
         logger.setLevel(logging.DEBUG)
     else:
-        Logs.set_context(namespace='bitwarden',
-                         log_level=logging.INFO)
-        logger = Logs().get_logger('event_logs')
+        Logs.set_context(log_level=logging.DEBUG)
+        logger = Logs().get_logger(app_name)
 
     return logger
 

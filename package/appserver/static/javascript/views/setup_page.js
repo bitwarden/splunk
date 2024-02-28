@@ -3,6 +3,7 @@
 import * as Splunk from './splunk_helpers.js';
 import * as Config from './setup_configuration.js';
 import * as StoragePasswords from './storage_passwords.js';
+import * as AppConst from '../app_const.js'
 
 export async function getIndexes(splunk_js_sdk) {
     // Create the Splunk JS SDK Service object
@@ -20,10 +21,9 @@ export async function getIndexes(splunk_js_sdk) {
 }
 
 export async function perform(splunk_js_sdk, setup_options) {
-    var app_name = "bitwarden_event_logs_beta";
     var application_name_space = {
         owner: "nobody",
-        app: app_name,
+        app: AppConst.app_name,
         sharing: "app",
     };
 
@@ -39,7 +39,7 @@ export async function perform(splunk_js_sdk, setup_options) {
         // Store secrets
         await StoragePasswords.write_secret(
             service,
-            "bitwarden_event_logs_realm",
+            AppConst.app_name + "_realm",
             "api_key",
             clientId + "_" + clientSecret
         );
@@ -48,7 +48,7 @@ export async function perform(splunk_js_sdk, setup_options) {
         await Splunk.update_configuration_file(
             service,
             "inputs",
-            "script://$SPLUNK_HOME/etc/apps/bitwarden_event_logs_beta/bin/bitwarden_event_logs.py",
+            AppConst.inputs_conf_name,
             { index: index },
         );
 

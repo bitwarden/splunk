@@ -8,7 +8,7 @@ from splunklib.client import (
     KVStoreCollection
 )
 
-from utils import get_logger
+from utils import get_logger, app_name
 
 
 class SplunkApi:
@@ -18,7 +18,7 @@ class SplunkApi:
             token=session_token,
             auto_login=True,
             owner="nobody",
-            app="bitwarden_event_logs",
+            app=app_name,
             sharing="app"
         )
 
