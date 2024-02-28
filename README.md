@@ -39,6 +39,7 @@ Modify the version in the [pyproject.toml](pyproject.toml)
 Remove the `_beta` suffix from:
 - `app_name` variable in [utils.py](src%2Futils.py)
 - `app_name` variable in [app_const.js](package%2Fappserver%2Fstatic%2Fjavascript%2Fapp_const.js)
+- `app_name` variable in [setup_page.js](package%2Fappserver%2Fstatic%2Fjavascript%2Fsetup_page.js)
 - `info/id/name` variable in [app.manifest](package%2Fapp.manifest)
 - from first line `[script://` in [inputs.conf](package%2Fdefault%2Finputs.conf)
 - `id.name` and `package.id` in [app.conf](package%2Fdefault%2Fapp.conf)
