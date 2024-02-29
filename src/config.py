@@ -27,7 +27,7 @@ class Config:
         return settings_config
 
     def get_bitwarden_api_key(self):
-        bitwarden_api_key_dict = self.splunk_api.get_storage_password(f"${app_name}_realm:api_key")
+        bitwarden_api_key_dict = self.splunk_api.get_storage_password(f"{app_name}_realm:api_key")
         bitwarden_api_key = Config.__parse_bitwarden_api_key(bitwarden_api_key_dict)
 
         self.logger.debug('bitwarden api key %s', bitwarden_api_key)
