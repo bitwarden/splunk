@@ -70,11 +70,12 @@ class EventLogsWriter:
 
         start_datetime = self.checkpoint.last_log_date
         if start_datetime is None:
-            # start_date enforced via configuration file
+            # First run..
             if self.settings_config.start_date is not None:
+                # and start_date enforced via configuration file
                 start_datetime = self.settings_config.start_date
             else:
-                # by default go back up to 1 year
+                # by default go back in time 1 year
                 start_datetime = datetime.now(tz=timezone.utc) - timedelta(days=365)
         else:
             # last run's end date + 1 microsecond to avoid duplicates
