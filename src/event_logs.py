@@ -85,7 +85,7 @@ class EventLogsWriter:
         # Bitwarden's events are stored in eventual consistent database
         end_datetime = datetime.now(tz=timezone.utc) - timedelta(seconds=30)
 
-        if start_datetime >= end_datetime:
+        if start_datetime.timestamp() >= end_datetime.timestamp():
             self.logger.debug('start date %s is past end date %s',
                               start_datetime, end_datetime)
             return None

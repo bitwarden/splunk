@@ -65,11 +65,20 @@ def get_bitwarden_api_config(settings_config: SettingsConfig,
 
 
 def datetime_from_str(date_str: Optional[str]) -> Optional[datetime]:
-    if date_str is None or date_str.strip() == '':
+    if date_str is None:
         return None
 
+    date_str = date_str.strip()
+    if date_str == '':
+        return None
+
+    # no time
+    if ":" not in date_str:
+        date_str = date_str + "T00:00:00"
+
+    # no fractional seconds
     if "." not in date_str:
-        return dateutil.parser.isoparse(date_str)
+        date_str = date_str + ".0"
 
     date_str_split = date_str.split(".")
 
