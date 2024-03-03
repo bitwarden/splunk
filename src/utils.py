@@ -32,7 +32,7 @@ def get_logger() -> logging.Logger:
         logger.addHandler(logging.StreamHandler(sys.stdout))
         logger.setLevel(logging.DEBUG)
     else:
-        Logs.set_context(log_level=logging.DEBUG)
+        Logs.set_context(log_level=logging.INFO)
         logger = Logs().get_logger(app_name)
 
     return logger
