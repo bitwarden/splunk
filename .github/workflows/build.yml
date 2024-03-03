@@ -49,7 +49,7 @@ jobs:
 
       - name: Pull dependencies
         run: |
-          poetry install --with dev
+          poetry install --with dev,splunkslim
           poetry self add poetry-plugin-export
           mkdir package/lib
           poetry export -f requirements.txt --output package/lib/requirements.txt
@@ -58,7 +58,8 @@ jobs:
         run: |
           mkdir package/bin
           cp -R src/* package/bin/
-          poetry run ucc-gen build --ta-version 2.0.1
+          export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
+          poetry run ucc-gen build --ta-version ${APP_VERSION}
           # cleanup python files
           rm -rf output/bitwarden_event_logs_beta/{bin,lib}/__pycache__
           rm -rf output/bitwarden_event_logs_beta/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}

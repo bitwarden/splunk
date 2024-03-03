@@ -32,8 +32,13 @@ python-dotenv = "*"
 types-requests = "^2"
 #docformatter = {extras = ["tomli"], version = "^1.7.5"}
 splunk-add-on-ucc-framework = "*"
-splunk-packaging-toolkit = "*"
 splunk-appinspect = "*"
+
+[tool.poetry.group.splunkslim]
+optional = true
+
+[tool.poetry.group.splunkslim.dependencies]
+splunk-packaging-toolkit = "*"
 
 [build-system]
 requires = ["poetry-core"]

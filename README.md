@@ -25,7 +25,7 @@ Install dependencies: `poetry install --with dev`
   - `./deploy.sh`
 - Access logs:
   - `docker exec -u splunk -it splunk bash`
-  - `tail -f /opt/splunk/var/log/splunk/bitwarden_event_logs.log`
+  - `tail -f /opt/splunk/var/log/splunk/bitwarden_event_logs_beta.log`
 - Access Splunk url in the browser: http://localhost:8001
   - Enter credentials, login: `admin`, password: `password`
   - Click on the *Apps* -> *Bitwarden Event Logs*
