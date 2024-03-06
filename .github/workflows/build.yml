@@ -94,7 +94,7 @@ jobs:
           tar -cvzf bitwarden_event_logs_${RUNTIME_IDENTIFIER}.tar.gz -C build bitwarden_event_logs
 
       - name: Setup Python 3.9
-        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
         with:
           python-version: '3.9'
 
