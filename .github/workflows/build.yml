@@ -28,6 +28,13 @@ jobs:
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        app:
+          - id: 'bitwarden_event_logs'
+            name: 'Bitwarden Event Logs'
+          - id: 'bitwarden_event_logs_beta'
+            name: 'Bitwarden Event Logs (beta)' 
     steps:
       - name: Checkout repo
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
@@ -46,6 +53,10 @@ jobs:
         with:
           python-version: '3.7'
           cache: 'poetry'
+      - name: Change app name
+        run: |
+          find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
+          find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
 
       - name: Pull dependencies
         run: |
@@ -61,25 +72,24 @@ jobs:
           export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
           poetry run ucc-gen build --ta-version ${APP_VERSION}
           # cleanup python files
-          rm -rf output/bitwarden_event_logs_beta/{bin,lib}/__pycache__
-          rm -rf output/bitwarden_event_logs_beta/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
+          rm -rf output/${{ matrix.app.id }}/{bin,lib}/__pycache__
+          rm -rf output/${{ matrix.app.id }}/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
           # remove ucc-gen not used files
-          rm -rf output/bitwarden_event_logs_beta/appserver/static/{css,js,openapi.json}
-          rm -rf output/bitwarden_event_logs_beta/appserver/templates/base.html
-          rm -rf output/bitwarden_event_logs_beta/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
-          rm -rf output/bitwarden_event_logs_beta/README/bitwarden_event_logs_settings.conf.spec
-          poetry run ucc-gen package --path output/bitwarden_event_logs_beta -o output/
-          mv output/bitwarden_event_logs*.tar.gz output/bitwarden_event_logs.tar.gz
+          rm -rf output/${{ matrix.app.id }}/appserver/static/{css,js,openapi.json}
+          rm -rf output/${{ matrix.app.id }}/appserver/templates/base.html
+          rm -rf output/${{ matrix.app.id }}/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
+          rm -rf output/${{ matrix.app.id }}/README/bitwarden_event_logs_settings.conf.spec
+          poetry run ucc-gen package --path output/${{ matrix.app.id }} -o output/
 
       - name: Validate artifact
         run: |
-          poetry run slim validate output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
+          poetry run slim validate output/${{ matrix.app.id }}.tar.gz 2>&1 | tee output.txt
           if grep -q "\[ERROR\]" "output.txt"; then
             echo "ERROR(s) found."
             exit 1
           fi
           rm -f output.txt
-          poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
+          poetry run splunk-appinspect inspect --mode precert output/${{ matrix.app.id }}.tar.gz 2>&1 | tee output.txt
           if ! grep -q -E "error:[ \t]+0" "output.txt"; then
             echo "ERRORS(s) found."
             exit 1
@@ -92,8 +102,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
-          name: bitwarden_event_logs.tar.gz
-          path: output/bitwarden_event_logs.tar.gz
+          name: ${{ matrix.app.id }}.tar.gz
+          path: output/${{ matrix.app.id }}.tar.gz
           if-no-files-found: error
 
 
