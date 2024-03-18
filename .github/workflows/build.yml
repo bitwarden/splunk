@@ -80,6 +80,7 @@ jobs:
           rm -rf output/${{ matrix.app.id }}/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
           rm -rf output/${{ matrix.app.id }}/README/bitwarden_event_logs_settings.conf.spec
           poetry run ucc-gen package --path output/${{ matrix.app.id }} -o output/
+          mv output/bitwarden_event_logs*.tar.gz output/${{ matrix.app.id }}.tar.gz
 
       - name: Validate artifact
         run: |
