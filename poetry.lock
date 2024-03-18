@@ -1103,13 +1103,13 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.39.0"
+version = "5.39.1"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunk_add_on_ucc_framework-5.39.0-py3-none-any.whl", hash = "sha256:7f361c7a47127db681c0ee1ee66754623bdb5bd5d6dd5442a679c03ff7e65001"},
-    {file = "splunk_add_on_ucc_framework-5.39.0.tar.gz", hash = "sha256:5677014462eca5d535872ad08ad2e8011fbf2b9c96834f7ac4666579d71ad90a"},
+    {file = "splunk_add_on_ucc_framework-5.39.1-py3-none-any.whl", hash = "sha256:5109df16a7b834e43494f31037e508b33a16df8451d6d988793ad4fbfdcadc02"},
+    {file = "splunk_add_on_ucc_framework-5.39.1.tar.gz", hash = "sha256:e9d0d1996d921332c6c057cd7c86538a496b7f1cfc447fc3efea13559e51d77c"},
 ]
 
 [package.dependencies]
@@ -1126,12 +1126,12 @@ urllib3 = "<2"
 
 [[package]]
 name = "splunk-appinspect"
-version = "3.2.0"
+version = "3.4.0"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = "*"
 files = [
-    {file = "splunk-appinspect-3.2.0.tar.gz", hash = "sha256:1383b70088af17cce859ec38e5e7f8d875e2faa018d840ecca2a5ca39a50d359"},
+    {file = "splunk-appinspect-3.4.0.tar.gz", hash = "sha256:5234158696b2d367ea053a3ab9111f607e38b6be6ca93f9cad35e3d11dfcf5c6"},
 ]
 
 [package.dependencies]
