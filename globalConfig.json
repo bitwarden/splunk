@@ -1,0 +1,31 @@
+{
+    "pages": {
+        "configuration": {
+            "tabs": [
+                {
+                    "name": "Setup",
+                    "entity": [
+                        {
+                            "type": "singleSelect",
+                            "label": "Client id",
+                            "options": {},
+                            "defaultValue": "",
+                            "field": "client_id"
+                        }
+                    ],
+                    "title": "Setup"
+                }
+            ],
+            "title": "Configuration",
+            "description": "Set up your add-on"
+        }
+    },
+    "meta": {
+        "name": "bitwarden_event_logs_beta",
+        "restRoot": "bitwarden_event_logs",
+        "version": "2.0.3",
+        "displayName": "Bitwarden Event Logs (beta)",
+        "schemaVersion": "0.0.3",
+        "_uccVersion": "5.39.0"
+    }
+}

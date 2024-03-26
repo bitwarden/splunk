@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "2.0.0",
+  "info": {
+    "title": "Bitwarden Event Logs (beta)",
+    "id": {
+      "group": null,
+      "name": "bitwarden_event_logs_beta",
+      "version": "2.0.0"
+    },
+    "author": [
+      {
+        "name": "Bitwarden Inc.",
+        "email": "support@bitwarden.com",
+        "company": "Bitwarden Inc."
+      }
+    ],
+    "releaseDate": null,
+    "description": "Bitwarden event logs integration into Splunk.",
+    "classification": {
+      "intendedAudience": null,
+      "categories": [],
+      "developmentStatus": null
+    },
+    "commonInformationModels": null,
+    "license": {
+      "name": null,
+      "text": null,
+      "uri": null
+    },
+    "privacyPolicy": {
+      "name": null,
+      "text": null,
+      "uri": null
+    },
+    "releaseNotes": {
+      "name": "README",
+      "text": "README.txt",
+      "uri": ""
+    }
+  },
+  "dependencies": null,
+  "tasks": null,
+  "inputGroups": null,
+  "incompatibleApps": null,
+  "platformRequirements": null,
+  "supportedDeployments": [
+    "_standalone",
+    "_distributed"
+  ],
+  "targetWorkloads": [
+    "_search_heads",
+    "_indexers"
+  ]
+}

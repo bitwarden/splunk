@@ -11,7 +11,7 @@
     "schedule:weekends",
     ":separateMajorReleases"
   ],
-  "enabledManagers": ["github-actions", "nuget"],
+  "enabledManagers": ["github-actions", "poetry"],
   "packageRules": [
     {
       "groupName": "gh minor",
@@ -19,8 +19,8 @@
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
-      "groupName": "nuget minor",
-      "matchManagers": ["nuget"],
+      "groupName": "poetry minor",
+      "matchManagers": ["poetry"],
       "matchUpdateTypes": ["minor", "patch"]
     }
   ]
