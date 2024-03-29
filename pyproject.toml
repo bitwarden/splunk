@@ -12,17 +12,17 @@ readme = "README.md"
 keywords = ["splunk", "bitwarden"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-requests = "^2"
-splunk-sdk = "^1"
-splunktaucclib = "^6"
-python-dateutil = "^2"
+python = "3.12.2"
+requests = "2.31.0"
+splunk-sdk = "1.7.4"
+splunktaucclib = "6.1.0"
+python-dateutil = "2.9.0.post0"
 
 [tool.poetry.group.dev]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-python-dotenv = "*"
+python-dotenv = "0.21.1"
 #flake8 = "*"
 #black = "*"
 #mypy = "*"
@@ -31,14 +31,14 @@ python-dotenv = "*"
 #pre-commit-hooks = "*"
 types-requests = "^2"
 #docformatter = {extras = ["tomli"], version = "^1.7.5"}
-splunk-add-on-ucc-framework = "*"
-splunk-appinspect = "*"
+splunk-add-on-ucc-framework = "5.39.1"
+splunk-appinspect = "3.4.0"
 
 [tool.poetry.group.splunkslim]
 optional = true
 
 [tool.poetry.group.splunkslim.dependencies]
-splunk-packaging-toolkit = "*"
+splunk-packaging-toolkit = "1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
