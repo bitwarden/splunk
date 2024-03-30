@@ -2,14 +2,29 @@
 
 [[package]]
 name = "addonfactory-splunk-conf-parser-lib"
-version = "0.4.0"
+version = "0.3.4"
 description = "Splunk .conf files parser"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "addonfactory_splunk_conf_parser_lib-0.4.0-py3-none-any.whl", hash = "sha256:9567b6c8cb87668c1120517fb6001f9cf3c04d07c923f57385b0bb025df42c24"},
-    {file = "addonfactory_splunk_conf_parser_lib-0.4.0.tar.gz", hash = "sha256:e892cd26dc9708512f864a397ed101579cceefe2c408ea5be2dc5032d2edf05d"},
+    {file = "addonfactory_splunk_conf_parser_lib-0.3.4-py3-none-any.whl", hash = "sha256:f2eb25bd03d4fd464b8b0304a87d5dc1e2935c42a6c262c6461b9b73b8e30217"},
+    {file = "addonfactory_splunk_conf_parser_lib-0.3.4.tar.gz", hash = "sha256:e550105c8c85a6f553688e5b1f4f55ae7ca758a1a428cbce1e0b9b73b9f4e35d"},
 ]
+
+[[package]]
+name = "arrow"
+version = "1.2.3"
+description = "Better dates & times for Python"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "arrow-1.2.3-py3-none-any.whl", hash = "sha256:5a49ab92e3b7b71d96cd6bfcc4df14efefc9dfa96ea19045815914a6ab6b1fe2"},
+    {file = "arrow-1.2.3.tar.gz", hash = "sha256:3934b30ca1b9f292376d9db15b19446088d12ec58629bc3f0da28fd55fb633a1"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.7.0"
+typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "attrs"
@@ -53,6 +68,20 @@ chardet = ["chardet"]
 charset-normalizer = ["charset-normalizer"]
 html5lib = ["html5lib"]
 lxml = ["lxml"]
+
+[[package]]
+name = "binaryornot"
+version = "0.4.4"
+description = "Ultra-lightweight pure Python package to check if a file is binary or text."
+optional = false
+python-versions = "*"
+files = [
+    {file = "binaryornot-0.4.4-py2.py3-none-any.whl", hash = "sha256:b8b71173c917bddcd2c16070412e369c3ed7f0528926f70cac18a6c97fd563e4"},
+    {file = "binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061"},
+]
+
+[package.dependencies]
+chardet = ">=3.0.2"
 
 [[package]]
 name = "certifi"
@@ -202,6 +231,27 @@ files = [
 ]
 
 [[package]]
+name = "cookiecutter"
+version = "2.6.0"
+description = "A command-line utility that creates projects from project templates, e.g. creating a Python package project from a Python package project template."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "cookiecutter-2.6.0-py3-none-any.whl", hash = "sha256:a54a8e37995e4ed963b3e82831072d1ad4b005af736bb17b99c2cbd9d41b6e2d"},
+    {file = "cookiecutter-2.6.0.tar.gz", hash = "sha256:db21f8169ea4f4fdc2408d48ca44859349de2647fbe494a9d6c3edfc0542c21c"},
+]
+
+[package.dependencies]
+arrow = "*"
+binaryornot = ">=0.4.4"
+click = ">=7.0,<9.0.0"
+Jinja2 = ">=2.7,<4.0.0"
+python-slugify = ">=4.0.0"
+pyyaml = ">=5.3.1"
+requests = ">=2.23.0"
+rich = "*"
+
+[[package]]
 name = "croniter"
 version = "1.4.1"
 description = "croniter provides iteration for datetime object with cron like format"
@@ -225,6 +275,20 @@ files = [
     {file = "defusedxml-0.7.1-py2.py3-none-any.whl", hash = "sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"},
     {file = "defusedxml-0.7.1.tar.gz", hash = "sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69"},
 ]
+
+[[package]]
+name = "deprecation"
+version = "2.1.0"
+description = "A library to handle automated deprecations"
+optional = false
+python-versions = "*"
+files = [
+    {file = "deprecation-2.1.0-py2.py3-none-any.whl", hash = "sha256:a10811591210e1fb0e768a8c25517cabeabcba6f0bf96564f8ff45189f90b14a"},
+    {file = "deprecation-2.1.0.tar.gz", hash = "sha256:72b3bde64e5d778694b0cf68178aed03d15e15477116add3fb773e581f9518ff"},
+]
+
+[package.dependencies]
+packaging = "*"
 
 [[package]]
 name = "dunamai"
@@ -562,6 +626,31 @@ docs = ["mdx-gh-links (>=0.2)", "mkdocs (>=1.0)", "mkdocs-nature (>=0.4)"]
 testing = ["coverage", "pyyaml"]
 
 [[package]]
+name = "markdown-it-py"
+version = "2.2.0"
+description = "Python port of markdown-it. Markdown parsing, done right!"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "markdown-it-py-2.2.0.tar.gz", hash = "sha256:7c9a5e412688bc771c67432cbfebcdd686c93ce6484913dccf06cb5a0bea35a1"},
+    {file = "markdown_it_py-2.2.0-py3-none-any.whl", hash = "sha256:5a35f8d1870171d9acc47b99612dc146129b631baf04970128b568f190d0cc30"},
+]
+
+[package.dependencies]
+mdurl = ">=0.1,<1.0"
+typing_extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
+
+[package.extras]
+benchmarking = ["psutil", "pytest", "pytest-benchmark"]
+code-style = ["pre-commit (>=3.0,<4.0)"]
+compare = ["commonmark (>=0.9,<1.0)", "markdown (>=3.4,<4.0)", "mistletoe (>=1.0,<2.0)", "mistune (>=2.0,<3.0)", "panflute (>=2.3,<3.0)"]
+linkify = ["linkify-it-py (>=1,<3)"]
+plugins = ["mdit-py-plugins"]
+profiling = ["gprof2dot"]
+rtd = ["attrs", "myst-parser", "pyyaml", "sphinx", "sphinx-copybutton", "sphinx-design", "sphinx_book_theme"]
+testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
+
+[[package]]
 name = "markupsafe"
 version = "2.1.5"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -628,6 +717,17 @@ files = [
     {file = "MarkupSafe-2.1.5-cp39-cp39-win32.whl", hash = "sha256:00e046b6dd71aa03a41079792f8473dc494d564611a8f89bbbd7cb93295ebdcf"},
     {file = "MarkupSafe-2.1.5-cp39-cp39-win_amd64.whl", hash = "sha256:fa173ec60341d6bb97a89f5ea19c85c5643c1e7dedebc22f5181eb73573142c5"},
     {file = "MarkupSafe-2.1.5.tar.gz", hash = "sha256:d283d37a890ba4c1ae73ffadf8046435c76e7bc2247bbb63c00bd1a709c6544b"},
+]
+
+[[package]]
+name = "mdurl"
+version = "0.1.2"
+description = "Markdown URL utilities"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"},
+    {file = "mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"},
 ]
 
 [[package]]
@@ -774,6 +874,21 @@ files = [
 ]
 
 [[package]]
+name = "pygments"
+version = "2.17.2"
+description = "Pygments is a syntax highlighting package written in Python."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pygments-2.17.2-py3-none-any.whl", hash = "sha256:b27c2826c47d0f3219f29554824c30c5e8945175d888647acd804ddd04af846c"},
+    {file = "pygments-2.17.2.tar.gz", hash = "sha256:da46cec9fd2de5be3a8a784f434e4c4ab670b4ff54d605c4c2717e9d49c4c367"},
+]
+
+[package.extras]
+plugins = ["importlib-metadata"]
+windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
 name = "pyrsistent"
 version = "0.19.3"
 description = "Persistent/Functional/Immutable data structures"
@@ -859,6 +974,23 @@ files = [
     {file = "python-magic-0.4.24.tar.gz", hash = "sha256:de800df9fb50f8ec5974761054a708af6e4246b03b4bdaee993f948947b0ebcf"},
     {file = "python_magic-0.4.24-py2.py3-none-any.whl", hash = "sha256:4fec8ee805fea30c07afccd1592c0f17977089895bdfaae5fec870a84e997626"},
 ]
+
+[[package]]
+name = "python-slugify"
+version = "8.0.4"
+description = "A Python slugify application that also handles Unicode"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "python-slugify-8.0.4.tar.gz", hash = "sha256:59202371d1d05b54a9e7720c5e038f928f45daaffe41dd10822f3907b937c856"},
+    {file = "python_slugify-8.0.4-py2.py3-none-any.whl", hash = "sha256:276540b79961052b66b7d116620b36518847f52d5fd9e3a70164fc8c50faa6b8"},
+]
+
+[package.dependencies]
+text-unidecode = ">=1.3"
+
+[package.extras]
+unidecode = ["Unidecode (>=1.1.1)"]
 
 [[package]]
 name = "pyyaml"
@@ -1025,6 +1157,25 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "rich"
+version = "13.7.1"
+description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "rich-13.7.1-py3-none-any.whl", hash = "sha256:4edbae314f59eb482f54e9e30bf00d33350aaa94f4bfcd4e9e3110e64d0d7222"},
+    {file = "rich-13.7.1.tar.gz", hash = "sha256:9be308cb1fe2f1f57d67ce99e95af38a1e2bc71ad9813b0e247cf7ffbcc3a432"},
+]
+
+[package.dependencies]
+markdown-it-py = ">=2.2.0"
+pygments = ">=2.13.0,<3.0.0"
+typing-extensions = {version = ">=4.0.0,<5.0", markers = "python_version < \"3.9\""}
+
+[package.extras]
+jupyter = ["ipywidgets (>=7.5.1,<9)"]
+
+[[package]]
 name = "semantic-version"
 version = "2.10.0"
 description = "A library implementing the 'SemVer' scheme."
@@ -1063,21 +1214,20 @@ files = [
 
 [[package]]
 name = "solnlib"
-version = "4.13.0"
+version = "4.11.1"
 description = "The Splunk Software Development Kit for Splunk Solutions"
 optional = false
-python-versions = "<4.0,>=3.7"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "solnlib-4.13.0-py3-none-any.whl", hash = "sha256:047f23b3782193368e37595666c5dbdfee2687aadd404a36c9b0728173217403"},
-    {file = "solnlib-4.13.0.tar.gz", hash = "sha256:814c23cce4ae6e34c0d3f8df9338fc1a70df3bf1dd084c584b9dedca8b85685d"},
+    {file = "solnlib-4.11.1-py3-none-any.whl", hash = "sha256:3fc2ab03e43c98db46cefdb8dfef54ef73bf204fc1d61561307a24427a6a56b2"},
+    {file = "solnlib-4.11.1.tar.gz", hash = "sha256:eb8178425174c74cd6cb19b07f48fd1c440cb9cb375f3e4a640d2c15178c8e14"},
 ]
 
 [package.dependencies]
-defusedxml = ">=0.7"
-requests = ">=2.31.0,<3.0.0"
-sortedcontainers = ">=2"
-splunk-sdk = ">=1.6"
-urllib3 = "<2"
+defusedxml = ">=0.7.1,<0.8.0"
+requests = ">=2.28.0,<3.0.0"
+sortedcontainers = ">=2.2,<3.0"
+splunk-sdk = ">=1.6.18"
 
 [[package]]
 name = "sortedcontainers"
@@ -1103,35 +1253,32 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.39.1"
+version = "5.26.0"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunk_add_on_ucc_framework-5.39.1-py3-none-any.whl", hash = "sha256:5109df16a7b834e43494f31037e508b33a16df8451d6d988793ad4fbfdcadc02"},
-    {file = "splunk_add_on_ucc_framework-5.39.1.tar.gz", hash = "sha256:e9d0d1996d921332c6c057cd7c86538a496b7f1cfc447fc3efea13559e51d77c"},
+    {file = "splunk_add_on_ucc_framework-5.26.0-py3-none-any.whl", hash = "sha256:2f06c15da020e529e5d4de8554ac065f968f142fcdf6e8ed5db3cf548fa06e53"},
+    {file = "splunk_add_on_ucc_framework-5.26.0.tar.gz", hash = "sha256:bffe911abbeb0b122db173f25f0361582ff83f9a2504544613073bb27629d6a3"},
 ]
 
 [package.dependencies]
-addonfactory-splunk-conf-parser-lib = "*"
-colorama = ">=0.4.6,<0.5.0"
-defusedxml = ">=0.7.1,<0.8.0"
+addonfactory-splunk-conf-parser-lib = ">=0.3.3,<0.4.0"
+cookiecutter = ">=2.1.1,<3.0.0"
 dunamai = ">=1.9.0,<2.0.0"
 jinja2 = ">=2,<4"
 jsonschema = ">=4.4.0,<5.0.0"
 openapi3 = ">=1.7.0,<2.0.0"
 PyYAML = ">=6.0,<7.0"
-requests = ">=2.31.0,<3.0.0"
-urllib3 = "<2"
 
 [[package]]
 name = "splunk-appinspect"
-version = "3.4.0"
+version = "3.5.0"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = "*"
 files = [
-    {file = "splunk-appinspect-3.4.0.tar.gz", hash = "sha256:5234158696b2d367ea053a3ab9111f607e38b6be6ca93f9cad35e3d11dfcf5c6"},
+    {file = "splunk-appinspect-3.5.0.tar.gz", hash = "sha256:80b079ca8cd947bc7469376d9e7222f49eec9d6851514247be0acc200d2b2266"},
 ]
 
 [package.dependencies]
@@ -1153,7 +1300,7 @@ markdown = ">=3.1.1,<4.dev0"
 packaging = "23.0"
 packaging-legacy = "23.0"
 painter = ">=0.3.1,<1.dev0"
-pillow = "9.5.0"
+pillow = ">=9.5.0,<=10.0.0"
 python-magic = "0.4.24"
 pyyaml = ">=6.0.1,<7.dev0"
 regex = "2022.1.18"
@@ -1176,74 +1323,75 @@ semantic_version = ">=2.5.0"
 
 [[package]]
 name = "splunk-sdk"
-version = "1.7.4"
+version = "2.0.1"
 description = "The Splunk Software Development Kit for Python."
 optional = false
 python-versions = "*"
 files = [
-    {file = "splunk-sdk-1.7.4.tar.gz", hash = "sha256:8f3f149e3a0daf7526ed36882c109e4ec8080e417efe25d23f4578e86d38b9f2"},
+    {file = "splunk-sdk-2.0.1.tar.gz", hash = "sha256:a1cc9b24e0c9c79ef8e2845fedcca066638219eef0018163f97795dbfa367c67"},
 ]
+
+[package.dependencies]
+deprecation = "*"
 
 [[package]]
 name = "splunktalib"
-version = "3.0.4"
+version = "3.0.3"
 description = "Supporting library for Splunk Add-ons"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktalib-3.0.4-py3-none-any.whl", hash = "sha256:5d4226f0e402dd65d8457500b35d6c459642b6a5da81ec1830e8d57f03e90ecc"},
-    {file = "splunktalib-3.0.4.tar.gz", hash = "sha256:1ffeb9b7301712e2dbe937cdbc6ea66ac0de14bb91835c0b5cbb683a9f4eac05"},
+    {file = "splunktalib-3.0.3-py3-none-any.whl", hash = "sha256:828e5a7d3874239e1f36bf1c8c10a985b73b9307857bf01112438bd1cbd608e9"},
+    {file = "splunktalib-3.0.3.tar.gz", hash = "sha256:5392f520050d3edcf594badb946e53e3b8fda84a1dc0bec68585f9fae0b20037"},
 ]
 
 [package.dependencies]
 defusedxml = ">=0,<1"
-requests = ">=2.31.0,<3.0.0"
+requests = ">=2.26.0,<3.0.0"
 sortedcontainers = ">=2,<3"
-urllib3 = "<2"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.1.0"
+version = "6.0.8"
 description = ""
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktaucclib-6.1.0-py3-none-any.whl", hash = "sha256:fb04017611533cd2a36477478e9f771d9baa7b164429e9bf3f45e86e2e745ee2"},
-    {file = "splunktaucclib-6.1.0.tar.gz", hash = "sha256:8c29fcfadc5bd57702dedce824d1e3b897119c40cb00518d681622fd20e056e7"},
+    {file = "splunktaucclib-6.0.8-py3-none-any.whl", hash = "sha256:d7e99e1cd0a71d0ff54207fe75d8daf9b91b69c8c04aec2a4fe6f4bd81ab66f9"},
+    {file = "splunktaucclib-6.0.8.tar.gz", hash = "sha256:e8267196760445b05731dd6768f8ef4bef1a453c3670436d5a569eecdb635b8a"},
 ]
 
 [package.dependencies]
 PySocks = ">=1.7.1,<2.0.0"
-requests = ">=2.31.0,<3.0.0"
-solnlib = ">=4.11.2,<5.0.0"
-splunk-sdk = ">=1.6"
-splunktalib = ">=3.0.4,<4.0.0"
-urllib3 = "<2"
+requests = ">=2.26.0,<3.0.0"
+solnlib = ">=4.7.0,<5.0.0"
+splunk-sdk = ">=1.6.18"
+splunktalib = ">=3.0.0,<4.0.0"
+
+[[package]]
+name = "text-unidecode"
+version = "1.3"
+description = "The most basic Text::Unidecode port"
+optional = false
+python-versions = "*"
+files = [
+    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
+    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
+]
 
 [[package]]
 name = "types-requests"
-version = "2.31.0.6"
+version = "2.31.0.20231231"
 description = "Typing stubs for requests"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "types-requests-2.31.0.6.tar.gz", hash = "sha256:cd74ce3b53c461f1228a9b783929ac73a666658f223e28ed29753771477b3bd0"},
-    {file = "types_requests-2.31.0.6-py3-none-any.whl", hash = "sha256:a2db9cb228a81da8348b49ad6db3f5519452dd20a9c1e1a868c83c5fe88fd1a9"},
+    {file = "types-requests-2.31.0.20231231.tar.gz", hash = "sha256:0f8c0c9764773384122813548d9eea92a5c4e1f33ed54556b508968ec5065cee"},
+    {file = "types_requests-2.31.0.20231231-py3-none-any.whl", hash = "sha256:2e2230c7bc8dd63fa3153c1c0ae335f8a368447f0582fc332f17d54f88e69027"},
 ]
 
 [package.dependencies]
-types-urllib3 = "*"
-
-[[package]]
-name = "types-urllib3"
-version = "1.26.25.14"
-description = "Typing stubs for urllib3"
-optional = false
-python-versions = "*"
-files = [
-    {file = "types-urllib3-1.26.25.14.tar.gz", hash = "sha256:229b7f577c951b8c1b92c1bc2b2fdb0b49847bd2af6d1cc2a2e3dd340f3bda8f"},
-    {file = "types_urllib3-1.26.25.14-py3-none-any.whl", hash = "sha256:9683bbb7fb72e32bfe9d2be6e04875fbe1b3eeec3cbb4ea231435aa7fd6b4f0e"},
-]
+urllib3 = ">=2"
 
 [[package]]
 name = "typing-extensions"
@@ -1258,19 +1406,20 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "1.26.18"
+version = "2.0.7"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = ">=3.7"
 files = [
-    {file = "urllib3-1.26.18-py2.py3-none-any.whl", hash = "sha256:34b97092d7e0a3a8cf7cd10e386f401b3737364026c45e622aa02903dffe0f07"},
-    {file = "urllib3-1.26.18.tar.gz", hash = "sha256:f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0"},
+    {file = "urllib3-2.0.7-py3-none-any.whl", hash = "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e"},
+    {file = "urllib3-2.0.7.tar.gz", hash = "sha256:c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84"},
 ]
 
 [package.extras]
-brotli = ["brotli (==1.0.9)", "brotli (>=1.0.9)", "brotlicffi (>=0.8.0)", "brotlipy (>=0.6.0)"]
-secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "ipaddress", "pyOpenSSL (>=0.14)", "urllib3-secure-extra"]
-socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
+brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
+secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.1.0)", "urllib3-secure-extra"]
+socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
+zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "zipp"
@@ -1289,5 +1438,5 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 
 [metadata]
 lock-version = "2.0"
-python-versions = "3.7.16"
-content-hash = "83b1ea1bc6e75616a023915703ab24b6b4a2758c3f6e93b2f00a2a0840401f01"
+python-versions = "*"
+content-hash = "58cd15ff9c5f835bcb59c52053ebffacc6b120cdde0eecc5b20df55768aebeb8"

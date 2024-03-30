@@ -47,13 +47,13 @@ jobs:
           find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
           find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
 
+      - name: Install poetry
+        run: pipx install poetry
+
       - name: Set up Python 3.7
         uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # 4.7.1
         with:
           python-version: '3.7'
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
 
       - name: Pull dependencies
         run: |
