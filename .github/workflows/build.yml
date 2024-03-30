@@ -54,7 +54,7 @@ jobs:
           python-version: '3.7'
 
       - name: Install poetry
-        run: pipx install poetry
+        run: python -m pipx install poetry
 
       - name: Change app name
         run: |
