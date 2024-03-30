@@ -55,8 +55,15 @@ jobs:
         with:
           python-version: '3.7'
 
+      - name: Print environment
+        run: |
+          poetry env info
+          echo "GitHub ref: $GITHUB_REF"
+          echo "GitHub event: $GITHUB_EVENT"
+
       - name: Pull dependencies
         run: |
+          poetry env use 3.7
           poetry install --with dev,splunkslim
           poetry self add poetry-plugin-export
           mkdir package/lib
