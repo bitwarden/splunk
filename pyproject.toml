@@ -14,7 +14,7 @@ keywords = ["splunk", "bitwarden"]
 [tool.poetry.dependencies]
 python = "^3.7"
 requests = "^2"
-splunk-sdk = "^1"
+splunk-sdk = "^2"
 splunktaucclib = "^6"
 python-dateutil = "^2"
 
