@@ -4,7 +4,7 @@ import * as Splunk from './splunk_helpers.js';
 import * as Config from './setup_configuration.js';
 import * as StoragePasswords from './storage_passwords.js';
 
-const app_name = "bitwarden_event_logs";
+const app_name = "bitwarden_event_logs_beta";
 
 export async function getIndexes(splunk_js_sdk) {
     // Create the Splunk JS SDK Service object

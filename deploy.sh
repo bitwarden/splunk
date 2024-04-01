@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# docker exec -u splunk splunk bash -c "/opt/splunk/bin/splunk remove app bitwarden_event_logs -auth admin:password"
+# docker exec -u splunk splunk bash -c "/opt/splunk/bin/splunk remove app bitwarden_event_logs_beta -auth admin:password"
 
 # Upload
 docker cp output/bitwarden_event_logs.tar.gz splunk:/opt/splunk/bitwarden_event_logs.tar.gz

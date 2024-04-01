@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION=$(poetry version | awk -F ' ' '{print $2}')
-APP_NAME="bitwarden_event_logs"
+APP_NAME="bitwarden_event_logs_beta"
 
 # Clean
 rm -rf output/

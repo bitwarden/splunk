@@ -1,10 +1,10 @@
 {
   "schemaVersion": "2.0.0",
   "info": {
-    "title": "Bitwarden Event Logs",
+    "title": "Bitwarden Event Logs (beta)",
     "id": {
       "group": null,
-      "name": "bitwarden_event_logs",
+      "name": "bitwarden_event_logs_beta",
       "version": "2.0.0"
     },
     "author": [

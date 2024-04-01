@@ -1,6 +1,6 @@
 "use strict";
 
-const app_name = "bitwarden_event_logs";
+const app_name = "bitwarden_event_logs_beta";
 
 require.config({
     paths: {
