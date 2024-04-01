@@ -9,7 +9,7 @@ from solnlib.log import Logs
 
 from mappers import datetime_to_str
 
-app_name = "bitwarden_event_logs_beta"
+app_name = "bitwarden_event_logs"
 
 def read_session_token() -> str:
     session_token = sys.stdin.readline(5000).strip()
