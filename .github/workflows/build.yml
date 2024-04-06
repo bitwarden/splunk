@@ -63,10 +63,13 @@ jobs:
 
       - name: Pull dependencies
         run: |
-          poetry install --with dev,splunkslim
+          poetry install --with dev,test,splunkslim
           poetry self add poetry-plugin-export
           mkdir package/lib
           poetry export -f requirements.txt --output package/lib/requirements.txt
+
+      - name: Tests
+        run: poetry run pytest
 
       - name: Build Splunk App
         run: |

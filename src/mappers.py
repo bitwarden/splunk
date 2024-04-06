@@ -1,4 +1,3 @@
-import re
 from datetime import datetime
 from typing import Dict, Any, Optional
 
@@ -74,22 +73,13 @@ def datetime_from_str(date_str: Optional[str]) -> Optional[datetime]:
 
     # no time
     if ":" not in date_str:
-        date_str = date_str + "T00:00:00"
+        return dateutil.parser.isoparse(date_str + "T00:00:00Z")
 
-    # no fractional seconds
-    if "." not in date_str:
-        date_str = date_str + ".0"
+    # no timezone
+    if "Z" not in date_str and "+" not in date_str:
+        return dateutil.parser.isoparse(date_str + "Z")
 
-    date_str_split = date_str.split(".")
-
-    fractional_seconds_str = date_str_split[1]
-    fractional_seconds_str = re.sub(r"\D", "", fractional_seconds_str)
-    if len(fractional_seconds_str) > 6:
-        fractional_seconds_str = fractional_seconds_str[:6]
-
-    new_date_str = f"{date_str_split[0]}.{fractional_seconds_str}Z"
-
-    return dateutil.parser.isoparse(new_date_str)
+    return dateutil.parser.isoparse(date_str)
 
 
 def datetime_to_str(date: datetime) -> str:

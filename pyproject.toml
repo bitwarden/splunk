@@ -40,6 +40,12 @@ optional = true
 [tool.poetry.group.splunkslim.dependencies]
 splunk-packaging-toolkit = "*"
 
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
