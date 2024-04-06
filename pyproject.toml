@@ -12,33 +12,25 @@ readme = "README.md"
 keywords = ["splunk", "bitwarden"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-requests = "^2"
-splunk-sdk = "^1"
-splunktaucclib = "^6"
-python-dateutil = "^2"
+requests = { version = "2.31.0", python = "~3.7" }
+splunk-sdk = { version = "2.0.1", python = "~3.7" }
+splunktaucclib = { version = "6.0.8", python = "~3.7" }
+python-dateutil = { version = "2.9.0.post0", python = "~3.7" }
 
 [tool.poetry.group.dev]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-python-dotenv = "*"
-#flake8 = "*"
-#black = "*"
-#mypy = "*"
-#isort = "*"
-#pre-commit = "*"
-#pre-commit-hooks = "*"
-types-requests = "^2"
-#docformatter = {extras = ["tomli"], version = "^1.7.5"}
-splunk-add-on-ucc-framework = "*"
-splunk-appinspect = "*"
+python-dotenv = { version = "0.21.1", python = "^3.7" }
+types-requests = { version = "2.31.0.6", python = "^3.7" }
+splunk-add-on-ucc-framework = { version = "5.41.0", python = "^3.7" }
+splunk-appinspect = { version = "3.5.0", python = "^3.7" }
 
 [tool.poetry.group.splunkslim]
 optional = true
 
 [tool.poetry.group.splunkslim.dependencies]
-splunk-packaging-toolkit = "*"
+splunk-packaging-toolkit = { version = "1.0.1", python = "^3.7" }
 
 [build-system]
 requires = ["poetry-core"]

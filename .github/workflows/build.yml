@@ -42,11 +42,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
-      - name: Print environment
+      - name: Change app name
         run: |
-          dotnet --info
-          echo "GitHub ref: $GITHUB_REF"
-          echo "GitHub event: $GITHUB_EVENT"
+          find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
+          find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
 
       - name: Install poetry
         run: pipx install poetry
@@ -55,18 +54,22 @@ jobs:
         uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # 4.7.1
         with:
           python-version: '3.7'
-          cache: 'poetry'
-      - name: Change app name
+
+      - name: Print environment
         run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
+          poetry env info
+          echo "GitHub ref: $GITHUB_REF"
+          echo "GitHub event: $GITHUB_EVENT"
 
       - name: Pull dependencies
         run: |
-          poetry install --with dev,splunkslim
+          poetry env use system
+          poetry install --no-cache --no-root
           poetry self add poetry-plugin-export
           mkdir package/lib
           poetry export -f requirements.txt --output package/lib/requirements.txt
+          poetry env use 3.7
+          poetry install --no-cache --no-root --with dev,splunkslim
 
       - name: Build Splunk App
         run: |
