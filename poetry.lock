@@ -1285,21 +1285,22 @@ urllib3 = "<2"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.8"
+version = "6.1.0"
 description = ""
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "splunktaucclib-6.0.8-py3-none-any.whl", hash = "sha256:d7e99e1cd0a71d0ff54207fe75d8daf9b91b69c8c04aec2a4fe6f4bd81ab66f9"},
-    {file = "splunktaucclib-6.0.8.tar.gz", hash = "sha256:e8267196760445b05731dd6768f8ef4bef1a453c3670436d5a569eecdb635b8a"},
+    {file = "splunktaucclib-6.1.0-py3-none-any.whl", hash = "sha256:fb04017611533cd2a36477478e9f771d9baa7b164429e9bf3f45e86e2e745ee2"},
+    {file = "splunktaucclib-6.1.0.tar.gz", hash = "sha256:8c29fcfadc5bd57702dedce824d1e3b897119c40cb00518d681622fd20e056e7"},
 ]
 
 [package.dependencies]
 PySocks = ">=1.7.1,<2.0.0"
-requests = ">=2.26.0,<3.0.0"
-solnlib = ">=4.7.0,<5.0.0"
-splunk-sdk = ">=1.6.18"
-splunktalib = ">=3.0.0,<4.0.0"
+requests = ">=2.31.0,<3.0.0"
+solnlib = ">=4.11.2,<5.0.0"
+splunk-sdk = ">=1.6"
+splunktalib = ">=3.0.4,<4.0.0"
+urllib3 = "<2"
 
 [[package]]
 name = "tomli"
@@ -1382,4 +1383,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.7"
-content-hash = "9aad36ef5ed9cb7f70a7fa993abaf4d54482c2f36b9545fbba8f7ff8122eeb42"
+content-hash = "0e422f6281a5a9262eaa882d11a5229789f8d2e596c87fda63e727e278b3a884"
