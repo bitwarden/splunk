@@ -73,6 +73,7 @@ jobs:
 
       - name: Build Splunk App
         run: |
+          poetry env use 3.7
           mkdir package/bin
           cp -R src/* package/bin/
           export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
