@@ -63,12 +63,11 @@ jobs:
 
       - name: Pull dependencies
         run: |
-          poetry env use system
+          poetry env use 3.7
           poetry install --no-cache --no-root
           poetry self add poetry-plugin-export
           mkdir package/lib
           poetry export -f requirements.txt --output package/lib/requirements.txt
-          poetry env use 3.7
           poetry install --no-cache --no-root --with dev,test,splunkslim
 
       - name: Tests
