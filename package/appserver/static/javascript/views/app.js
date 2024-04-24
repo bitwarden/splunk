@@ -70,6 +70,7 @@ define(["react", "splunkjs/splunk"], function(react, splunk_js_sdk){
               ),
             ]),
             e("h3", null, "Self-hosted Bitwarden servers may need to reconfigure their installation's URL."),
+            e("h4", null, "Insecure urls starting with 'http://' are not allowed, use 'https://' instead."),
             e("label", null, [
               "Server URL ",
               e("br"),

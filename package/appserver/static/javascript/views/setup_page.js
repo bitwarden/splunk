@@ -53,6 +53,10 @@ export async function perform(splunk_js_sdk, setup_options) {
             { index: index },
         );
 
+        if (serverUrl.startsWith("http://")) {
+            throw new Error("Insecure urls starting with 'http://' are not allowed, use 'https://' instead.");
+        }
+
         // Update script.conf
         const isBitwardenCloud = serverUrl === "https://bitwarden.com" || serverUrl === "bitwarden.com";
         const apiUrl = isBitwardenCloud ? "https://api.bitwarden.com" : serverUrl + "/api/";

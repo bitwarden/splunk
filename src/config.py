@@ -8,7 +8,7 @@ from models import (
     BitwardenEventsRequest
 )
 from splunk_api import SplunkApi
-from utils import get_logger, set_logging_level, obj_to_json, app_name
+from utils import get_logger, set_logging_level, obj_to_json, app_name, secure_url
 
 
 class Config:
@@ -87,8 +87,8 @@ class Config:
 
         start_date = datetime_from_str(settings_config.get('startDate', None))
 
-        return SettingsConfig(api_url=api_url,
-                              identity_url=identity_url,
+        return SettingsConfig(api_url=secure_url(api_url),
+                              identity_url=secure_url(identity_url),
                               start_date=start_date,
                               logging_level=settings_config.get('loggingLevel', None))
 

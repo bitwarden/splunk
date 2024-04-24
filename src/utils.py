@@ -9,7 +9,10 @@ from solnlib.log import Logs
 
 from mappers import datetime_to_str
 
+from urllib.parse import urlparse
+
 app_name = "bitwarden_event_logs_beta"
+
 
 def read_session_token() -> str:
     session_token = sys.stdin.readline(5000).strip()
@@ -54,3 +57,10 @@ def obj_to_json(obj):
     return json.dumps(obj_dict,
                       default=json_serial,
                       separators=(",", ":"))
+
+
+def secure_url(url: str):
+    result = urlparse(url, scheme='https')
+    if result.scheme == 'http':
+        raise Exception("URL must start with https://")
+    return result.geturl()
