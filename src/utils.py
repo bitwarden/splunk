@@ -62,5 +62,6 @@ def obj_to_json(obj):
 def secure_url(url: str):
     result = urlparse(url, scheme='https')
     if result.scheme == 'http':
-        raise Exception("URL must start with https://")
+        raise Exception("URLs starting with 'http://' is considered insecure and not allowed in Splunk. "
+                        "Please use 'https://' instead.")
     return result.geturl()

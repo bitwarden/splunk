@@ -54,7 +54,8 @@ export async function perform(splunk_js_sdk, setup_options) {
         );
 
         if (serverUrl.startsWith("http://")) {
-            throw new Error("Insecure urls starting with 'http://' are not allowed, use 'https://' instead.");
+            throw new Error("URLs starting with 'http://' is considered insecure and not allowed in Splunk. " +
+                "Please use 'https://' instead.");
         }
 
         // Update script.conf
