@@ -54,7 +54,7 @@ export async function perform(splunk_js_sdk, setup_options) {
         );
 
         if (serverUrl.startsWith("http://")) {
-            throw new Error("URLs starting with 'http://' is considered insecure and not allowed in Splunk. " +
+            throw new URIError("URLs starting with 'http://' is considered insecure and not allowed in Splunk. " +
                 "Please use 'https://' instead.");
         }
 
@@ -78,7 +78,7 @@ export async function perform(splunk_js_sdk, setup_options) {
         await Config.reload_splunk_app(service, app_name);
         Config.redirect_to_splunk_app_homepage(app_name);
     } catch (error) {
-        console.log('Error:', error);
-        alert('Error:' + error);
+        console.log('Error: ', error);
+        alert('Error: ' + error);
     }
 }
