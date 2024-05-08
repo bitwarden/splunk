@@ -133,7 +133,7 @@ jobs:
         run: exit 1
 
       - name: Login to Azure - CI subscription
-        uses: Azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2 # v1.4.7
+        uses: Azure/login@6b2456866fc08b011acb422a92a4aa20e2c4de32 # v2.1.0
         if: failure()
         with:
           creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
