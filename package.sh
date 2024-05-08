@@ -3,6 +3,9 @@
 VERSION=$(poetry version | awk -F ' ' '{print $2}')
 APP_NAME="bitwarden_event_logs_beta"
 
+mkdir -p package/bin
+mkdir -p package/lib
+
 # Clean
 rm -rf output/
 rm -rf package/bin/*

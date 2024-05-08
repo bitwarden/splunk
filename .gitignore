@@ -162,6 +162,7 @@ cython_debug/
 output/
 package/bin/
 package/lib/
+!package/lib/requirements.txt
 !package/app.manifest
 !package/README/*
 
