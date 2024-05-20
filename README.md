@@ -15,7 +15,7 @@ Activate shell: `poetry shell`
 
 Install dependencies: `poetry install --with dev`
 
-### Local Development
+### Local development
 
 - Install docker.
 - Run splunk enterprise
@@ -28,7 +28,7 @@ Install dependencies: `poetry install --with dev`
   - `tail -f /opt/splunk/var/log/splunk/bitwarden_event_logs_beta.log`
 - Access Splunk url in the browser: http://localhost:8001
   - Enter credentials, login: `admin`, password: `password`
-  - Click on the *Apps* -> *Bitwarden Event Logs*
+  - Click on the _Apps_ -> _Bitwarden Event Logs_
   - Complete the Setup
 
 ### Preparing for release
@@ -36,7 +36,9 @@ Install dependencies: `poetry install --with dev`
 Modify the version in the [pyproject.toml](pyproject.toml)
 
 #### Preparing for prod (non-beta) release
+
 Remove the `_beta` suffix from:
+
 - `app_name` variable in [utils.py](src%2Futils.py)
 - `app_name` variable in [setup_page.js](package%2Fappserver%2Fstatic%2Fjavascript%2Fviews%2Fsetup_page.js)
 - `app_name` variable in [setup_page.js](package%2Fappserver%2Fstatic%2Fjavascript%2Fsetup_page.js)
@@ -44,8 +46,5 @@ Remove the `_beta` suffix from:
 - from first line `[script://` in [inputs.conf](package%2Fdefault%2Finputs.conf)
 - `id.name` and `package.id` in [app.conf](package%2Fdefault%2Fapp.conf)
 
-[Bitwarden Splunk SIEM]:https://bitwarden.com/help/splunk-siem/
-
-[poetry]:https://python-poetry.org/docs/#installation
-
-
+[Bitwarden Splunk SIEM]: https://bitwarden.com/help/splunk-siem/
+[poetry]: https://python-poetry.org/docs/#installation
