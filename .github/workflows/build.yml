@@ -3,13 +3,10 @@ name: Build
 
 on:
   push:
-    branches-ignore:
-      - 'l10n_master'
-      - 'gh-pages'
   workflow_dispatch:
   schedule:
     # Splunk App Inspect checks - https://dev.splunk.com/enterprise/docs/whatsnew/#AppInspect-updates
-    - cron: '0 0 1 * *'
+    - cron: "0 0 1 * *"
 
 jobs:
   cloc:
@@ -27,17 +24,16 @@ jobs:
       - name: Print lines of code
         run: cloc --include-lang CSS,JavaScript,XML,Python --vcs git
 
-
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
     strategy:
       matrix:
         app:
-          - id: 'bitwarden_event_logs'
-            name: 'Bitwarden Event Logs'
-          - id: 'bitwarden_event_logs_beta'
-            name: 'Bitwarden Event Logs (beta)' 
+          - id: "bitwarden_event_logs"
+            name: "Bitwarden Event Logs"
+          - id: "bitwarden_event_logs_beta"
+            name: "Bitwarden Event Logs (beta)"
     steps:
       - name: Checkout repo
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
@@ -53,7 +49,7 @@ jobs:
       - name: Set up Python 3.7
         uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # 4.7.1
         with:
-          python-version: '3.7'
+          python-version: "3.7"
 
       - name: Print environment
         run: |
@@ -114,7 +110,6 @@ jobs:
           name: ${{ matrix.app.id }}.tar.gz
           path: output/${{ matrix.app.id }}.tar.gz
           if-no-files-found: error
-
 
   check-failures:
     name: Check for failures
