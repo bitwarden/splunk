@@ -74,5 +74,5 @@ jobs:
           args: >
             -Dsonar.organization=${{ github.repository_owner }}
             -Dsonar.projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}
-            -Dsonar.sources=src/
+            -Dsonar.sources=src/,package/
             -Dsonar.tests=tests/
