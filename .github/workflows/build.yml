@@ -47,7 +47,7 @@ jobs:
         run: pipx install poetry
 
       - name: Set up Python 3.7
-        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # 4.8.0
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # 5.1.0
         with:
           python-version: "3.7"
 
