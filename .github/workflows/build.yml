@@ -47,7 +47,7 @@ jobs:
         run: pipx install poetry
 
       - name: Set up Python 3.7
-        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # 4.7.1
+        uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a109aa # 4.8.0
         with:
           python-version: "3.7"
 
@@ -128,7 +128,7 @@ jobs:
         run: exit 1
 
       - name: Login to Azure - CI subscription
-        uses: Azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2 # v1.4.7
+        uses: Azure/login@e15b166166a8746d1a47596803bd8c1b595455cf # v1.6.0
         if: failure()
         with:
           creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
@@ -142,7 +142,7 @@ jobs:
           secrets: "devops-alerts-slack-webhook-url"
 
       - name: Notify Slack on failure
-        uses: act10ns/slack@da3191ebe2e67f49b46880b4633f5591a96d1d33 # v2.0.0
+        uses: act10ns/slack@44541246747a30eb3102d87f7a4cc5471b0ffb7d # v2.1.0
         if: failure()
         env:
           SLACK_WEBHOOK_URL: ${{ steps.retrieve-secrets.outputs.devops-alerts-slack-webhook-url }}
