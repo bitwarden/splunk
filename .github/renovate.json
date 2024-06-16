@@ -13,5 +13,6 @@
       "matchManagers": ["poetry"],
       "matchUpdateTypes": ["minor", "patch"]
     }
-  ]
+  ],
+  "ignoreDeps": ["python"]
 }
