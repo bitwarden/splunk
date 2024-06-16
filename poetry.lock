@@ -1143,13 +1143,13 @@ files = [
 
 [[package]]
 name = "solnlib"
-version = "4.14.1"
+version = "5.0.0"
 description = "The Splunk Software Development Kit for Splunk Solutions"
 optional = false
 python-versions = "<4.0,>=3.7"
 files = [
-    {file = "solnlib-4.14.1-py3-none-any.whl", hash = "sha256:ef86a38f8860b659064851339f5f89077aad54cf468396d4905a892a27e25bed"},
-    {file = "solnlib-4.14.1.tar.gz", hash = "sha256:cfe3a5c7e9214730746e6e21063dfc50dd6e7d85935a77721e78d76284b976ff"},
+    {file = "solnlib-5.0.0-py3-none-any.whl", hash = "sha256:84b45ce627c2a6d7fafe08d93bb887699768f96ab56d4f115598e66c3d34beb3"},
+    {file = "solnlib-5.0.0.tar.gz", hash = "sha256:351d5121c5b6804a71d0ec70b7763cca7c50410173df8620db543203d1c8f7b6"},
 ]
 
 [package.dependencies]
@@ -1183,13 +1183,13 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.41.0"
+version = "5.46.0"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = "<4.0,>=3.7"
 files = [
-    {file = "splunk_add_on_ucc_framework-5.41.0-py3-none-any.whl", hash = "sha256:4ede1e5513f5abfc9f592ea9a1140b2b78c5b48e257d1dd0d577c8c28f69e1bd"},
-    {file = "splunk_add_on_ucc_framework-5.41.0.tar.gz", hash = "sha256:45309fde6c6a942c4697346abcd059ddf2c1016540133e1627650e0c8215e896"},
+    {file = "splunk_add_on_ucc_framework-5.46.0-py3-none-any.whl", hash = "sha256:c94b1a7973521285385d27c7c6cf22175d04064a1d311941071b0209eab0a3d4"},
+    {file = "splunk_add_on_ucc_framework-5.46.0.tar.gz", hash = "sha256:6a29c5553f616df799c4acb97aa18be4a4ae1a3e57ca1fc9c0068ef7cf2e60ac"},
 ]
 
 [package.dependencies]
@@ -1206,12 +1206,12 @@ urllib3 = "<2"
 
 [[package]]
 name = "splunk-appinspect"
-version = "3.5.0"
+version = "3.7.0"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = "*"
 files = [
-    {file = "splunk-appinspect-3.5.0.tar.gz", hash = "sha256:80b079ca8cd947bc7469376d9e7222f49eec9d6851514247be0acc200d2b2266"},
+    {file = "splunk-appinspect-3.7.0.tar.gz", hash = "sha256:e838474ba1834a12ff100432ba769f7f0dff8a1c6bfb85f2d7cf6b4660fdd575"},
 ]
 
 [package.dependencies]
@@ -1233,7 +1233,7 @@ markdown = ">=3.1.1,<4.dev0"
 packaging = "23.0"
 packaging-legacy = "23.0"
 painter = ">=0.3.1,<1.dev0"
-pillow = ">=9.5.0,<=10.0.0"
+pillow = ">=9.5.0,<=10.3.0"
 python-magic = "0.4.24"
 pyyaml = ">=6.0.1,<7.dev0"
 regex = "2022.1.18"
@@ -1286,21 +1286,22 @@ urllib3 = "<2"
 
 [[package]]
 name = "splunktaucclib"
-version = "6.0.8"
+version = "6.2.1"
 description = ""
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = "<4.0,>=3.7"
 files = [
-    {file = "splunktaucclib-6.0.8-py3-none-any.whl", hash = "sha256:d7e99e1cd0a71d0ff54207fe75d8daf9b91b69c8c04aec2a4fe6f4bd81ab66f9"},
-    {file = "splunktaucclib-6.0.8.tar.gz", hash = "sha256:e8267196760445b05731dd6768f8ef4bef1a453c3670436d5a569eecdb635b8a"},
+    {file = "splunktaucclib-6.2.1-py3-none-any.whl", hash = "sha256:7cb0088ab65d79c05c015588afb38720de84bf2571ae2f62366f7d8b75169b6a"},
+    {file = "splunktaucclib-6.2.1.tar.gz", hash = "sha256:8c736148851d3db63f68d716ffb8bca24ba99910e8f51f9f90aadbdaa42f15c0"},
 ]
 
 [package.dependencies]
 PySocks = ">=1.7.1,<2.0.0"
-requests = ">=2.26.0,<3.0.0"
-solnlib = ">=4.7.0,<5.0.0"
-splunk-sdk = ">=1.6.18"
-splunktalib = ">=3.0.0,<4.0.0"
+requests = ">=2.31.0,<3.0.0"
+solnlib = ">=5.0.0,<6.0.0"
+splunk-sdk = ">=1.6"
+splunktalib = ">=3.0.4,<4.0.0"
+urllib3 = "<2"
 
 [[package]]
 name = "tomli"
@@ -1382,5 +1383,5 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 
 [metadata]
 lock-version = "2.0"
-python-versions = "3.7.17"
-content-hash = "0e4f97491f0c8c489c741b664ce4a13033f38c45dcbe9384e94ada369e6c4cce"
+python-versions = ">=3.7.17"
+content-hash = "ad52cfff258258536240a8a65784d87e0ff00bbae76761b5c5298d2c01cc0623"

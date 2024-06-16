@@ -25,7 +25,7 @@
         "restRoot": "bitwarden_event_logs",
         "version": "1.2.2",
         "displayName": "Bitwarden Event Logs (beta)",
-        "schemaVersion": "0.0.3",
-        "_uccVersion": "5.41.0"
+        "schemaVersion": "0.0.7",
+        "_uccVersion": "5.46.0"
     }
 }
