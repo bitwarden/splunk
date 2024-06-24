@@ -23,7 +23,7 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 python = ">=3.7"
-python-dotenv = "0.21.1"
+python-dotenv = "1.0.1"
 types-requests = "2.31.0.6"
 splunk-add-on-ucc-framework = { version = "5.46.0", python = "^3.7" }
 splunk-appinspect = { version = "3.7.0", python = "^3.7" }
