@@ -14,6 +14,7 @@ Follow the steps in [Bitwarden Splunk SIEM][Bitwarden Splunk SIEM]
 2. If you're using an Apple Silicon Mac, open *Docker* -> *Settings* -> *Features in development* -> enable "Use Rosetta for x86/amd64 emulation on Apple Silicon"
 3. Run Splunk Enterprise
   `docker run --rm --platform linux/amd64 --name splunk -d -p 8001:8000 -p 8089:8089 -e SPLUNK_START_ARGS='--accept-license' -e SPLUNK_PASSWORD='password' splunk/splunk:latest` (replace 'password' with your desired admin password)
+4. Confirm that Splunk is running by navigating to http://localhost:8001
 
 ### Configure your environment
 
