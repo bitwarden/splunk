@@ -21,6 +21,7 @@ Follow the steps in [Bitwarden Splunk SIEM][Bitwarden Splunk SIEM]
 1. Clone the Github repository: `git clone https://github.com/bitwarden/splunk.git`
 2. Install Python 3.8
 3. Install [Poetry][poetry]
+4. If you're using a Mac, install libmagic: `brew install libmagic`
 4. Navigate to your local repository
 5. Activate the poetry shell: `poetry shell`
 6. Tell poetry to use Python 3.8: `poetry env use python3.8`
