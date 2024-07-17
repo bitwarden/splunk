@@ -2,7 +2,7 @@
 
 A Splunk app for reporting Bitwarden event logs.
 
-# Getting started
+## Getting started
 
 Follow the steps in [Bitwarden Splunk SIEM][Bitwarden Splunk SIEM]
 
