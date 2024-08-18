@@ -12,7 +12,7 @@ readme = "README.md"
 keywords = ["splunk", "bitwarden"]
 
 [tool.poetry.dependencies]
-python = ">=3.7.17"
+python = ">=3.7.17, <=3.10"
 requests = "2.31.0"
 splunk-sdk = "2.0.1"
 splunktaucclib = { version = "6.2.1", python = "^3.7" }
@@ -22,7 +22,7 @@ python-dateutil = "2.9.0.post0"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-python = ">=3.7"
+python = ">=3.7, <=3.10"
 python-dotenv = "0.21.1"
 types-requests = "2.31.0.6"
 splunk-add-on-ucc-framework = { version = "5.46.0", python = "^3.7" }
