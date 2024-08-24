@@ -5,17 +5,26 @@ APP_NAME="bitwarden_event_logs_beta"
 
 mkdir -p package/bin
 mkdir -p package/lib
+mkdir -p package/appserver/static/setup
 
 # Clean
 rm -rf output/
 rm -rf package/bin/*
 rm -rf package/lib/*
+rm -rf package/appserver/static/setup/*
 
 # Build, Package
+## Build UI frontend
+pushd ui || exit
+npm install
+npm run build
+popd || exit
+cp ui/dist/setup/{runtime.js,polyfills.js,main.js,styles.css} package/appserver/static/setup
+## Build Python app
 poetry export -f requirements.txt --output package/lib/requirements.txt
 cp -R src/* package/bin/
 
-poetry run ucc-gen build --ta-version ${VERSION}
+poetry run ucc-gen build --ta-version "${VERSION}"
 ## cleanup python files
 rm -rf output/$APP_NAME/{bin,lib}/__pycache__
 rm -rf output/$APP_NAME/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
@@ -26,7 +35,7 @@ rm -rf output/$APP_NAME/default/{restmap.conf,web.conf,bitwarden_event_logs_sett
 rm -rf output/$APP_NAME/README/bitwarden_event_logs_settings.conf.spec
 poetry run ucc-gen package --path output/$APP_NAME/ -o output/
 
-mv output/${APP_NAME}-${VERSION}.tar.gz output/bitwarden_event_logs.tar.gz
+mv "output/${APP_NAME}-${VERSION}.tar.gz" output/bitwarden_event_logs.tar.gz
 
 # Validate
 poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz

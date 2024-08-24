@@ -1,0 +1,40 @@
+
+services:
+  splunk91:
+    image: splunk/splunk:9.1
+    platform: 'linux/amd64'
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+    ports:
+      - 8000:8000
+      - 8089:8089
+    volumes:
+      - splunk_data_91:/opt/splunk/var
+  splunk92:
+    image: splunk/splunk:9.2
+    platform: 'linux/amd64'
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+    ports:
+      - 8000:8000
+      - 8089:8089
+    volumes:
+      - splunk_data_92:/opt/splunk/var
+  splunk93:
+    image: splunk/splunk:9.3
+    platform: 'linux/amd64'
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+    ports:
+      - 8000:8000
+      - 8089:8089
+    volumes:
+      - splunk_data_93:/opt/splunk/var
+
+volumes:
+  splunk_data_91:
+  splunk_data_92:
+  splunk_data_93:
