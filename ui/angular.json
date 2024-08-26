@@ -30,7 +30,10 @@
               }
             ],
             "styles": ["projects/setup/src/styles.scss"],
-            "scripts": [],
+            "scripts": [
+              "node_modules/splunk-sdk/client/splunk.min.js",
+              "node_modules/jquery/dist/jquery.min.js"
+            ],
             "outputHashing": "none",
             "allowedCommonJsDependencies": ["jquery"]
           },
@@ -41,7 +44,11 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "scripts": [
+                "node_modules/splunk-sdk/client/splunk.js",
+                "node_modules/jquery/dist/jquery.js"
+              ]
             }
           },
           "defaultConfiguration": "production"

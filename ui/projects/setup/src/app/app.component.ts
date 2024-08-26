@@ -4,7 +4,7 @@ import { FormsModule, NG_VALIDATORS } from "@angular/forms";
 import { AsyncPipe, KeyValuePipe, NgForOf, NgIf } from "@angular/common";
 import { SplunkService } from "../splunk/splunk.service";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { from, map } from "rxjs";
+import { concat, concatMap, concatWith, from, map, mergeWith } from "rxjs";
 import { SecureUrlValidatorDirective } from "../validators/secure-url-validator.directive";
 import { ValueSelectedOrProvidedValidatorDirective } from "../validators/value-selected-or-provided-validator.directive";
 import { SetupForm } from "../models/setup-form";
@@ -49,6 +49,7 @@ export class AppComponent {
   };
 
   indexes: Signal<string[] | undefined>;
+
   submitError: WritableSignal<string | undefined> = signal(undefined);
 
   constructor(
@@ -63,8 +64,9 @@ export class AppComponent {
   }
 
   async onSubmit() {
-    this.submitError.set(undefined);
     console.log("Submit", this.model);
+
+    this.submitError.set(undefined);
 
     try {
       // Store secrets
@@ -88,6 +90,7 @@ export class AppComponent {
       const identityUrl = isBitwardenCloud
         ? `https://identity.${serverUrl.host}`
         : serverUrl + "/identity";
+      console.log(apiUrl, identityUrl);
       await this.bitwardenSplunkService.updateScriptConfigurationFile(
         apiUrl,
         identityUrl,

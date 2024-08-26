@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Index, SplunkJs } from "./splunkjs";
+import { ConfigurationStanza, Index, SplunkJs } from "./splunkjs";
 import { AppConfig } from "../config";
 
 @Injectable({
@@ -33,11 +33,26 @@ export class SplunkService {
     const storagePasswordCollection = this.bitwardenAppService
       .getService()
       .storagePasswords(this.bitwardenAppService.namespace);
+    await storagePasswordCollection.fetch();
     await storagePasswordCollection.createOrReplace({
       name,
       realm,
       password,
     });
+  }
+
+  async getConfiguration(
+    filename: string,
+    stanzaName: string,
+  ): Promise<ConfigurationStanza> {
+    const configurationsCollection = this.bitwardenAppService
+      .getService()
+      .configurations(this.bitwardenAppService.namespace);
+    await configurationsCollection.fetch();
+    const configurationFile =
+      await configurationsCollection.getConfFile(filename);
+    console.log(configurationFile);
+    return configurationFile.item(stanzaName);
   }
 
   async upsertConfiguration(
@@ -48,6 +63,7 @@ export class SplunkService {
     const configurationsCollection = this.bitwardenAppService
       .getService()
       .configurations(this.bitwardenAppService.namespace);
+    await configurationsCollection.fetch();
     await configurationsCollection.createAsync(
       filename,
       stanzaName,
@@ -55,13 +71,13 @@ export class SplunkService {
     );
   }
 
-  async reloadConfigurationFile(filename: string) {
-    const configurationsCollection = this.bitwardenAppService
+  async reloadApp(appName: string) {
+    const appsService = this.bitwardenAppService
       .getService()
-      .configurations(this.bitwardenAppService.namespace);
-    const configurationFile =
-      await configurationsCollection.getConfFile(filename);
-    console.log(configurationFile);
-    await configurationFile.reload();
+      .apps(this.bitwardenAppService.namespace);
+    await appsService.fetch();
+    const app = appsService.item(appName);
+    console.log(app);
+    await app.reload();
   }
 }

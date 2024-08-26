@@ -40,8 +40,8 @@ jobs:
 
       - name: Change app name
         run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
+          find . -type f -exec sed -i 's/bitwarden_event_logs/${{ matrix.app.id }}/g' {} \;
+          find . -type f -exec sed -i 's/Bitwarden Event Logs/${{ matrix.app.name }}/g' {} \;
 
       - name: Install poetry
         run: pipx install poetry

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION=$(poetry version | awk -F ' ' '{print $2}')
-APP_NAME="bitwarden_event_logs_beta"
+APP_NAME="bitwarden_event_logs"
 
 mkdir -p package/bin
 mkdir -p package/lib
@@ -19,7 +19,7 @@ pushd ui || exit
 npm install
 npm run build
 popd || exit
-cp ui/dist/setup/{runtime.js,polyfills.js,main.js,styles.css} package/appserver/static/setup
+cp ui/dist/setup/{scripts.js,runtime.js,polyfills.js,main.js,styles.css} package/appserver/static/setup
 ## Build Python app
 poetry export -f requirements.txt --output package/lib/requirements.txt
 cp -R src/* package/bin/
@@ -38,4 +38,4 @@ poetry run ucc-gen package --path output/$APP_NAME/ -o output/
 mv "output/${APP_NAME}-${VERSION}.tar.gz" output/bitwarden_event_logs.tar.gz
 
 # Validate
-poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz
+#poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz

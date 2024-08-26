@@ -1,9 +1,6 @@
-// This ia a global variable of JS SDK in splunk browser.
-// Can't use splunk-sdk npm module, since it relies on nodejs runtime.
-declare var splunkjs: any;
-
-// Splunk browser HTTP client uses jquery and needs $ exposed as variable.
+// import * from "splunk-sdk/client/splunk";
 import jQuery from "jquery";
+import { isDevMode } from "@angular/core";
 
 export type AllOrString = "-" | string;
 
@@ -15,8 +12,14 @@ export type Namespace = {
   sharing: NamespaceSharing;
 };
 
-export interface CollectionService<T> {
+export interface Entity {
+  reload(): Promise<void>;
+}
+
+export interface CollectionService<T extends Entity> {
   fetch(): Promise<any>;
+
+  item(name: string): T;
 
   list(): T[];
 }
@@ -25,29 +28,46 @@ export type Index = {
   name: string;
 };
 
+export interface IndexEntity extends Index, Entity {}
+
 export type StoragePassword = {
   name: string;
   realm: string;
   password: string;
 };
 
-export interface Entity<T> {
-  reload(): Promise<void>;
-}
+export interface StoragePasswordEntity extends StoragePassword, Entity {}
 
-export type Configurations = {};
+export type Configuration = {};
 
-export interface ConfigurationFileEntity extends Entity<Configurations> {}
+export interface ConfigurationEntity extends Configuration, Entity {}
 
-export interface IndexesService extends CollectionService<Index> {}
+export type ConfigurationStanza = {
+  index: string;
+};
+
+export interface ConfigurationStanzaEntity
+  extends ConfigurationStanza,
+    Entity {}
+
+export type ConfigurationFile = {};
+
+export interface ConfigurationFileEntity
+  extends ConfigurationFile,
+    Entity,
+    CollectionService<ConfigurationStanzaEntity> {}
+
+export interface AppEntity extends Entity {}
+
+export interface IndexesService extends CollectionService<IndexEntity> {}
 
 export interface StoragePasswordsService
-  extends CollectionService<StoragePassword> {
+  extends CollectionService<StoragePasswordEntity> {
   createOrReplace(params: StoragePassword): Promise<StoragePassword>;
 }
 
 export interface ConfigurationsService
-  extends CollectionService<Configurations> {
+  extends CollectionService<ConfigurationEntity> {
   createAsync(
     filename: string,
     stanzaName: string,
@@ -57,12 +77,18 @@ export interface ConfigurationsService
   getConfFile(filename: string): Promise<ConfigurationFileEntity>;
 }
 
+export interface AppsService extends CollectionService<AppEntity> {
+  reload(): Promise<void>;
+}
+
 export interface SplunkJsService {
   storagePasswords(namespace: Namespace): StoragePasswordsService;
 
   configurations(namespace: Namespace): ConfigurationsService;
 
   indexes(namespace: Namespace): IndexesService;
+
+  apps(namespace: Namespace): AppsService;
 }
 
 export class SplunkJs {
@@ -76,100 +102,29 @@ export class SplunkJs {
     }
 
     // @ts-ignore
-    if (!globalThis.splunkjs) {
-      console.log(
-        "Not running in Splunk browser. Falling back to mocked data.",
-      );
-      return new MockSplunkJsService();
-    }
-
-    // @ts-ignore
     globalThis.$.ajax = jQuery.ajax;
 
-    const http = new splunkjs.SplunkWebHttp();
+    // @ts-ignore
+    let splunkjs = globalThis.splunkjs;
 
-    this.service = new splunkjs.Service(http, this.namespace);
+    if (isDevMode()) {
+      const http = new splunkjs.ProxyHttp("http://localhost:8089");
+
+      const parameters = {
+        ...this.namespace,
+        username: "admin",
+        password: "password",
+      };
+
+      this.service = new splunkjs.Service(http, parameters);
+    } else {
+      splunkjs = splunkjs.noConflict();
+
+      const http = new splunkjs.SplunkWebHttp();
+
+      this.service = new splunkjs.Service(http, this.namespace);
+    }
 
     return this.service!;
-  }
-}
-
-class MockSplunkJsService implements SplunkJsService {
-  indexes(namespace: Namespace): IndexesService {
-    return new MockIndexesService();
-  }
-
-  storagePasswords(namespace: Namespace): StoragePasswordsService {
-    return new MockStoragePasswordsService();
-  }
-
-  configurations(namespace: Namespace): ConfigurationsService {
-    return new MockConfigurationsService();
-  }
-}
-
-class MockIndexesService implements IndexesService {
-  fetch(): Promise<any> {
-    return Promise.resolve(undefined);
-  }
-
-  list(): Index[] {
-    return [
-      {
-        name: "main",
-      },
-    ];
-  }
-}
-
-class MockStoragePasswordsService implements StoragePasswordsService {
-  fetch(): Promise<any> {
-    return Promise.resolve(undefined);
-  }
-
-  list(): StoragePassword[] {
-    return [
-      {
-        name: "key",
-        password: "secret",
-        realm: "app_realm",
-      },
-    ];
-  }
-
-  createOrReplace(params: StoragePassword): Promise<StoragePassword> {
-    return Promise.resolve({
-      name: "key2",
-      password: "secret2",
-      realm: "app_realm",
-    });
-  }
-}
-
-class MockConfigurationsService implements ConfigurationsService {
-  fetch(): Promise<any> {
-    return Promise.resolve(undefined);
-  }
-
-  list(): Configurations[] {
-    return [];
-  }
-
-  createAsync(
-    filename: string,
-    stanzaName: string,
-    keyValueMap: Record<string, string>,
-  ): Promise<void> {
-    return Promise.resolve(undefined);
-  }
-
-  getConfFile(filename: string): Promise<ConfigurationFileEntity> {
-    return Promise.resolve(new MockConfigurationFileEntity());
-  }
-}
-
-class MockConfigurationFileEntity implements ConfigurationFileEntity {
-  reload(): Promise<void> {
-    return Promise.resolve(undefined);
   }
 }
