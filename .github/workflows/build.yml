@@ -24,38 +24,15 @@ jobs:
       - name: Print lines of code
         run: cloc --include-lang CSS,JavaScript,XML,Python --vcs git
 
-  setup:
-    name: Setup
-    runs-on: ubuntu-22.04
-    outputs:
-      app_id: ${{ matrix.app.id }}
-      app_name: ${{ matrix.app.name }}
-    strategy:
-      matrix:
-        app:
-          - id: "bitwarden_event_logs"
-            name: "Bitwarden Event Logs"
-          - id: "bitwarden_event_logs_beta"
-            name: "Bitwarden Event Logs (beta)"
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
   build-ui:
     name: Build UI
     runs-on: ubuntu-22.04
-    needs: setup
     defaults:
       run:
         working-directory: ./ui
     steps:
       - name: Checkout repo
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: Change app name
-        run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs/${{ needs.setup.outputs.app_id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs/${{ needs.setup.outputs.app_name }}/g' {} \;
 
       - name: Set up Node
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
@@ -73,24 +50,17 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         with:
-          name: ${{ needs.setup.outputs.app_id }}_ui
+          name: bitwarden_event_logs_ui
           path: ui/dist/setup/*
           if-no-files-found: error
 
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
-    needs:
-      - setup
-      - build-ui
+    needs: build-ui
     steps:
       - name: Checkout repo
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: Change app name
-        run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs/${{ needs.setup.outputs.app_id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs/${{ needs.setup.outputs.app_name }}/g' {} \;
 
       - name: Install poetry
         run: pipx install poetry
@@ -124,7 +94,7 @@ jobs:
       - name: Download UI
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
-          name: ${{ needs.setup.outputs.app_id }}_ui
+          name: bitwarden_event_logs_ui
           path: package/appserver/static/setup
 
       - name: Build Splunk App
@@ -134,25 +104,25 @@ jobs:
           export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
           poetry run ucc-gen build --ta-version ${APP_VERSION}
           # cleanup python files
-          rm -rf output/${{ needs.setup.outputs.app_id }}/{bin,lib}/__pycache__
-          rm -rf output/${{ needs.setup.outputs.app_id }}/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
+          rm -rf output/bitwarden_event_logs/{bin,lib}/__pycache__
+          rm -rf output/bitwarden_event_logs/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
           # remove ucc-gen not used files
-          rm -rf output/${{ needs.setup.outputs.app_id }}/appserver/static/{css,js,openapi.json}
-          rm -rf output/${{ needs.setup.outputs.app_id }}/appserver/templates
-          rm -rf output/${{ needs.setup.outputs.app_id }}/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
-          rm -rf output/${{ needs.setup.outputs.app_id }}/README/bitwarden_event_logs_settings.conf.spec
-          poetry run ucc-gen package --path output/${{ needs.setup.outputs.app_id }} -o output/
-          mv output/bitwarden_event_logs*.tar.gz output/${{ needs.setup.outputs.app_id }}.tar.gz
+          rm -rf output/bitwarden_event_logs/appserver/static/{css,js,openapi.json}
+          rm -rf output/bitwarden_event_logs/appserver/templates
+          rm -rf output/bitwarden_event_logs/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
+          rm -rf output/bitwarden_event_logs/README/bitwarden_event_logs_settings.conf.spec
+          poetry run ucc-gen package --path output/bitwarden_event_logs -o output/
+          mv output/bitwarden_event_logs*.tar.gz output/bitwarden_event_logs.tar.gz
 
       - name: Validate artifact
         run: |
-          poetry run slim validate output/${{ needs.setup.outputs.app_id }}.tar.gz 2>&1 | tee output.txt
+          poetry run slim validate output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
           if grep -q "\[ERROR\]" "output.txt"; then
             echo "ERROR(s) found."
             exit 1
           fi
           rm -f output.txt
-          poetry run splunk-appinspect inspect --mode precert output/${{ needs.setup.outputs.app_id }}.tar.gz 2>&1 | tee output.txt
+          poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
           if ! grep -q -E "error:[ \t]+0" "output.txt"; then
             echo "ERRORS(s) found."
             exit 1
@@ -165,8 +135,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
         with:
-          name: ${{ needs.setup.outputs.app_id }}.tar.gz
-          path: output/${{ needs.setup.outputs.app_id }}.tar.gz
+          name: bitwarden_event_logs.tar.gz
+          path: output/bitwarden_event_logs.tar.gz
           if-no-files-found: error
 
   check-failures:
