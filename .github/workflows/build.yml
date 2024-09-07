@@ -29,6 +29,7 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       app_id: ${{ matrix.app.id }}
+      app_name: ${{ matrix.app.name }}
     strategy:
       matrix:
         app:
@@ -36,14 +37,6 @@ jobs:
             name: "Bitwarden Event Logs"
           - id: "bitwarden_event_logs_beta"
             name: "Bitwarden Event Logs (beta)"
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: Change app name
-        run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs/${{ matrix.app.id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs/${{ matrix.app.name }}/g' {} \;
 
   build-ui:
     name: Build UI
@@ -55,6 +48,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Change app name
+        run: |
+          find . -type f -exec sed -i 's/bitwarden_event_logs/${{ needs.setup.outputs.app_id }}/g' {} \;
+          find . -type f -exec sed -i 's/Bitwarden Event Logs/${{ needs.setup.outputs.app_name }}/g' {} \;
 
       - name: Set up Node
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
@@ -83,6 +81,14 @@ jobs:
       - setup
       - build-ui
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Change app name
+        run: |
+          find . -type f -exec sed -i 's/bitwarden_event_logs/${{ needs.setup.outputs.app_id }}/g' {} \;
+          find . -type f -exec sed -i 's/Bitwarden Event Logs/${{ needs.setup.outputs.app_name }}/g' {} \;
+
       - name: Install poetry
         run: pipx install poetry
 
