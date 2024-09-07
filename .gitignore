@@ -161,6 +161,7 @@ cython_debug/
 
 output/
 package/bin/
+package/appserver/
 package/lib/
 !package/app.manifest
 !package/README/*

@@ -1,12 +1,16 @@
 import { Injectable } from "@angular/core";
-import { ConfigurationStanza, Index, SplunkJs } from "./splunkjs";
+import {
+  ConfigurationFileStanzaEntity,
+  Index,
+  SplunkJsServiceBuilder,
+} from "./splunk-js.service";
 import { AppConfig } from "../config";
 
 @Injectable({
   providedIn: "root",
 })
 export class SplunkService {
-  private readonly globalNamespaceService = new SplunkJs({
+  private readonly globalNamespaceService = new SplunkJsServiceBuilder({
     owner: "-",
     app: "-",
     sharing: "app",
@@ -14,7 +18,7 @@ export class SplunkService {
   private readonly bitwardenAppService;
 
   constructor(config: AppConfig) {
-    this.bitwardenAppService = new SplunkJs({
+    this.bitwardenAppService = new SplunkJsServiceBuilder({
       owner: "nobody",
       app: config.appName,
       sharing: "app",
@@ -41,21 +45,21 @@ export class SplunkService {
     });
   }
 
-  async getConfiguration(
+  async getConfigurationFile(
     filename: string,
     stanzaName: string,
-  ): Promise<ConfigurationStanza> {
+  ): Promise<ConfigurationFileStanzaEntity> {
     const configurationsCollection = this.bitwardenAppService
       .getService()
       .configurations(this.bitwardenAppService.namespace);
     await configurationsCollection.fetch();
     const configurationFile =
       await configurationsCollection.getConfFile(filename);
-    console.log(configurationFile);
+    console.log("Configuration file", configurationFile);
     return configurationFile.item(stanzaName);
   }
 
-  async upsertConfiguration(
+  async upsertConfigurationFile(
     filename: string,
     stanzaName: string,
     keyValueMap: Record<string, string>,

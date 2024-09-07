@@ -1,5 +1,3 @@
-// import * from "splunk-sdk/client/splunk";
-import jQuery from "jquery";
 import { isDevMode } from "@angular/core";
 
 export type AllOrString = "-" | string;
@@ -42,20 +40,20 @@ export type Configuration = {};
 
 export interface ConfigurationEntity extends Configuration, Entity {}
 
-export type ConfigurationStanza = {
-  index: string;
-};
+export type ConfigurationFileStanza = {};
 
-export interface ConfigurationStanzaEntity
-  extends ConfigurationStanza,
-    Entity {}
+export interface ConfigurationFileStanzaEntity
+  extends ConfigurationFileStanza,
+    Entity {
+  properties(): Record<string, any>;
+}
 
 export type ConfigurationFile = {};
 
 export interface ConfigurationFileEntity
   extends ConfigurationFile,
     Entity,
-    CollectionService<ConfigurationStanzaEntity> {}
+    CollectionService<ConfigurationFileStanzaEntity> {}
 
 export interface AppEntity extends Entity {}
 
@@ -81,7 +79,13 @@ export interface AppsService extends CollectionService<AppEntity> {
   reload(): Promise<void>;
 }
 
+export interface SplunkHttp {
+  new (url?: string): SplunkHttp;
+}
+
 export interface SplunkJsService {
+  new (http: SplunkHttp, properties: Record<string, any>): SplunkJsService;
+
   storagePasswords(namespace: Namespace): StoragePasswordsService;
 
   configurations(namespace: Namespace): ConfigurationsService;
@@ -91,7 +95,35 @@ export interface SplunkJsService {
   apps(namespace: Namespace): AppsService;
 }
 
-export class SplunkJs {
+export interface SplunkJs {
+  ProxyHttp: SplunkHttp;
+  SplunkWebHttp: SplunkHttp;
+  Service: SplunkJsService;
+
+  noConflict(): SplunkJs;
+}
+
+class SplunkJsProvider {
+  private static splunkJs: SplunkJs | undefined = undefined;
+
+  static get(): SplunkJs {
+    if (this.splunkJs) {
+      return this.splunkJs;
+    }
+
+    if (isDevMode()) {
+      // @ts-ignore
+      this.splunkJs = globalThis.splunkjs;
+    } else {
+      // @ts-ignore
+      this.splunkJs = globalThis.splunkjs.noConflict();
+    }
+
+    return this.splunkJs!;
+  }
+}
+
+export class SplunkJsServiceBuilder {
   private service: SplunkJsService | undefined = undefined;
 
   constructor(readonly namespace: Namespace) {}
@@ -101,14 +133,10 @@ export class SplunkJs {
       return this.service;
     }
 
-    // @ts-ignore
-    globalThis.$.ajax = jQuery.ajax;
-
-    // @ts-ignore
-    let splunkjs = globalThis.splunkjs;
+    const splunkJs = SplunkJsProvider.get();
 
     if (isDevMode()) {
-      const http = new splunkjs.ProxyHttp("http://localhost:8089");
+      const http = new splunkJs.ProxyHttp("http://localhost:8089");
 
       const parameters = {
         ...this.namespace,
@@ -116,13 +144,11 @@ export class SplunkJs {
         password: "password",
       };
 
-      this.service = new splunkjs.Service(http, parameters);
+      this.service = new splunkJs.Service(http, parameters);
     } else {
-      splunkjs = splunkjs.noConflict();
+      const http = new splunkJs.SplunkWebHttp();
 
-      const http = new splunkjs.SplunkWebHttp();
-
-      this.service = new splunkjs.Service(http, this.namespace);
+      this.service = new splunkJs.Service(http, this.namespace);
     }
 
     return this.service!;

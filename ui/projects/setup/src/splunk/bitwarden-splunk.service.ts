@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { AppConfig } from "../config";
 import { SplunkService } from "./splunk.service";
+import {
+  InputsConfiguration,
+  ScriptsConfiguration,
+} from "../models/bitwarden-splunk";
 
 @Injectable({
   providedIn: "root",
@@ -24,38 +28,69 @@ export class BitwardenSplunkService {
     await this.splunkService.upsertStoragePassword(realm, "api_key", secret);
   }
 
-  async getIndexFromInputsConfigurationFile(): Promise<string> {
-    const configuration = await this.splunkService.getConfiguration(
+  async getInputsConfigurationFile(): Promise<InputsConfiguration | undefined> {
+    const configurationFile = await this.splunkService.getConfigurationFile(
       "inputs",
       this.inputStanzaName,
     );
-    return configuration.index;
+    console.log("Configuration from inputs.conf", configurationFile);
+
+    const properties = configurationFile.properties();
+    console.log("Properties from inputs.conf", properties);
+
+    if (Object.keys(properties).includes("index")) {
+      return {
+        index: properties["index"],
+      } as InputsConfiguration;
+    }
+    return undefined;
   }
 
-  async updateInputsConfigurationFile(index: string) {
-    await this.splunkService.upsertConfiguration(
-      "inputs",
-      this.inputStanzaName,
-      {
-        index,
-      },
-    );
-  }
-
-  async updateScriptConfigurationFile(
-    apiUrl: string,
-    identityUrl: string,
-    startDate: string,
+  async updateInputsConfigurationFile(
+    inputsConfiguration: InputsConfiguration,
   ) {
-    await this.splunkService.upsertConfiguration("script", "config", {
-      apiUrl,
-      identityUrl,
-      startDate,
-    });
+    await this.splunkService.upsertConfigurationFile(
+      "inputs",
+      this.inputStanzaName,
+      inputsConfiguration,
+    );
+  }
+
+  async getScriptConfigurationFile(): Promise<
+    ScriptsConfiguration | undefined
+  > {
+    const configurationFile = await this.splunkService.getConfigurationFile(
+      "script",
+      "config",
+    );
+    console.log("Configuration from script.conf", configurationFile);
+
+    const properties = configurationFile.properties();
+    console.log("Properties from script.conf", properties);
+
+    const keys = Object.keys(properties);
+    if (keys.includes("apiUrl") && keys.includes("identityUrl")) {
+      return {
+        apiUrl: properties["apiUrl"],
+        identityUrl: properties["identityUrl"],
+        startDate: keys.includes("startDate")
+          ? properties["startDate"]
+          : undefined,
+      } as ScriptsConfiguration;
+    }
+    return undefined;
+  }
+
+  async updateScriptConfigurationFile(configuration: ScriptsConfiguration) {
+    await this.splunkService.upsertConfigurationFile(
+      "script",
+      "config",
+      configuration,
+    );
   }
 
   async updateAppConfigurationFile(isConfigured: boolean) {
-    await this.splunkService.upsertConfiguration("app", "install", {
+    await this.splunkService.upsertConfigurationFile("app", "install", {
       is_configured: isConfigured.toString(),
     });
   }

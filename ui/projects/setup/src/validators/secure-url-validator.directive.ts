@@ -3,7 +3,6 @@ import {
   NG_VALIDATORS,
   ValidationErrors,
   Validator,
-  ValidatorFn,
 } from "@angular/forms";
 import { Directive } from "@angular/core";
 

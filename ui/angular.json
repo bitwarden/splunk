@@ -30,12 +30,8 @@
               }
             ],
             "styles": ["projects/setup/src/styles.scss"],
-            "scripts": [
-              "node_modules/splunk-sdk/client/splunk.min.js",
-              "node_modules/jquery/dist/jquery.min.js"
-            ],
-            "outputHashing": "none",
-            "allowedCommonJsDependencies": ["jquery"]
+            "scripts": ["node_modules/splunk-sdk/client/splunk.min.js"],
+            "outputHashing": "none"
           },
           "configurations": {
             "production": {
