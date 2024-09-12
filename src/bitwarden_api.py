@@ -55,8 +55,8 @@ class BitwardenApi:
             "scope": "api.organization",
         }
 
-        self.logger.debug('Request url %s, headers %s, data %s',
-                          url, headers, data)
+        self.logger.debug('Request url %s',
+                          url)
 
         response = requests.post(url,
                                  headers=headers,
@@ -111,8 +111,8 @@ class BitwardenApi:
             "Authorization": f"Bearer {self.access_token}"
         }
 
-        self.logger.debug('Request url %s, headers %s query params %s',
-                          url, headers, query_params)
+        self.logger.debug('Request url %s, query params %s',
+                          url, query_params)
 
         response = requests.get(url,
                                 headers=headers,
@@ -125,7 +125,4 @@ class BitwardenApi:
         self.logger.debug('Response status code %s', response.status_code)
         response.raise_for_status()
 
-        response_dict = response.json()
-        self.logger.debug('Response data %s', response_dict)
-
-        return response_dict
+        return response.json()
