@@ -97,16 +97,28 @@ export class AppComponent {
       });
 
       // Update script.conf
-      const serverUrl = new URL(this.model.serverUrl);
+      const containsProtocol = /^https?:\/\//.test(this.model.serverUrl);
+
+      const serverUrl = new URL(
+        containsProtocol
+          ? this.model.serverUrl
+          : "https://" + this.model.serverUrl,
+      );
+
       const isBitwardenCloud = ["bitwarden.com", "bitwarden.eu"].includes(
         serverUrl.host,
       );
+      const selfHostedServerUrl =
+        serverUrl.origin +
+        (serverUrl.pathname === "/" ? "" : serverUrl.pathname);
+
       const apiUrl = isBitwardenCloud
         ? `https://api.${serverUrl.host}`
-        : serverUrl + "/api";
+        : selfHostedServerUrl + "/api";
       const identityUrl = isBitwardenCloud
         ? `https://identity.${serverUrl.host}`
-        : serverUrl + "/identity";
+        : selfHostedServerUrl + "/identity";
+
       console.log("Bitwarden urls", apiUrl, identityUrl);
       await this.bitwardenSplunkService.updateScriptConfigurationFile({
         apiUrl,
