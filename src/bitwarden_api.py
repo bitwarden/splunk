@@ -1,3 +1,4 @@
+import os
 from typing import Optional, Dict, Any
 
 import requests
@@ -37,6 +38,18 @@ def _join_urls(base: str, *paths: str):
     return url
 
 
+def _get_custom_ca_certificate_location() -> Optional[str]:
+    if 'SPLUNK_HOME' not in os.environ:
+        return None
+
+    app_cacerts_file = os.path.join(os.environ.get('SPLUNK_HOME'), 'etc', 'auth',
+                                    'bitwarden_event_logs_cacerts.pem')
+    if not os.path.isfile(app_cacerts_file):
+        return None
+
+    return app_cacerts_file
+
+
 class BitwardenApi:
     def __init__(self, api_config: BitwardenApiConfig):
         self.logger = get_logger()
@@ -61,7 +74,8 @@ class BitwardenApi:
         response = requests.post(url,
                                  headers=headers,
                                  data=data,
-                                 timeout=REQUESTS_TIMEOUT)
+                                 timeout=REQUESTS_TIMEOUT,
+                                 verify=_get_custom_ca_certificate_location())
 
         response_dict = self.__get_response_json(response)
 
@@ -117,7 +131,8 @@ class BitwardenApi:
         response = requests.get(url,
                                 headers=headers,
                                 params=query_params,
-                                timeout=REQUESTS_TIMEOUT)
+                                timeout=REQUESTS_TIMEOUT,
+                                verify=_get_custom_ca_certificate_location())
 
         return self.__get_response_json(response)
 
