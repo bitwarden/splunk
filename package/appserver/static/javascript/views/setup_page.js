@@ -35,7 +35,10 @@ export async function perform(splunk_js_sdk, setup_options) {
             application_name_space,
         );
 
-        let { clientId, clientSecret, index, serverUrl, startDate, ...properties } = setup_options;
+        let { clientId, clientSecret, index, rawServerUrl, startDate, ...properties } = setup_options;
+
+        // Parse server URL
+        const serverUrl = new URL(rawServerUrl);
 
         // Store secrets
         await StoragePasswords.write_secret(
@@ -59,9 +62,9 @@ export async function perform(splunk_js_sdk, setup_options) {
         }
 
         // Update script.conf
-        const isBitwardenCloud = serverUrl === "https://bitwarden.com" || serverUrl === "bitwarden.com";
-        const apiUrl = isBitwardenCloud ? "https://api.bitwarden.com" : serverUrl + "/api/";
-        const identityUrl = isBitwardenCloud ? "https://identity.bitwarden.com" : serverUrl + "/identity/";
+        const isBitwardenCloud = ["bitwarden.com", "bitwarden.eu"].includes(serverUrl.host);
+        const apiUrl = isBitwardenCloud ? `https://api.${serverUrl.host}` : serverUrl + "/api/";
+        const identityUrl = isBitwardenCloud ? `https://identity.${serverUrl.host}` : serverUrl + "/identity/";
         await Splunk.update_configuration_file(
             service,
             "script",
