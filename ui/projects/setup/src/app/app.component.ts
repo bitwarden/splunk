@@ -175,8 +175,8 @@ export class AppComponent {
               this.model.serverUrl = `https://${apiUrl.host}`;
             } else {
               apiUrl.search = "";
-              apiUrl.pathname = "/";
-              this.model.serverUrl = apiUrl.origin;
+              apiUrl.pathname = apiUrl.pathname.replace(/\/api$/i, "");
+              this.model.serverUrl = apiUrl.href;
             }
             this.model.startDate = scriptConfiguration.startDate ?? "";
           }
