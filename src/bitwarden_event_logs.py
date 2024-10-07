@@ -28,15 +28,12 @@ class App:
 
     def create_splunk_api(self):
         session_token = read_session_token()
-        self.logger.debug('session token %s', session_token)
 
         return SplunkApi(session_token)
 
     def create_bitwarden_api(self):
         bitwarden_api_config = get_bitwarden_api_config(self.settings_config,
                                                         self.bitwarden_api_key)
-
-        self.logger.debug('bitwarden api config %s', bitwarden_api_config)
 
         return BitwardenApi(bitwarden_api_config)
 

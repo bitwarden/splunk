@@ -77,8 +77,8 @@ class SplunkApi:
 
         storage_password: StoragePassword = self.service.storage_passwords[key]
 
-        self.logger.debug('storage password %s for key %s',
-                          storage_password, key)
+        self.logger.debug('storage password %s found',
+                          key)
 
         return storage_password.clear_password
 
