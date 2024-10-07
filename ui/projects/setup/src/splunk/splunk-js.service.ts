@@ -1,4 +1,5 @@
 import { isDevMode } from "@angular/core";
+import { environment } from "../environments/environment";
 
 export type AllOrString = "-" | string;
 
@@ -136,12 +137,12 @@ export class SplunkJsServiceBuilder {
     const splunkJs = SplunkJsProvider.get();
 
     if (isDevMode()) {
-      const http = new splunkJs.ProxyHttp("http://localhost:8089");
+      const http = new splunkJs.ProxyHttp(environment.splunkManagementUrl);
 
       const parameters = {
         ...this.namespace,
-        username: "admin",
-        password: "password",
+        username: environment.splunkManagementUsername,
+        password: environment.splunkManagementPassword,
       };
 
       this.service = new splunkJs.Service(http, parameters);

@@ -44,6 +44,12 @@
               "scripts": [
                 "node_modules/splunk-sdk/client/splunk.js",
                 "node_modules/jquery/dist/jquery.js"
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/setup/src/environments/environment.ts",
+                  "with": "projects/setup/src/environments/environment.development.ts"
+                }
               ]
             }
           },
