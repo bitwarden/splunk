@@ -7,3 +7,7 @@
 # Default file owners
 * @bitwarden/team-admin-console-dev
 
+# Shared workflows ownership
+.github/workflows/build.yml @bitwarden/dept-bre
+
+.github/workflows/build.yml @bitwarden/team-admin-console-dev
