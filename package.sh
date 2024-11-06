@@ -38,4 +38,4 @@ poetry run ucc-gen package --path output/$APP_NAME/ -o output/
 mv "output/${APP_NAME}-${VERSION}.tar.gz" output/bitwarden_event_logs.tar.gz
 
 # Validate
-#poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz
+poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz
