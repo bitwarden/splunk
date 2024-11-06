@@ -1,10 +1,7 @@
 import { Injectable } from "@angular/core";
-import {
-  ConfigurationFileStanzaEntity,
-  Index,
-  SplunkJsServiceBuilder,
-} from "./splunk-js.service";
 import { AppConfig } from "../config";
+import { ConfigurationFileStanzaEntity, Index } from "./splunk-js";
+import { SplunkJsServiceBuilder } from "./splunk-js-service-builder";
 
 @Injectable({
   providedIn: "root",
