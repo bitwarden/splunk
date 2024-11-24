@@ -100,17 +100,31 @@
           class="block text-sm font-medium leading-6 text-gray-900"
           >Server Url</label
         >
+        <div class="mt-2">
+          <select
+            id="serverUrlType"
+            name="serverUrlType"
+            [(ngModel)]="model.serverUrlType"
+            (ngModelChange)="changeServerUrlType()"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+          >
+            <option value="bitwarden.com">Bitwarden US (bitwarden.com)</option>
+            <option value="bitwarden.eu">Bitwarden EU (bitwarden.eu)</option>
+            <option value="self-hosted">Self-Hosted</option>
+          </select>
+        </div>
         <div class="flex sm:max-w-md">
           <input
             type="url"
             name="serverUrl"
             id="serverUrl"
             [(ngModel)]="model.serverUrl"
+            [disabled]="model.serverUrlType !== 'self-hosted'"
             #serverUrl="ngModel"
-            required
+            [required]="model.serverUrlType === 'self-hosted'"
             secureUrlValidator
             class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-            placeholder="https://bitwarden.com"
+            placeholder="Select server url from dropdown or type your self-hosted domain"
           />
         </div>
         @if (serverUrl.invalid) {
@@ -148,7 +162,7 @@
                 {{ name }}
               </option>
             } @else {
-              <option disabled>Loading..</option>
+              <option disabled value="" selected>Loading..</option>
             }
           </select>
         </div>

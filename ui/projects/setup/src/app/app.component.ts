@@ -1,7 +1,6 @@
 import { Component, Signal, signal, WritableSignal } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
 import { FormsModule, NG_VALIDATORS } from "@angular/forms";
-import { AsyncPipe, KeyValuePipe, NgForOf, NgIf } from "@angular/common";
+import { NgForOf } from "@angular/common";
 import { SplunkService } from "../splunk/splunk.service";
 import { toSignal, takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { combineLatest, from, map, Observable, timeout } from "rxjs";
@@ -19,12 +18,8 @@ type SubmitResult = {
   selector: "[id=app-root]",
   standalone: true,
   imports: [
-    RouterOutlet,
     FormsModule,
     NgForOf,
-    NgIf,
-    KeyValuePipe,
-    AsyncPipe,
     SecureUrlValidatorDirective,
     ValueSelectedOrProvidedValidatorDirective,
   ],
@@ -47,7 +42,8 @@ export class AppComponent {
   model: SetupForm = {
     clientId: "",
     clientSecret: "",
-    serverUrl: "https://bitwarden.com",
+    serverUrlType: "bitwarden.com",
+    serverUrl: "",
     startDate: "",
     index: "",
     indexOverride: "",
@@ -97,27 +93,30 @@ export class AppComponent {
       });
 
       // Update script.conf
-      const containsProtocol = /^https?:\/\//.test(this.model.serverUrl);
+      let apiUrl: string;
+      let identityUrl: string;
+      if (this.isServerUrlBitwardenCloud()) {
+        const serverHost =
+          this.model.serverUrlType === "bitwarden.com"
+            ? "bitwarden.com"
+            : "bitwarden.eu";
+        apiUrl = `https://api.${serverHost}`;
+        identityUrl = `https://identity.${serverHost}`;
+      } else {
+        const containsProtocol = /^https?:\/\//.test(this.model.serverUrl);
+        const serverUrl = new URL(
+          containsProtocol
+            ? this.model.serverUrl
+            : "https://" + this.model.serverUrl,
+        );
 
-      const serverUrl = new URL(
-        containsProtocol
-          ? this.model.serverUrl
-          : "https://" + this.model.serverUrl,
-      );
+        if (!serverUrl.pathname.endsWith("/")) {
+          serverUrl.pathname = serverUrl.pathname + "/";
+        }
 
-      const isBitwardenCloud = ["bitwarden.com", "bitwarden.eu"].includes(
-        serverUrl.host,
-      );
-      const selfHostedServerUrl =
-        serverUrl.origin +
-        (serverUrl.pathname === "/" ? "" : serverUrl.pathname);
-
-      const apiUrl = isBitwardenCloud
-        ? `https://api.${serverUrl.host}`
-        : selfHostedServerUrl + "/api";
-      const identityUrl = isBitwardenCloud
-        ? `https://identity.${serverUrl.host}`
-        : selfHostedServerUrl + "/identity";
+        apiUrl = serverUrl.href + "api";
+        identityUrl = serverUrl.href + "identity";
+      }
 
       console.log("Bitwarden urls", apiUrl, identityUrl);
       await this.bitwardenSplunkService.updateScriptConfigurationFile({
@@ -163,21 +162,21 @@ export class AppComponent {
             }
           }
 
-          if (scriptConfiguration !== undefined) {
+          if (
+            scriptConfiguration !== undefined &&
+            URL.canParse(scriptConfiguration.apiUrl)
+          ) {
             const apiUrl = new URL(scriptConfiguration.apiUrl);
-            const isBitwardenCloud = [
-              "api.bitwarden.com",
-              "api.bitwarden.eu",
-            ].includes(apiUrl.host);
-
-            if (isBitwardenCloud) {
-              apiUrl.host = apiUrl.host.replace("api.", "");
-              this.model.serverUrl = `https://${apiUrl.host}`;
+            if (apiUrl.host === "api.bitwarden.com") {
+              this.model.serverUrlType = "bitwarden.com";
+            } else if (apiUrl.host === "api.bitwarden.eu") {
+              this.model.serverUrlType = "bitwarden.eu";
             } else {
-              apiUrl.search = "";
+              this.model.serverUrlType = "self-hosted";
               apiUrl.pathname = apiUrl.pathname.replace(/\/api$/i, "");
               this.model.serverUrl = apiUrl.href;
             }
+
             this.model.startDate = scriptConfiguration.startDate ?? "";
           }
 
@@ -188,5 +187,18 @@ export class AppComponent {
           console.log(error);
         },
       });
+  }
+
+  isServerUrlBitwardenCloud(): boolean {
+    return (
+      this.model.serverUrlType === "bitwarden.com" ||
+      this.model.serverUrlType === "bitwarden.eu"
+    );
+  }
+
+  changeServerUrlType() {
+    if (this.isServerUrlBitwardenCloud()) {
+      this.model.serverUrl = "";
+    }
   }
 }

@@ -22,11 +22,18 @@ export class ValueSelectedOrProvidedValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
     console.log(control.value);
     const setupForm = control.value as SetupForm;
-    if (!setupForm.index && !setupForm.indexOverride) {
-      return {
-        indexRequired: true,
-      };
+    if (
+      this.isNonEmptyString(setupForm.index) ||
+      this.isNonEmptyString(setupForm.indexOverride)
+    ) {
+      return null;
     }
-    return null;
+    return {
+      indexRequired: true,
+    };
+  }
+
+  isNonEmptyString(obj: unknown): boolean {
+    return typeof obj === "string" && obj.trim() !== "";
   }
 }
