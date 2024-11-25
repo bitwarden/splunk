@@ -39,7 +39,7 @@ type SubmitResult = {
   ],
 })
 export class AppComponent {
-  model: SetupForm = {
+  protected model: SetupForm = {
     clientId: "",
     clientSecret: "",
     serverUrlType: "bitwarden.com",
@@ -49,12 +49,13 @@ export class AppComponent {
     indexOverride: "",
   };
 
-  loadingConfiguration = signal(true);
+  protected loadingConfiguration = signal(true);
 
-  indexes: Signal<string[] | undefined>;
+  protected indexes: Signal<string[] | undefined>;
 
-  submitLoading = signal(false);
-  submitResult: WritableSignal<SubmitResult | undefined> = signal(undefined);
+  protected submitLoading = signal(false);
+  protected submitResult: WritableSignal<SubmitResult | undefined> =
+    signal(undefined);
 
   constructor(
     splunkService: SplunkService,
@@ -143,6 +144,12 @@ export class AppComponent {
     }
   }
 
+  protected changeServerUrlType() {
+    if (this.isServerUrlBitwardenCloud()) {
+      this.model.serverUrl = "";
+    }
+  }
+
   private loadConfiguration(indexesObservable: Observable<string[]>) {
     combineLatest([
       indexesObservable,
@@ -189,16 +196,10 @@ export class AppComponent {
       });
   }
 
-  isServerUrlBitwardenCloud(): boolean {
+  private isServerUrlBitwardenCloud(): boolean {
     return (
       this.model.serverUrlType === "bitwarden.com" ||
       this.model.serverUrlType === "bitwarden.eu"
     );
-  }
-
-  changeServerUrlType() {
-    if (this.isServerUrlBitwardenCloud()) {
-      this.model.serverUrl = "";
-    }
   }
 }
