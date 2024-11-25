@@ -20,7 +20,6 @@ import { SetupForm } from "../models/setup-form";
 })
 export class ValueSelectedOrProvidedValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
-    console.log(control.value);
     const setupForm = control.value as SetupForm;
     if (
       this.isNonEmptyString(setupForm.index) ||

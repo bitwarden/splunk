@@ -52,7 +52,7 @@ export class SplunkService {
     await configurationsCollection.fetch();
     const configurationFile =
       await configurationsCollection.getConfFile(filename);
-    console.log("Configuration file", configurationFile);
+    console.debug("Configuration file", configurationFile);
     return configurationFile.item(stanzaName);
   }
 
@@ -78,7 +78,7 @@ export class SplunkService {
       .apps(this.bitwardenAppService.namespace);
     await appsService.fetch();
     const app = appsService.item(appName);
-    console.log(app);
+    console.debug("App details", app);
     await app.reload();
   }
 }

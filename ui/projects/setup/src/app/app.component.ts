@@ -73,8 +73,6 @@ export class AppComponent {
   }
 
   async onSubmit() {
-    console.log("Submit", this.model);
-
     this.submitLoading.set(true);
     this.submitResult.set(undefined);
 
@@ -89,6 +87,7 @@ export class AppComponent {
       const index = this.model.indexOverride
         ? this.model.indexOverride
         : this.model.index;
+      console.debug("Index", index);
       await this.bitwardenSplunkService.updateInputsConfigurationFile({
         index,
       });
@@ -119,7 +118,7 @@ export class AppComponent {
         identityUrl = serverUrl.href + "identity";
       }
 
-      console.log("Bitwarden urls", apiUrl, identityUrl);
+      console.debug("Bitwarden urls", apiUrl, identityUrl);
       await this.bitwardenSplunkService.updateScriptConfigurationFile({
         apiUrl,
         identityUrl,
@@ -159,7 +158,10 @@ export class AppComponent {
       .pipe(timeout(60_000), takeUntilDestroyed())
       .subscribe({
         next: ([indexes, inputsConfiguration, scriptConfiguration]) => {
-          console.log(indexes, inputsConfiguration, scriptConfiguration);
+          console.debug("Bitwarden app Configuration loaded");
+          console.debug("Available Splunk indexes", indexes);
+          console.debug("Inputs configuration", inputsConfiguration);
+          console.debug("Script configuration", scriptConfiguration);
 
           if (inputsConfiguration !== undefined) {
             if (indexes.includes(inputsConfiguration.index)) {
@@ -190,8 +192,8 @@ export class AppComponent {
           this.loadingConfiguration.set(false);
         },
         error: (error) => {
+          console.error("Failed to load configuration.", error);
           this.loadingConfiguration.set(false);
-          console.log(error);
         },
       });
   }

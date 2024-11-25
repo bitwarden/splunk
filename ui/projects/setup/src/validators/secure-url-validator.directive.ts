@@ -19,7 +19,6 @@ import { Directive } from "@angular/core";
 })
 export class SecureUrlValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
-    console.log(control.value);
     if (!control.value) {
       return null;
     }

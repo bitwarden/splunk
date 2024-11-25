@@ -33,10 +33,10 @@ export class BitwardenSplunkService {
       "inputs",
       this.inputStanzaName,
     );
-    console.log("Configuration from inputs.conf", configurationFile);
+    console.debug("Configuration from inputs.conf", configurationFile);
 
     const properties = configurationFile.properties();
-    console.log("Properties from inputs.conf", properties);
+    console.debug("Properties from inputs.conf", properties);
 
     if (Object.keys(properties).includes("index")) {
       return {
@@ -63,10 +63,10 @@ export class BitwardenSplunkService {
       "script",
       "config",
     );
-    console.log("Configuration from script.conf", configurationFile);
+    console.debug("Configuration from script.conf", configurationFile);
 
     const properties = configurationFile.properties();
-    console.log("Properties from script.conf", properties);
+    console.debug("Properties from script.conf", properties);
 
     const keys = Object.keys(properties);
     if (keys.includes("apiUrl") && keys.includes("identityUrl")) {
