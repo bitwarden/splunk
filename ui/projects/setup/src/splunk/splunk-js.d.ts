@@ -10,6 +10,7 @@ export type Namespace = {
 
 export interface Entity {
   reload(): Promise<void>;
+  properties(): Record<string, any>;
 }
 
 export interface CollectionService<T extends Entity> {
@@ -42,9 +43,7 @@ export type ConfigurationFileStanza = {};
 
 export interface ConfigurationFileStanzaEntity
   extends ConfigurationFileStanza,
-    Entity {
-  properties(): Record<string, any>;
-}
+    Entity {}
 
 export type ConfigurationFile = {};
 

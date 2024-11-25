@@ -77,7 +77,7 @@ export class SplunkService {
       .apps(this.bitwardenAppService.namespace);
     await appsService.fetch();
     const app = appsService.item(appName);
-    console.debug("App details", app);
+    console.debug("App properties", app.properties());
     await app.reload();
   }
 }
