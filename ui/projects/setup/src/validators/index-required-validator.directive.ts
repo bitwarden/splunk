@@ -8,17 +8,17 @@ import { Directive } from "@angular/core";
 import { SetupForm } from "../models/setup-form";
 
 @Directive({
-  selector: "[valueSelectedOrProvidedValidator]",
+  selector: "[indexRequiredValidator]",
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: ValueSelectedOrProvidedValidatorDirective,
+      useExisting: IndexRequiredValidatorDirective,
       multi: true,
     },
   ],
   standalone: true,
 })
-export class ValueSelectedOrProvidedValidatorDirective implements Validator {
+export class IndexRequiredValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
     const setupForm = control.value as SetupForm;
     if (

@@ -1,8 +1,4 @@
-<form
-  #actorForm="ngForm"
-  (ngSubmit)="onSubmit()"
-  valueSelectedOrProvidedValidator
->
+<form #actorForm="ngForm" (ngSubmit)="onSubmit()" indexRequiredValidator>
   <div
     class="p-8"
     [class]="loadingConfiguration() ? 'opacity-50 pointer-events-none' : ''"

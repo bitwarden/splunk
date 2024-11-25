@@ -5,7 +5,7 @@ import { SplunkService } from "../splunk/splunk.service";
 import { toSignal, takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { combineLatest, from, map, Observable, timeout } from "rxjs";
 import { SecureUrlValidatorDirective } from "../validators/secure-url-validator.directive";
-import { ValueSelectedOrProvidedValidatorDirective } from "../validators/value-selected-or-provided-validator.directive";
+import { IndexRequiredValidatorDirective } from "../validators/index-required-validator.directive";
 import { SetupForm } from "../models/setup-form";
 import { BitwardenSplunkService } from "../splunk/bitwarden-splunk.service";
 
@@ -21,7 +21,7 @@ type SubmitResult = {
     FormsModule,
     NgForOf,
     SecureUrlValidatorDirective,
-    ValueSelectedOrProvidedValidatorDirective,
+    IndexRequiredValidatorDirective,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -33,7 +33,7 @@ type SubmitResult = {
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: ValueSelectedOrProvidedValidatorDirective,
+      useExisting: IndexRequiredValidatorDirective,
       multi: true,
     },
   ],
