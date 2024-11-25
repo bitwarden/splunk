@@ -1,0 +1,11 @@
+splunk:
+  conf:
+    - key: server
+      value:
+        directory: /opt/splunk/etc/system/local
+        content:
+          httpServer:
+            crossOriginSharingPolicy: 'http://localhost:4200'
+            crossOriginSharingHeaders: '*'
+          sslConfig:
+            enableSplunkdSSL: 'false'
