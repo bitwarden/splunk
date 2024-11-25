@@ -33,7 +33,6 @@ export class BitwardenSplunkService {
       "inputs",
       this.inputStanzaName,
     );
-    console.debug("Configuration from inputs.conf", configurationFile);
 
     const properties = configurationFile.properties();
     console.debug("Properties from inputs.conf", properties);
@@ -63,7 +62,6 @@ export class BitwardenSplunkService {
       "script",
       "config",
     );
-    console.debug("Configuration from script.conf", configurationFile);
 
     const properties = configurationFile.properties();
     console.debug("Properties from script.conf", properties);

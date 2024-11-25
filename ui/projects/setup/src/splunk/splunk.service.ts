@@ -52,7 +52,6 @@ export class SplunkService {
     await configurationsCollection.fetch();
     const configurationFile =
       await configurationsCollection.getConfFile(filename);
-    console.debug("Configuration file", configurationFile);
     return configurationFile.item(stanzaName);
   }
 
