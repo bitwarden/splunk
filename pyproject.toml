@@ -2,12 +2,8 @@
 name = "bitwarden_event_logs"
 version = "1.2.2"
 description = "A Splunk app for reporting Bitwarden event logs."
-authors = [
-    "Bitwarden <hello@bitwarden.com>"
-]
-maintainers = [
-    "Maciej Zieniuk <zieniuk.maciej@gmail.com>"
-]
+authors = ["Bitwarden <hello@bitwarden.com>"]
+maintainers = ["Maciej Zieniuk <zieniuk.maciej@gmail.com>"]
 readme = "README.md"
 keywords = ["splunk", "bitwarden"]
 
@@ -26,7 +22,7 @@ python = ">=3.7, <=3.10"
 python-dotenv = "0.21.1"
 types-requests = "2.31.0.6"
 splunk-add-on-ucc-framework = { version = "5.49.0", python = "^3.7" }
-splunk-appinspect = { version = "3.8.0", python = "^3.7" }
+splunk-appinspect = { version = "3.9.1", python = "^3.7" }
 
 [tool.poetry.group.splunkslim]
 optional = true
