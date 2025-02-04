@@ -26,21 +26,9 @@ jobs:
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        app:
-          - id: "bitwarden_event_logs"
-            name: "Bitwarden Event Logs"
-          - id: "bitwarden_event_logs_beta"
-            name: "Bitwarden Event Logs (beta)"
     steps:
       - name: Checkout repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - name: Change app name
-        run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
 
       - name: Install poetry
         run: pipx install poetry
