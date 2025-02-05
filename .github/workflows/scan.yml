@@ -75,3 +75,4 @@ jobs:
             -Dsonar.projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}
             -Dsonar.sources=src/,package/
             -Dsonar.tests=tests/
+            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
