@@ -11,7 +11,7 @@ from mappers import datetime_to_str
 
 from urllib.parse import urlparse
 
-app_name = "bitwarden_event_logs_beta"
+app_name = "bitwarden_event_logs"
 
 
 def read_session_token() -> str:
