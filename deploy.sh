@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # docker exec -u splunk splunk bash -c "/opt/splunk/bin/splunk remove app bitwarden_event_logs -auth admin:password"
 
