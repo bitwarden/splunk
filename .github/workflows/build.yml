@@ -1,4 +1,3 @@
----
 name: Build
 
 on:
@@ -14,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install cloc
         run: |
@@ -27,27 +26,15 @@ jobs:
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        app:
-          - id: "bitwarden_event_logs"
-            name: "Bitwarden Event Logs"
-          - id: "bitwarden_event_logs_beta"
-            name: "Bitwarden Event Logs (beta)"
     steps:
       - name: Checkout repo
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: Change app name
-        run: |
-          find . -type f -exec sed -i 's/bitwarden_event_logs_beta/${{ matrix.app.id }}/g' {} \;
-          find . -type f -exec sed -i 's/Bitwarden Event Logs (beta)/${{ matrix.app.name }}/g' {} \;
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install poetry
         run: pipx install poetry
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # 5.2.0
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # 5.3.0
         with:
           python-version: "3.9"
 
@@ -76,25 +63,25 @@ jobs:
           export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
           poetry run ucc-gen build --ta-version ${APP_VERSION}
           # cleanup python files
-          rm -rf output/${{ matrix.app.id }}/{bin,lib}/__pycache__
-          rm -rf output/${{ matrix.app.id }}/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
+          rm -rf output/bitwarden_event_logs/{bin,lib}/__pycache__
+          rm -rf output/bitwarden_event_logs/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
           # remove ucc-gen not used files
-          rm -rf output/${{ matrix.app.id }}/appserver/static/{css,js,openapi.json}
-          rm -rf output/${{ matrix.app.id }}/appserver/templates/base.html
-          rm -rf output/${{ matrix.app.id }}/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
-          rm -rf output/${{ matrix.app.id }}/README/bitwarden_event_logs_settings.conf.spec
-          poetry run ucc-gen package --path output/${{ matrix.app.id }} -o output/
-          mv output/bitwarden_event_logs*.tar.gz output/${{ matrix.app.id }}.tar.gz
+          rm -rf output/bitwarden_event_logs/appserver/static/{css,js,openapi.json}
+          rm -rf output/bitwarden_event_logs/appserver/templates/base.html
+          rm -rf output/bitwarden_event_logs/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
+          rm -rf output/bitwarden_event_logs/README/bitwarden_event_logs_settings.conf.spec
+          poetry run ucc-gen package --path output/bitwarden_event_logs -o output/
+          mv output/bitwarden_event_logs*.tar.gz output/bitwarden_event_logs.tar.gz
 
       - name: Validate artifact
         run: |
-          poetry run slim validate output/${{ matrix.app.id }}.tar.gz 2>&1 | tee output.txt
+          poetry run slim validate output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
           if grep -q "\[ERROR\]" "output.txt"; then
             echo "ERROR(s) found."
             exit 1
           fi
           rm -f output.txt
-          poetry run splunk-appinspect inspect --mode precert output/${{ matrix.app.id }}.tar.gz 2>&1 | tee output.txt
+          poetry run splunk-appinspect inspect --mode precert output/bitwarden_event_logs.tar.gz 2>&1 | tee output.txt
           if ! grep -q -E "error:[ \t]+0" "output.txt"; then
             echo "ERRORS(s) found."
             exit 1
@@ -105,10 +92,10 @@ jobs:
           fi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         with:
-          name: ${{ matrix.app.id }}.tar.gz
-          path: output/${{ matrix.app.id }}.tar.gz
+          name: bitwarden_event_logs.tar.gz
+          path: output/bitwarden_event_logs.tar.gz
           if-no-files-found: error
 
   check-failures:

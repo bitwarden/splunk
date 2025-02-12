@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bitwarden_event_logs"
-version = "1.2.2"
+version = "1.2.3"
 description = "A Splunk app for reporting Bitwarden event logs."
 authors = [
     "Bitwarden <hello@bitwarden.com>"
@@ -12,7 +12,7 @@ readme = "README.md"
 keywords = ["splunk", "bitwarden"]
 
 [tool.poetry.dependencies]
-python = ">=3.7.17, <=3.10"
+python = ">=3.7.17, <3.11"
 requests = "2.31.0"
 splunk-sdk = "2.0.2"
 splunktaucclib = { version = "6.3.0", python = "^3.7" }
@@ -22,7 +22,7 @@ python-dateutil = "2.9.0.post0"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-python = ">=3.7, <=3.10"
+python = ">=3.7, <3.11"
 python-dotenv = "0.21.1"
 types-requests = "2.31.0.6"
 splunk-add-on-ucc-framework = { version = "5.49.0", python = "^3.7" }

@@ -1,7 +1,8 @@
 #!/bin/bash
+set -e
 
 VERSION=$(poetry version | awk -F ' ' '{print $2}')
-APP_NAME="bitwarden_event_logs_beta"
+APP_NAME="bitwarden_event_logs"
 
 mkdir -p package/bin
 mkdir -p package/lib
