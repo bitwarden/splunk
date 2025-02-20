@@ -15,5 +15,4 @@ Please refer to [Bitwarden Contributing Docs - Splunk app][contributingdocs].
 Modify the version in the [pyproject.toml](pyproject.toml)
 
 [Bitwarden Splunk SIEM]: https://bitwarden.com/help/splunk-siem/
-[poetry]: https://python-poetry.org/docs/#installation
 [contributingdocs]: https://contributing.bitwarden.com/getting-started/business/splunk-app

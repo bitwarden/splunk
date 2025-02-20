@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -e
 
 DOCKER_NAME=${1:-splunk}
 

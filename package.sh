@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 VERSION=$(poetry version | awk -F ' ' '{print $2}')
 APP_NAME="bitwarden_event_logs"
