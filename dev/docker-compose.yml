@@ -1,0 +1,13 @@
+name: splunk
+
+services:
+  splunk:
+    image: splunk/splunk:9.3
+    container_name: splunk
+    platform: linux/amd64
+    ports:
+      - "8001:8000"
+      - "8089:8089"
+    environment:
+      SPLUNK_START_ARGS: "--accept-license"
+      SPLUNK_PASSWORD: password
