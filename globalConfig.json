@@ -23,9 +23,8 @@
     "meta": {
         "name": "bitwarden_event_logs",
         "restRoot": "bitwarden_event_logs",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "displayName": "Bitwarden Event Logs",
-        "schemaVersion": "0.0.7",
-        "_uccVersion": "5.46.0"
+        "schemaVersion": "0.0.9"
     }
 }
