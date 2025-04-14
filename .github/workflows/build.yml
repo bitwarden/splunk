@@ -32,6 +32,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
+      - name: Install pipx
+        run: sudo apt-get -y install pipx
+
       - name: Install poetry
         run: pipx install poetry
 
