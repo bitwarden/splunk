@@ -1381,41 +1381,22 @@ files = [
 deprecation = "*"
 
 [[package]]
-name = "splunktalib"
-version = "3.0.5"
-description = "Supporting library for Splunk Add-ons"
-optional = false
-python-versions = "<4.0,>=3.7"
-groups = ["main"]
-files = [
-    {file = "splunktalib-3.0.5-py3-none-any.whl", hash = "sha256:4926534ce7db018c13e138d374e2cf747da66f5adc1c909963df6c7fdd23f800"},
-    {file = "splunktalib-3.0.5.tar.gz", hash = "sha256:dfe884ae1a22616780ebfa9758ae1795107eb92c26011956a9030933fe0fb86d"},
-]
-
-[package.dependencies]
-defusedxml = ">=0,<1"
-requests = ">=2.31.0,<3.0.0"
-sortedcontainers = ">=2,<3"
-urllib3 = "<2"
-
-[[package]]
 name = "splunktaucclib"
-version = "6.6.0"
+version = "8.0.0"
 description = ""
 optional = false
 python-versions = "<3.14,>=3.7"
 groups = ["main"]
 files = [
-    {file = "splunktaucclib-6.6.0-py3-none-any.whl", hash = "sha256:76caff9580eac76c33de60a581046e206120d126a4c48e18639e7746c16c9a53"},
-    {file = "splunktaucclib-6.6.0.tar.gz", hash = "sha256:4de21449e6894c24dfbbdc86c847f0342308253ec99fbba066a1fbc9bd8e0d8e"},
+    {file = "splunktaucclib-8.0.0-py3-none-any.whl", hash = "sha256:ca296f8bb2ec3218ef27b635918dd260d573653077d6c0e7a4a966b373234265"},
+    {file = "splunktaucclib-8.0.0.tar.gz", hash = "sha256:596766965f22cd093fccea45b7f147e6b3e98b0e0c4fc34ed7d2b94501143e2d"},
 ]
 
 [package.dependencies]
+defusedxml = ">=0.7"
 PySocks = ">=1.7.1,<2.0.0"
-requests = ">=2.31.0,<3.0.0"
 solnlib = ">=5"
 splunk-sdk = ">=2.0.2"
-splunktalib = ">=3.0.4,<4.0.0"
 urllib3 = "<2"
 
 [[package]]
@@ -1524,4 +1505,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "73cb079bd70b5529aaa263f710e338e0c091ed8ed0c2cffd136c017099c0c294"
+content-hash = "bd075eebf60b6c6abdb9fead1eecf1c2d0e393962c1a99d1609928b71dde85da"
