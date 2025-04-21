@@ -25,6 +25,17 @@
         "restRoot": "bitwarden_event_logs",
         "version": "1.2.3",
         "displayName": "Bitwarden Event Logs",
-        "schemaVersion": "0.0.9"
+        "schemaVersion": "0.0.9",
+        "os-dependentLibraries": [
+            {
+                "name": "charset-normalizer",
+                "version": "3.4.1",
+                "dependencies": true,
+                "platform": "none",
+                "python_version": "3.9",
+                "os": "linux",
+                "target": "linux"
+            }
+        ]
     }
 }
