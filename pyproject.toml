@@ -24,16 +24,16 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 python = ">=3.9, <3.11"
 python-dotenv = "1.1.0"
-types-requests = "2.31.0.6"
-splunk-add-on-ucc-framework = "5.61.0"
-splunk-appinspect = "3.9.1"
+types-requests = "2.32.0.20250328"
+splunk-add-on-ucc-framework = "5.63.0"
+splunk-appinspect = "3.10.0"
 
 [tool.poetry.group.splunkslim]
 optional = true
 
 [tool.poetry.group.splunkslim.dependencies]
 python = ">=3.9"
-splunk-packaging-toolkit = "1.0.1"
+splunk-packaging-toolkit = "1.2.4"
 
 [tool.poetry.group.test]
 optional = true
