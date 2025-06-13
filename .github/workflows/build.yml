@@ -107,6 +107,8 @@ jobs:
     needs:
       - cloc
       - build-artifacts
+    permissions:
+      id-token: write
     steps:
       - name: Check if any job failed
         if: |
@@ -116,11 +118,15 @@ jobs:
           && contains(needs.*.result, 'failure')
         run: exit 1
 
-      - name: Login to Azure - CI subscription
-        uses: Azure/login@e15b166166a8746d1a47596803bd8c1b595455cf # v1.6.0
+      - name: Azure Login
+        id: azure-login
         if: failure()
+        uses: bitwarden/gh-actions/azure-login@main
         with:
-          creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
+          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+          client_id: ${{ secrets.AZURE_CLIENT_ID }}
+
 
       - name: Retrieve secrets
         id: retrieve-secrets
@@ -129,6 +135,10 @@ jobs:
         with:
           keyvault: "bitwarden-ci"
           secrets: "devops-alerts-slack-webhook-url"
+
+      - name: Azure Logout
+        if: failure()
+        uses: bitwarden/gh-actions/azure-logout@main
 
       - name: Notify Slack on failure
         uses: act10ns/slack@44541246747a30eb3102d87f7a4cc5471b0ffb7d # v2.1.0
