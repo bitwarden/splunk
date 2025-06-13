@@ -7,13 +7,23 @@ on:
       - "main"
       - "rc"
       - "hotfix-rc"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches-ignore:
+      - main
   pull_request_target:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
+    branches:
+      - "main"
+
+permissions: {}
 
 jobs:
   check-run:
     name: Check PR run
     uses: bitwarden/gh-actions/.github/workflows/check-run.yml@main
+    permissions:
+      contents: read
 
   sast:
     name: SAST scan
