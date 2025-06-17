@@ -122,7 +122,7 @@ jobs:
           && contains(needs.*.result, 'failure')
         run: exit 1
 
-      - name: Azure Login
+      - name: Log in to Azure
         id: azure-login
         if: failure()
         uses: bitwarden/gh-actions/azure-login@main
@@ -140,7 +140,7 @@ jobs:
           keyvault: "bitwarden-ci"
           secrets: "devops-alerts-slack-webhook-url"
 
-      - name: Azure Logout
+      - name: Log out from Azure
         if: failure()
         uses: bitwarden/gh-actions/azure-logout@main
 
