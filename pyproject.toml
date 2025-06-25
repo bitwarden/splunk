@@ -24,23 +24,23 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 python = ">=3.9, <3.11"
 python-dotenv = "1.1.0"
-types-requests = "2.31.0.6"
-splunk-add-on-ucc-framework = "5.61.0"
-splunk-appinspect = "3.9.1"
+types-requests = "2.32.4.20250611"
+splunk-add-on-ucc-framework = "5.67.0"
+splunk-appinspect = "3.10.2"
 
 [tool.poetry.group.splunkslim]
 optional = true
 
 [tool.poetry.group.splunkslim.dependencies]
 python = ">=3.9"
-splunk-packaging-toolkit = "1.0.1"
+splunk-packaging-toolkit = "1.2.4"
 
 [tool.poetry.group.test]
 optional = true
 
 [tool.poetry.group.test.dependencies]
 python = ">=3.9"
-pytest = "8.3.5"
+pytest = "8.4.1"
 
 [tool.pytest.ini_options]
 pythonpath = "src"
