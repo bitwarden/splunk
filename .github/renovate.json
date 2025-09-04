@@ -7,11 +7,6 @@
       "groupName": "gh minor",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
-      "groupName": "poetry minor",
-      "matchManagers": ["poetry"],
-      "matchUpdateTypes": ["minor", "patch"]
     }
   ],
   "ignoreDeps": ["python"]
