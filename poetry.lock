@@ -1085,13 +1085,13 @@ semantic_version = ">=2.5.0"
 
 [[package]]
 name = "splunk-sdk"
-version = "2.1.0"
+version = "2.1.1"
 description = "The Splunk Software Development Kit for Python."
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "splunk-sdk-2.1.0.tar.gz", hash = "sha256:63f9a259a7c84d0c3b0b32cae652365b03f0f926acdb894b51456005df74ae21"},
+    {file = "splunk-sdk-2.1.1.tar.gz", hash = "sha256:46300d52f09e0aed7e5962ce2ba08ef54421ffb3a538c6af6164dcbf9f075faa"},
 ]
 
 [package.dependencies]
@@ -1210,4 +1210,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "e92b390e85b8e2ae3c75c0a8299e8a9e0667896581c2dba47978d5063332eba1"
+content-hash = "4f88a544554dce4f91b7128501cbc16c32d9b2ebf519c15066ca08296d32014f"
