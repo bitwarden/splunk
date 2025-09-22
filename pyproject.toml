@@ -13,7 +13,7 @@ keywords = ["splunk", "bitwarden"]
 
 [tool.poetry.dependencies]
 python = ">=3.9, <3.11"
-requests = "2.32.4"
+requests = "2.32.5"
 splunk-sdk = "2.1.1"
 splunktaucclib = "8.0.0"
 python-dateutil = "2.9.0.post0"
