@@ -33,7 +33,7 @@ optional = true
 
 [tool.poetry.group.splunkslim.dependencies]
 python = ">=3.9"
-splunk-packaging-toolkit = "1.0.1"
+splunk-packaging-toolkit = "1.2.4"
 
 [tool.poetry.group.test]
 optional = true
