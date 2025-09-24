@@ -36,6 +36,7 @@ def get_bitwarden_event(data: Dict[str, Any]):
                           device=device,
                           ipAddress=data.get("ipAddress", None),
                           secretId=data.get("secretId", None),
+                          projectId=data.get("projectId", None),
                           serviceAccountId=data.get("serviceAccountId", None))
 
 
