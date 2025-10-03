@@ -39,16 +39,21 @@ def _join_urls(base: str, *paths: str):
 
 
 def _get_custom_ca_certificate_location() -> Optional[str]:
-    if 'SPLUNK_HOME' not in os.environ:
-        return None
+    app_cacerts_file = os.getenv("BITWARDEN_APP_CACERTS")
 
-    app_cacerts_file = os.path.join(os.environ.get('SPLUNK_HOME'), 'etc', 'auth',
+    if app_cacerts_file and os.path.isfile(app_cacerts_file):
+        return app_cacerts_file
+
+    splunk_home = os.getenv("SPLUNK_HOME")
+
+    if splunk_home:
+        app_cacerts_file = os.path.join(splunk_home, 'etc', 'auth',
                                     'bitwarden_event_logs_cacerts.pem')
-    if not os.path.isfile(app_cacerts_file):
-        return None
 
-    return app_cacerts_file
+        if os.path.isfile(app_cacerts_file):
+            return app_cacerts_file
 
+    return None
 
 class BitwardenApi:
     def __init__(self, api_config: BitwardenApiConfig):
