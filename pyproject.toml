@@ -40,7 +40,7 @@ optional = true
 
 [tool.poetry.group.test.dependencies]
 python = ">=3.9"
-pytest = "8.3.5"
+pytest = "8.4.2"
 
 [tool.pytest.ini_options]
 pythonpath = "src"
