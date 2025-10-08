@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
 
       - name: Install cloc
         run: |
@@ -33,6 +35,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
 
       - name: Install poetry
         run: pipx install poetry
@@ -64,8 +68,8 @@ jobs:
         run: |
           mkdir package/bin
           cp -R src/* package/bin/
-          export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
-          poetry run ucc-gen build --ta-version ${APP_VERSION}
+          APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
+          poetry run ucc-gen build --ta-version "${APP_VERSION}"
           # cleanup python files
           rm -rf output/bitwarden_event_logs/{bin,lib}/__pycache__
           rm -rf output/bitwarden_event_logs/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}

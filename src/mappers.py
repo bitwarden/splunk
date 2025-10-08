@@ -34,7 +34,10 @@ def get_bitwarden_event(data: Dict[str, Any]):
                           memberId=data.get("memberId", None),
                           actingUserId=data.get("actingUserId", None),
                           device=device,
-                          ipAddress=data.get("ipAddress", None))
+                          ipAddress=data.get("ipAddress", None),
+                          secretId=data.get("secretId", None),
+                          projectId=data.get("projectId", None),
+                          serviceAccountId=data.get("serviceAccountId", None))
 
 
 def get_bitwarden_group(data: Dict[str, Any]):

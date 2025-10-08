@@ -53,14 +53,14 @@ lxml = ["lxml"]
 
 [[package]]
 name = "certifi"
-version = "2025.1.31"
+version = "2025.8.3"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
-python-versions = ">=3.6"
-groups = ["main"]
+python-versions = ">=3.7"
+groups = ["main", "dev"]
 files = [
-    {file = "certifi-2025.1.31-py3-none-any.whl", hash = "sha256:ca78db4565a652026a4db2bcdf68f2fb589ea80d0be70e03929ed730746b84fe"},
-    {file = "certifi-2025.1.31.tar.gz", hash = "sha256:3d5da6925056f6f18f119200434a4780a94263f10d1c21d032a6f6b2baa20651"},
+    {file = "certifi-2025.8.3-py3-none-any.whl", hash = "sha256:f6c12493cfb1b06ba2ff328595af9350c65d6644968e5d3a2ffd78699af217a5"},
+    {file = "certifi-2025.8.3.tar.gz", hash = "sha256:e564105f78ded564e3ae7c923924435e1daa7463faeab5bb932bc53ffae63407"},
 ]
 
 [[package]]
@@ -1034,18 +1034,19 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.61.0"
+version = "5.69.1"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = "<3.14,>=3.7"
 groups = ["dev"]
 files = [
-    {file = "splunk_add_on_ucc_framework-5.61.0-py3-none-any.whl", hash = "sha256:daaf5cfd4ba768c7f10e45d6074fe675ae70a7403e4fe58f0c79df7588eba907"},
-    {file = "splunk_add_on_ucc_framework-5.61.0.tar.gz", hash = "sha256:a3324d805141eea04ea21a085ba7ef2df9ba44b56c8e76bd8514a4e1d5dca7fc"},
+    {file = "splunk_add_on_ucc_framework-5.69.1-py3-none-any.whl", hash = "sha256:a68aef2babaca093797496a04f59ca90e1b0e27d920eb6c4c990a17a293fbd79"},
+    {file = "splunk_add_on_ucc_framework-5.69.1.tar.gz", hash = "sha256:8036b1f057de03ef9f5685165df604a78f5257287648928b6467c67a39eeead3"},
 ]
 
 [package.dependencies]
 addonfactory-splunk-conf-parser-lib = ">=0.4.3,<0.5.0"
+certifi = ">=2025.6.15,<2026.0.0"
 colorama = ">=0.4.6,<0.5.0"
 defusedxml = ">=0.7.1,<0.8.0"
 dunamai = ">=1.22.0,<2.0.0"
@@ -1053,6 +1054,9 @@ jinja2 = ">=2,<4"
 jsonschema = ">=4.4.0,<5.0.0"
 packaging = ">=23.0"
 PyYAML = ">=6.0,<7.0"
+
+[package.extras]
+validate = ["splunk-appinspect[validate] (>=3.10.3,<4.0.0)"]
 
 [[package]]
 name = "splunk-appinspect"
@@ -1245,4 +1249,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "9e2e0fc1bb26829614f415a6ffe55734d3f468a1ab0e6ccf407651cc1ab0aa39"
+content-hash = "5a6f5b22c657f17e2fb80bf9f6e6a424375d9a6b5ee2fd57253a3bc5dca9316c"
