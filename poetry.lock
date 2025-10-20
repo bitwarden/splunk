@@ -1276,14 +1276,14 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "5.69.1"
+version = "6.0.1"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
-python-versions = "<3.14,>=3.7"
+python-versions = "<3.14,>=3.9"
 groups = ["dev"]
 files = [
-    {file = "splunk_add_on_ucc_framework-5.69.1-py3-none-any.whl", hash = "sha256:a68aef2babaca093797496a04f59ca90e1b0e27d920eb6c4c990a17a293fbd79"},
-    {file = "splunk_add_on_ucc_framework-5.69.1.tar.gz", hash = "sha256:8036b1f057de03ef9f5685165df604a78f5257287648928b6467c67a39eeead3"},
+    {file = "splunk_add_on_ucc_framework-6.0.1-py3-none-any.whl", hash = "sha256:b02cb1c25ce425b9caa8e9635127ebbae56bd03adce8fb612b1dbc1858c97beb"},
+    {file = "splunk_add_on_ucc_framework-6.0.1.tar.gz", hash = "sha256:eac5140dc38c2b438fb3926b2d79c0173237294e5cf089be5837392bb8bdb083"},
 ]
 
 [package.dependencies]
@@ -1292,9 +1292,9 @@ certifi = ">=2025.6.15,<2026.0.0"
 colorama = ">=0.4.6,<0.5.0"
 defusedxml = ">=0.7.1,<0.8.0"
 dunamai = ">=1.22.0,<2.0.0"
-jinja2 = ">=2,<4"
-jsonschema = ">=4.4.0,<5.0.0"
-packaging = ">=23.0"
+jinja2 = ">=3.1.6,<4"
+jsonschema = ">=4.25.0,<5.0.0"
+packaging = ">=25.0"
 PyYAML = ">=6.0,<7.0"
 
 [package.extras]
@@ -1547,4 +1547,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "13971983a726a45134c1d0d532bd6cb2bb014424c1713ab92b3d3d694897be0b"
+content-hash = "243e820d43dc6c011379e593d2d847d74ed341715f196cc9e06675d052b863da"
