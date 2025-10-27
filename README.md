@@ -16,3 +16,5 @@ Modify the version in the [pyproject.toml](pyproject.toml)
 
 [Bitwarden Splunk SIEM]: https://bitwarden.com/help/splunk-siem/
 [contributingdocs]: https://contributing.bitwarden.com/getting-started/business/splunk-app
+
+
