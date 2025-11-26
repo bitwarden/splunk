@@ -10,26 +10,26 @@
           "style": "scss"
         }
       },
-      "root": "projects/setup",
-      "sourceRoot": "projects/setup/src",
+      "root": "",
+      "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/setup",
-            "index": "projects/setup/src/index.html",
-            "main": "projects/setup/src/main.ts",
+            "index": "src/index.html",
+            "main": "src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "projects/setup/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/setup/public"
+                "input": "public"
               }
             ],
-            "styles": ["projects/setup/src/styles.scss"],
+            "styles": ["src/styles.scss"],
             "scripts": ["node_modules/splunk-sdk/client/splunk.min.js"],
             "outputHashing": "none"
           },
@@ -47,8 +47,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/setup/src/environments/environment.ts",
-                  "with": "projects/setup/src/environments/environment.development.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
                 }
               ]
             }
@@ -74,15 +74,15 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "projects/setup/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/setup/public"
+                "input": "public"
               }
             ],
-            "styles": ["projects/setup/src/styles.scss"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }
