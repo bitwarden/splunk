@@ -15,28 +15,27 @@ type SubmitResult = {
 };
 
 @Component({
-  selector: "[id=app-root]",
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgForOf,
-    SecureUrlValidatorDirective,
-    IndexRequiredValidatorDirective,
-  ],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: SecureUrlValidatorDirective,
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: IndexRequiredValidatorDirective,
-      multi: true,
-    },
-  ],
+    selector: "[id=app-root]",
+    imports: [
+        FormsModule,
+        NgForOf,
+        SecureUrlValidatorDirective,
+        IndexRequiredValidatorDirective,
+    ],
+    templateUrl: "./app.component.html",
+    styleUrl: "./app.component.scss",
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: SecureUrlValidatorDirective,
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: IndexRequiredValidatorDirective,
+            multi: true,
+        },
+    ]
 })
 export class AppComponent {
   protected model: SetupForm = {
