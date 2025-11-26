@@ -1,12 +1,11 @@
 import { Component, Signal, signal, WritableSignal } from "@angular/core";
-import { FormsModule, NG_VALIDATORS } from "@angular/forms";
+import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
 
 import { SplunkService } from "../splunk/splunk.service";
 import { toSignal, takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { combineLatest, from, map, Observable, timeout } from "rxjs";
-import { SecureUrlValidatorDirective } from "../validators/secure-url-validator.directive";
-import { IndexRequiredValidatorDirective } from "../validators/index-required-validator.directive";
-import { SetupForm } from "../models/setup-form";
+import { combineLatest, from, map, Observable, startWith, timeout } from "rxjs";
+import { secureUrlValidator, indexRequiredValidator } from "../validators";
+import { SetupForm, ServerUrlType } from "../models/setup-form";
 import { BitwardenSplunkService } from "../splunk/bitwarden-splunk.service";
 
 type SubmitResult = {
@@ -15,37 +14,13 @@ type SubmitResult = {
 };
 
 @Component({
-    selector: "[id=app-root]",
-    imports: [
-    FormsModule,
-    SecureUrlValidatorDirective,
-    IndexRequiredValidatorDirective
-],
-    templateUrl: "./app.component.html",
-    styleUrl: "./app.component.scss",
-    providers: [
-        {
-            provide: NG_VALIDATORS,
-            useExisting: SecureUrlValidatorDirective,
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: IndexRequiredValidatorDirective,
-            multi: true,
-        },
-    ]
+  selector: "[id=app-root]",
+  imports: [ReactiveFormsModule],
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
 })
 export class AppComponent {
-  protected model: SetupForm = {
-    clientId: "",
-    clientSecret: "",
-    serverUrlType: "bitwarden.com",
-    serverUrl: "",
-    startDate: "",
-    index: "",
-    indexOverride: "",
-  };
+  protected setupForm;
 
   protected loadingConfiguration = signal(true);
 
@@ -57,8 +32,64 @@ export class AppComponent {
 
   constructor(
     splunkService: SplunkService,
-    readonly bitwardenSplunkService: BitwardenSplunkService,
+    fb: FormBuilder,
+    private bitwardenSplunkService: BitwardenSplunkService,
   ) {
+    // Initialize reactive form
+    this.setupForm = fb.group(
+      {
+        clientId: ["", Validators.required],
+        clientSecret: ["", Validators.required],
+        serverUrlType: ["bitwarden.com" as ServerUrlType],
+        serverUrl: [""],
+        startDate: [""],
+        index: [""],
+        indexOverride: [""],
+      },
+      {
+        validators: indexRequiredValidator(),
+      },
+    );
+
+    // If self-host is specified, enable the URL field
+    this.setupForm.controls.serverUrlType.valueChanges
+      .pipe(
+        startWith(this.setupForm.controls.serverUrlType.value),
+        takeUntilDestroyed(),
+      )
+      .subscribe((serverUrlType) => {
+        const serverUrlControl = this.setupForm.controls.serverUrl;
+
+        if (serverUrlType === "self-hosted") {
+          serverUrlControl.setValidators([
+            Validators.required,
+            secureUrlValidator(),
+          ]);
+          serverUrlControl.enable();
+        } else {
+          serverUrlControl.clearValidators();
+          serverUrlControl.disable();
+        }
+
+        serverUrlControl.updateValueAndValidity();
+      });
+
+    // If an index name has been manually specified, disable the drop-down
+    this.setupForm.controls.indexOverride.valueChanges
+      .pipe(
+        startWith(this.setupForm.controls.indexOverride.value),
+        takeUntilDestroyed(),
+      )
+      .subscribe((indexOverride) => {
+        const indexControl = this.setupForm.controls.index;
+
+        if (indexOverride && indexOverride.length > 0) {
+          indexControl.disable();
+        } else {
+          indexControl.enable();
+        }
+      });
+
     // Load indexes
     const indexesObservable = from(splunkService.getAllIndexes()).pipe(
       map((indexes) => indexes.map((index) => index.name)),
@@ -71,20 +102,28 @@ export class AppComponent {
   }
 
   async onSubmit() {
+    // Validate form before submission
+    if (this.setupForm.invalid) {
+      this.setupForm.markAllAsTouched();
+      return;
+    }
+
     this.submitLoading.set(true);
     this.submitResult.set(undefined);
+
+    const formValue = this.setupForm.value as SetupForm;
 
     try {
       // Store secrets
       await this.bitwardenSplunkService.upsertApiKey(
-        this.model.clientId,
-        this.model.clientSecret,
+        formValue.clientId,
+        formValue.clientSecret,
       );
 
       // Update inputs.conf
-      const index = this.model.indexOverride
-        ? this.model.indexOverride
-        : this.model.index;
+      const index = formValue.indexOverride
+        ? formValue.indexOverride
+        : formValue.index;
       console.debug("Index", index);
       await this.bitwardenSplunkService.updateInputsConfigurationFile({
         index,
@@ -93,19 +132,19 @@ export class AppComponent {
       // Update script.conf
       let apiUrl: string;
       let identityUrl: string;
-      if (this.isServerUrlBitwardenCloud()) {
+      if (this.isServerUrlBitwardenCloud(formValue.serverUrlType)) {
         const serverHost =
-          this.model.serverUrlType === "bitwarden.com"
+          formValue.serverUrlType === "bitwarden.com"
             ? "bitwarden.com"
             : "bitwarden.eu";
         apiUrl = `https://api.${serverHost}`;
         identityUrl = `https://identity.${serverHost}`;
       } else {
-        const containsProtocol = /^https?:\/\//.test(this.model.serverUrl);
+        const containsProtocol = /^https?:\/\//.test(formValue.serverUrl);
         const serverUrl = new URL(
           containsProtocol
-            ? this.model.serverUrl
-            : "https://" + this.model.serverUrl,
+            ? formValue.serverUrl
+            : "https://" + formValue.serverUrl,
         );
 
         if (!serverUrl.pathname.endsWith("/")) {
@@ -120,7 +159,7 @@ export class AppComponent {
       await this.bitwardenSplunkService.updateScriptConfigurationFile({
         apiUrl,
         identityUrl,
-        startDate: this.model.startDate,
+        startDate: formValue.startDate,
       });
 
       // Complete setup
@@ -142,8 +181,9 @@ export class AppComponent {
   }
 
   protected changeServerUrlType() {
-    if (this.isServerUrlBitwardenCloud()) {
-      this.model.serverUrl = "";
+    const serverUrlType = this.setupForm.value.serverUrlType!;
+    if (this.isServerUrlBitwardenCloud(serverUrlType)) {
+      this.setupForm.patchValue({ serverUrl: "" });
     }
   }
 
@@ -161,11 +201,13 @@ export class AppComponent {
           console.debug("Inputs configuration", inputsConfiguration);
           console.debug("Script configuration", scriptConfiguration);
 
+          const updates: Partial<SetupForm> = {};
+
           if (inputsConfiguration !== undefined) {
             if (indexes.includes(inputsConfiguration.index)) {
-              this.model.index = inputsConfiguration.index;
+              updates.index = inputsConfiguration.index;
             } else {
-              this.model.indexOverride = inputsConfiguration.index;
+              updates.indexOverride = inputsConfiguration.index;
             }
           }
 
@@ -175,17 +217,20 @@ export class AppComponent {
           ) {
             const apiUrl = new URL(scriptConfiguration.apiUrl);
             if (apiUrl.host === "api.bitwarden.com") {
-              this.model.serverUrlType = "bitwarden.com";
+              updates.serverUrlType = "bitwarden.com";
             } else if (apiUrl.host === "api.bitwarden.eu") {
-              this.model.serverUrlType = "bitwarden.eu";
+              updates.serverUrlType = "bitwarden.eu";
             } else {
-              this.model.serverUrlType = "self-hosted";
+              updates.serverUrlType = "self-hosted";
               apiUrl.pathname = apiUrl.pathname.replace(/\/api$/i, "");
-              this.model.serverUrl = apiUrl.href;
+              updates.serverUrl = apiUrl.href;
             }
 
-            this.model.startDate = scriptConfiguration.startDate ?? "";
+            updates.startDate = scriptConfiguration.startDate ?? "";
           }
+
+          // Apply all updates at once
+          this.setupForm.patchValue(updates);
 
           this.loadingConfiguration.set(false);
         },
@@ -196,10 +241,9 @@ export class AppComponent {
       });
   }
 
-  private isServerUrlBitwardenCloud(): boolean {
+  private isServerUrlBitwardenCloud(serverUrlType: ServerUrlType): boolean {
     return (
-      this.model.serverUrlType === "bitwarden.com" ||
-      this.model.serverUrlType === "bitwarden.eu"
+      serverUrlType === "bitwarden.com" || serverUrlType === "bitwarden.eu"
     );
   }
 }
