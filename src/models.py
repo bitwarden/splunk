@@ -44,7 +44,9 @@ class BitwardenEvent:
     actingUserId: Optional[str]
     device: Optional[int]
     ipAddress: Optional[str]
-
+    secretId: Optional[str]
+    projectId: Optional[str]
+    serviceAccountId: Optional[str]
 
 @dataclass
 class BitwardenEnhancedEvent(BitwardenEvent):

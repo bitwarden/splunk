@@ -7,13 +7,19 @@ on:
     # Splunk App Inspect checks - https://dev.splunk.com/enterprise/docs/whatsnew/#AppInspect-updates
     - cron: "0 0 1 * *"
 
+permissions: {}
+
 jobs:
   cloc:
     name: CLOC
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     steps:
       - name: Checkout repo
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - name: Install cloc
         run: |
@@ -36,8 +42,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: v20.0.0
 
       - name: Install dependencies
@@ -57,15 +63,19 @@ jobs:
     name: Build artifacts
     runs-on: ubuntu-22.04
     needs: build-ui
+    permissions:
+      contents: read
     steps:
       - name: Checkout repo
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - name: Install poetry
         run: pipx install poetry
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # 5.4.0
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # 6.0.0
         with:
           python-version: "3.9"
 
@@ -100,8 +110,8 @@ jobs:
         run: |
           mkdir package/bin
           cp -R src/* package/bin/
-          export APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
-          poetry run ucc-gen build --ta-version ${APP_VERSION}
+          APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
+          poetry run ucc-gen build --ta-version "${APP_VERSION}"
           # cleanup python files
           rm -rf output/bitwarden_event_logs/{bin,lib}/__pycache__
           rm -rf output/bitwarden_event_logs/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
@@ -134,7 +144,7 @@ jobs:
           fi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: bitwarden_event_logs.tar.gz
           path: output/bitwarden_event_logs.tar.gz
@@ -147,6 +157,8 @@ jobs:
     needs:
       - cloc
       - build-artifacts
+    permissions:
+      id-token: write
     steps:
       - name: Check if any job failed
         if: |
@@ -156,11 +168,13 @@ jobs:
           && contains(needs.*.result, 'failure')
         run: exit 1
 
-      - name: Login to Azure - CI subscription
-        uses: Azure/login@e15b166166a8746d1a47596803bd8c1b595455cf # v1.6.0
+      - name: Log in to Azure
         if: failure()
+        uses: bitwarden/gh-actions/azure-login@main
         with:
-          creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
+          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+          client_id: ${{ secrets.AZURE_CLIENT_ID }}
 
       - name: Retrieve secrets
         id: retrieve-secrets
@@ -169,6 +183,10 @@ jobs:
         with:
           keyvault: "bitwarden-ci"
           secrets: "devops-alerts-slack-webhook-url"
+
+      - name: Log out from Azure
+        if: failure()
+        uses: bitwarden/gh-actions/azure-logout@main
 
       - name: Notify Slack on failure
         uses: act10ns/slack@44541246747a30eb3102d87f7a4cc5471b0ffb7d # v2.1.0
