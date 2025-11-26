@@ -180,13 +180,6 @@ export class AppComponent {
     }
   }
 
-  protected changeServerUrlType() {
-    const serverUrlType = this.setupForm.value.serverUrlType!;
-    if (this.isServerUrlBitwardenCloud(serverUrlType)) {
-      this.setupForm.patchValue({ serverUrl: "" });
-    }
-  }
-
   private loadConfiguration(indexesObservable: Observable<string[]>) {
     combineLatest([
       indexesObservable,
