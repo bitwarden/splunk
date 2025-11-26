@@ -1,6 +1,6 @@
 import { Component, Signal, signal, WritableSignal } from "@angular/core";
 import { FormsModule, NG_VALIDATORS } from "@angular/forms";
-import { NgForOf } from "@angular/common";
+
 import { SplunkService } from "../splunk/splunk.service";
 import { toSignal, takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { combineLatest, from, map, Observable, timeout } from "rxjs";
@@ -17,11 +17,10 @@ type SubmitResult = {
 @Component({
     selector: "[id=app-root]",
     imports: [
-        FormsModule,
-        NgForOf,
-        SecureUrlValidatorDirective,
-        IndexRequiredValidatorDirective,
-    ],
+    FormsModule,
+    SecureUrlValidatorDirective,
+    IndexRequiredValidatorDirective
+],
     templateUrl: "./app.component.html",
     styleUrl: "./app.component.scss",
     providers: [

@@ -2,7 +2,7 @@
   <div
     class="p-8"
     [class]="loadingConfiguration() ? 'opacity-50 pointer-events-none' : ''"
-  >
+    >
     <h1 class="mt-1 text-2xl font-semibold text-gray-900">
       Bitwarden Even Logs Setup
     </h1>
@@ -19,7 +19,7 @@
         href="https://bitwarden.com/help/splunk-siem/#connect-your-bitwarden-organization"
         target="_blank"
         rel="noopener noreferrer"
-      >
+        >
         Bitwarden Splunk SIEM documentation
       </a>
       for more information.
@@ -35,215 +35,217 @@
           target="_blank"
           rel="noopener noreferrer"
           >API key</a
-        >
-        can be found in the Bitwarden organization Admin Console.
-      </p>
-      <div>
-        <label
-          for="clientId"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Client Id</label
-        >
-        <div class="flex sm:max-w-md">
-          <input
-            type="text"
-            name="clientId"
-            id="clientId"
-            [(ngModel)]="model.clientId"
-            #clientId="ngModel"
-            required
-            class="form-control block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-          />
-        </div>
-        @if (clientId.invalid) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            Client Id is required
-          </div>
-        }
-      </div>
-      <div>
-        <label
-          for="clientSecret"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Client Secret</label
-        >
-        <div class="flex sm:max-w-md">
-          <input
-            type="password"
-            name="clientSecret"
-            id="clientSecret"
-            [(ngModel)]="model.clientSecret"
-            #clientSecret="ngModel"
-            required
-            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-          />
-        </div>
-        @if (clientSecret.invalid) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            Client Secret is required
-          </div>
-        }
-      </div>
-
-      <h3 class="mt-6 font-semibold text-gray-900">Bitwarden Server Url</h3>
-      <p>
-        Self-hosted Bitwarden servers may need to reconfigure their
-        installation's URL.
-      </p>
-      <div>
-        <label
-          for="serverUrl"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Server Url</label
-        >
-        <div class="mt-2">
-          <select
-            id="serverUrlType"
-            name="serverUrlType"
-            [(ngModel)]="model.serverUrlType"
-            (ngModelChange)="changeServerUrlType()"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
           >
-            <option value="bitwarden.com">Bitwarden US (bitwarden.com)</option>
-            <option value="bitwarden.eu">Bitwarden EU (bitwarden.eu)</option>
-            <option value="self-hosted">Self-Hosted</option>
-          </select>
-        </div>
-        <div class="flex sm:max-w-md">
-          <input
-            type="url"
-            name="serverUrl"
-            id="serverUrl"
-            [(ngModel)]="model.serverUrl"
-            [disabled]="model.serverUrlType !== 'self-hosted'"
-            #serverUrl="ngModel"
-            [required]="model.serverUrlType === 'self-hosted'"
-            secureUrlValidator
-            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-            placeholder="Select server url from dropdown or type your self-hosted domain"
-          />
-        </div>
-        @if (serverUrl.invalid) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            @if (serverUrl.hasError("required")) {
-              Server Url is required
-            } @else if (serverUrl.hasError("insecureUrl")) {
-              URLs starting with 'http://' is considered insecure and not
-              allowed in Splunk. Please use 'https://' instead.
-            } @else {
-              Invalid Url
-            }
-          </div>
-        }
-      </div>
-
-      <h3 class="mt-6 font-semibold text-gray-900">Splunk Index</h3>
-      <p>Choose a Splunk index for the Bitwarden event logs.</p>
-      <div>
-        <label
-          for="index"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Index</label
-        >
-        <div class="mt-2">
-          <select
-            id="index"
-            name="index"
-            [(ngModel)]="model.index"
-            [disabled]="model.indexOverride.length > 0"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-          >
-            @if (indexes() !== undefined) {
-              <option *ngFor="let name of indexes()" [value]="name">
-                {{ name }}
-              </option>
-            } @else {
-              <option disabled value="" selected>Loading..</option>
-            }
-          </select>
-        </div>
-        <div class="flex sm:max-w-md">
-          <input
-            type="text"
-            name="indexOverride"
-            id="indexOverride"
-            [(ngModel)]="model.indexOverride"
-            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-            placeholder="Select index from the dropdown or type the index name manually"
-          />
-        </div>
-        @if (actorForm.hasError("indexRequired")) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            Index is required
-          </div>
-        }
-      </div>
-
-      <h3 class="mt-6 font-semibold text-gray-900">Event Logs</h3>
-      <p>
-        Choose the earliest Bitwarden event date to retrieve. The default is 1
-        year before today's date..<br />
-        <span class="text-sm"
-          >This only works for first time setup. Make sure you have no other
-          Bitwarden events to avoid duplications.</span
-        >
-      </p>
-      <div>
-        <label
-          for="startDate"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Start date (optional)</label
-        >
+          can be found in the Bitwarden organization Admin Console.
+        </p>
         <div>
-          <div class="flex sm:max-w-md">
-            <input
-              type="date"
-              name="startDate"
-              id="startDate"
-              [(ngModel)]="model.startDate"
-              class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-            />
+          <label
+            for="clientId"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Client Id</label
+            >
+            <div class="flex sm:max-w-md">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                [(ngModel)]="model.clientId"
+                #clientId="ngModel"
+                required
+                class="form-control block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                />
+            </div>
+            @if (clientId.invalid) {
+              <div class="alert alert-danger text-red-600 text-sm">
+                Client Id is required
+              </div>
+            }
           </div>
-        </div>
-      </div>
+          <div>
+            <label
+              for="clientSecret"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Client Secret</label
+              >
+              <div class="flex sm:max-w-md">
+                <input
+                  type="password"
+                  name="clientSecret"
+                  id="clientSecret"
+                  [(ngModel)]="model.clientSecret"
+                  #clientSecret="ngModel"
+                  required
+                  class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                  />
+              </div>
+              @if (clientSecret.invalid) {
+                <div class="alert alert-danger text-red-600 text-sm">
+                  Client Secret is required
+                </div>
+              }
+            </div>
 
-      @if (actorForm.invalid) {
-        <div
-          class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-          role="alert"
-        >
-          Form contains errors.
-        </div>
-      }
+            <h3 class="mt-6 font-semibold text-gray-900">Bitwarden Server Url</h3>
+            <p>
+              Self-hosted Bitwarden servers may need to reconfigure their
+              installation's URL.
+            </p>
+            <div>
+              <label
+                for="serverUrl"
+                class="block text-sm font-medium leading-6 text-gray-900"
+                >Server Url</label
+                >
+                <div class="mt-2">
+                  <select
+                    id="serverUrlType"
+                    name="serverUrlType"
+                    [(ngModel)]="model.serverUrlType"
+                    (ngModelChange)="changeServerUrlType()"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    >
+                    <option value="bitwarden.com">Bitwarden US (bitwarden.com)</option>
+                    <option value="bitwarden.eu">Bitwarden EU (bitwarden.eu)</option>
+                    <option value="self-hosted">Self-Hosted</option>
+                  </select>
+                </div>
+                <div class="flex sm:max-w-md">
+                  <input
+                    type="url"
+                    name="serverUrl"
+                    id="serverUrl"
+                    [(ngModel)]="model.serverUrl"
+                    [disabled]="model.serverUrlType !== 'self-hosted'"
+                    #serverUrl="ngModel"
+                    [required]="model.serverUrlType === 'self-hosted'"
+                    secureUrlValidator
+                    class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                    placeholder="Select server url from dropdown or type your self-hosted domain"
+                    />
+                </div>
+                @if (serverUrl.invalid) {
+                  <div class="alert alert-danger text-red-600 text-sm">
+                    @if (serverUrl.hasError("required")) {
+                      Server Url is required
+                    } @else if (serverUrl.hasError("insecureUrl")) {
+                      URLs starting with 'http://' is considered insecure and not
+                      allowed in Splunk. Please use 'https://' instead.
+                    } @else {
+                      Invalid Url
+                    }
+                  </div>
+                }
+              </div>
 
-      @if (submitResult()) {
-        @if (submitResult()!.success) {
-          <div
-            class="mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-            role="alert"
-          >
-            Setup configuration saved.
-          </div>
-        } @else {
-          <div
-            class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-            role="alert"
-          >
-            <strong class="font-bold">Error: </strong>
-            <span class="block sm:inline">{{ submitResult()?.message }}</span>
-          </div>
-        }
-      }
+              <h3 class="mt-6 font-semibold text-gray-900">Splunk Index</h3>
+              <p>Choose a Splunk index for the Bitwarden event logs.</p>
+              <div>
+                <label
+                  for="index"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Index</label
+                  >
+                  <div class="mt-2">
+                    <select
+                      id="index"
+                      name="index"
+                      [(ngModel)]="model.index"
+                      [disabled]="model.indexOverride.length > 0"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      >
+                      @if (indexes() !== undefined) {
+                        @for (name of indexes(); track name) {
+                          <option [value]="name">
+                            {{ name }}
+                          </option>
+                        }
+                      } @else {
+                        <option disabled value="" selected>Loading..</option>
+                      }
+                    </select>
+                  </div>
+                  <div class="flex sm:max-w-md">
+                    <input
+                      type="text"
+                      name="indexOverride"
+                      id="indexOverride"
+                      [(ngModel)]="model.indexOverride"
+                      class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      placeholder="Select index from the dropdown or type the index name manually"
+                      />
+                  </div>
+                  @if (actorForm.hasError("indexRequired")) {
+                    <div class="alert alert-danger text-red-600 text-sm">
+                      Index is required
+                    </div>
+                  }
+                </div>
 
-      <div class="mt-6 flex items-center justify-start gap-x-6">
-        <button
-          type="submit"
-          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400"
-          [disabled]="actorForm.form.invalid || submitLoading()"
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
-</form>
+                <h3 class="mt-6 font-semibold text-gray-900">Event Logs</h3>
+                <p>
+                  Choose the earliest Bitwarden event date to retrieve. The default is 1
+                  year before today's date..<br />
+                  <span class="text-sm"
+                    >This only works for first time setup. Make sure you have no other
+                    Bitwarden events to avoid duplications.</span
+                    >
+                  </p>
+                  <div>
+                    <label
+                      for="startDate"
+                      class="block text-sm font-medium leading-6 text-gray-900"
+                      >Start date (optional)</label
+                      >
+                      <div>
+                        <div class="flex sm:max-w-md">
+                          <input
+                            type="date"
+                            name="startDate"
+                            id="startDate"
+                            [(ngModel)]="model.startDate"
+                            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                            />
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (actorForm.invalid) {
+                      <div
+                        class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        role="alert"
+                        >
+                        Form contains errors.
+                      </div>
+                    }
+
+                    @if (submitResult()) {
+                      @if (submitResult()!.success) {
+                        <div
+                          class="mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                          role="alert"
+                          >
+                          Setup configuration saved.
+                        </div>
+                      } @else {
+                        <div
+                          class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                          role="alert"
+                          >
+                          <strong class="font-bold">Error: </strong>
+                          <span class="block sm:inline">{{ submitResult()?.message }}</span>
+                        </div>
+                      }
+                    }
+
+                    <div class="mt-6 flex items-center justify-start gap-x-6">
+                      <button
+                        type="submit"
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400"
+                        [disabled]="actorForm.form.invalid || submitLoading()"
+                        >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
