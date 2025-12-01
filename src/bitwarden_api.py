@@ -99,8 +99,13 @@ class BitwardenApi:
 
         data = [get_bitwarden_event(item_dict) for item_dict in response_dict.get("data", [])]
 
-        return BitwardenEventsResponse(data=data,
-                                       continuationToken=response_dict.get("continuationToken", None))
+        # The Bitwarden API may return an empty string for the continuationToken
+        # when there are no more pages. Normalize this to "None" to ensure it is
+        # handled properly.
+        return BitwardenEventsResponse(
+            data=data,
+            continuationToken=response_dict.get("continuationToken", None) or None
+        )
 
     def get_groups(self):
         url = _join_urls(self.api_config.events_api_url, "/public/groups")
