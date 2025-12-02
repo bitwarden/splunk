@@ -7,6 +7,8 @@ on:
     # Splunk App Inspect checks - https://dev.splunk.com/enterprise/docs/whatsnew/#AppInspect-updates
     - cron: "0 0 1 * *"
 
+permissions: {}
+
 jobs:
   cloc:
     name: CLOC
@@ -27,9 +29,49 @@ jobs:
       - name: Print lines of code
         run: cloc --include-lang CSS,JavaScript,XML,Python --vcs git
 
+  build-ui:
+    name: Build UI
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./ui
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+        with:
+          persist-credentials: false
+
+      - name: Get Node version
+        id: retrieve-node-version
+        run: |
+          NODE_NVMRC=$(cat .nvmrc)
+          NODE_VERSION=${NODE_NVMRC/v/''}
+          echo "node_version=$NODE_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
+        with:
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+          node-version: ${{ steps.retrieve-node-version.outputs.node_version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+        with:
+          name: bitwarden_event_logs_ui
+          path: ui/dist/setup/*
+          if-no-files-found: error
+
   build-artifacts:
     name: Build artifacts
     runs-on: ubuntu-22.04
+    needs: build-ui
     permissions:
       contents: read
     steps:
@@ -63,6 +105,15 @@ jobs:
 
       - name: Tests
         run: poetry run pytest
+
+      - name: Prepare UI
+        run: mkdir -p package/appserver/static/setup
+
+      - name: Download UI
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: bitwarden_event_logs_ui
+          path: package/appserver/static/setup
 
       - name: Build Splunk App
         run: |
@@ -133,7 +184,6 @@ jobs:
           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
-
 
       - name: Retrieve secrets
         id: retrieve-secrets

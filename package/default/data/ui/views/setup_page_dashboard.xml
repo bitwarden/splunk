@@ -1,12 +1,12 @@
 <dashboard isDashboard="false"
-           script="javascript/setup_page.js"
-           stylesheet="styles/setup_page.css"
+           script="setup/runtime.js,setup/polyfills.js,setup/scripts.js,setup/main.js"
+           stylesheet="setup/styles.css"
            version="1.1">
-      <label>Setup</label>
+    <label>Setup</label>
     <row>
         <panel>
             <html>
-                <div id="main_container"></div>
+                <div id="app-root"></div>
             </html>
         </panel>
     </row>
