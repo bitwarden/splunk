@@ -1302,14 +1302,14 @@ validate = ["splunk-appinspect[validate] (>=3.10.3,<4.0.0)"]
 
 [[package]]
 name = "splunk-appinspect"
-version = "4.0.2"
+version = "4.1.1"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
 files = [
-    {file = "splunk_appinspect-4.0.2-py3-none-any.whl", hash = "sha256:669c36e822ac9b78cb3bd16d3c6d68317877d704907b0d1f31d90e0b2703441d"},
-    {file = "splunk_appinspect-4.0.2.tar.gz", hash = "sha256:cdc0dfb123bb9bde2d85aecd5196ee48afa13dc030f13bd525a7656f97dc2f69"},
+    {file = "splunk_appinspect-4.1.1-py3-none-any.whl", hash = "sha256:887bbace545f4e1106d671655eca23ac0621ac4ad040c572e46d08d7791b4bd2"},
+    {file = "splunk_appinspect-4.1.1.tar.gz", hash = "sha256:4112925e76b973dd1c6da69048eaad137b34a5c5bac38c439d09b71a6bc6eb5a"},
 ]
 
 [package.dependencies]
@@ -1547,4 +1547,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "13971983a726a45134c1d0d532bd6cb2bb014424c1713ab92b3d3d694897be0b"
+content-hash = "1627ff63f57746dc2999639244a0575500e14e5db5990f6228c8f9d8ed2d242a"

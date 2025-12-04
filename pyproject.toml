@@ -26,7 +26,7 @@ python = ">=3.9, <3.11"
 python-dotenv = "1.1.1"
 types-requests = "2.31.0.6"
 splunk-add-on-ucc-framework = "5.69.1"
-splunk-appinspect = "4.0.2"
+splunk-appinspect = "4.1.1"
 
 [tool.poetry.group.splunkslim]
 optional = true
