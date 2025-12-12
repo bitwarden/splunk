@@ -124,7 +124,7 @@
             @if (setupForm.controls.serverUrl.hasError("required")) {
               Server Url is required
             } @else if (setupForm.controls.serverUrl.hasError("insecureUrl")) {
-              URLs starting with 'http://' are considered insecure and not
+              URLs starting with 'http://' are considered insecure and are not
               allowed in Splunk. Please use 'https://' instead.
             } @else {
               Invalid Url
