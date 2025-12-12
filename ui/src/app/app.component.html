@@ -4,7 +4,7 @@
     [class]="loadingConfiguration() ? 'opacity-50 pointer-events-none' : ''"
   >
     <h1 class="mt-1 text-2xl font-semibold text-gray-900">
-      Bitwarden Even Logs Setup
+      Bitwarden Event Logs Setup
     </h1>
     @if (loadingConfiguration()) {
       <div class="mt-1 alert alert-info text-gray-600">
@@ -124,7 +124,7 @@
             @if (setupForm.controls.serverUrl.hasError("required")) {
               Server Url is required
             } @else if (setupForm.controls.serverUrl.hasError("insecureUrl")) {
-              URLs starting with 'http://' is considered insecure and not
+              URLs starting with 'http://' are considered insecure and not
               allowed in Splunk. Please use 'https://' instead.
             } @else {
               Invalid Url
@@ -181,7 +181,7 @@
       <h3 class="mt-6 font-semibold text-gray-900">Event Logs</h3>
       <p>
         Choose the earliest Bitwarden event date to retrieve. The default is 1
-        year before today's date..<br />
+        year before today's date.<br />
         <span class="text-sm"
           >This only works for first time setup. Make sure you have no other
           Bitwarden events to avoid duplications.</span
