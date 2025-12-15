@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bitwarden_event_logs"
-version = "1.4.0"
+version = "2.0.0"
 description = "A Splunk app for reporting Bitwarden event logs."
 authors = [
     "Bitwarden Inc. <hello@bitwarden.com>"
