@@ -25,7 +25,7 @@
     "rxjs": "7.8.1",
     "splunk-sdk": "2.0.2",
     "tslib": "2.8.1",
-    "zone.js": "0.15.1"
+    "zone.js": "0.16.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "21.0.3",
