@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 /**
  * Form-level validator that ensures either 'index' or 'indexOverride' field has a value.
@@ -6,8 +6,8 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
  */
 export function indexRequiredValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const indexControl = control.get('index');
-    const indexOverrideControl = control.get('indexOverride');
+    const indexControl = control.get("index");
+    const indexOverrideControl = control.get("indexOverride");
 
     if (!indexControl || !indexOverrideControl) {
       // Form structure not yet initialized
@@ -26,5 +26,5 @@ export function indexRequiredValidator(): ValidatorFn {
 }
 
 function isNonEmptyString(obj: unknown): boolean {
-  return typeof obj === 'string' && obj.trim() !== '';
+  return typeof obj === "string" && obj.trim() !== "";
 }
