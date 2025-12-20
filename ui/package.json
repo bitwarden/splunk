@@ -48,13 +48,13 @@
     "*": "prettier --cache --write --ignore-unknown"
   },
   "scripts": {
-    "prepare": "husky",
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
     "build:dev": "ng build --configuration development",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng build",
+    "ng": "ng",
+    "prepare": "husky",
+    "prettier": "prettier . --write --ignore-unknown",
+    "start": "ng serve",
     "test": "ng test",
-    "prettier": "prettier . --write --ignore-unknown"
+    "watch": "ng build --watch --configuration development"
   }
 }
