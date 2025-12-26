@@ -62,7 +62,7 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: bitwarden_event_logs_ui
           path: ui/dist/setup/*
@@ -110,7 +110,7 @@ jobs:
         run: mkdir -p package/appserver/static/setup
 
       - name: Download UI
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: bitwarden_event_logs_ui
           path: package/appserver/static/setup
@@ -153,7 +153,7 @@ jobs:
           fi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: bitwarden_event_logs.tar.gz
           path: output/bitwarden_event_logs.tar.gz
