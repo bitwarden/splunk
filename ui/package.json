@@ -50,8 +50,9 @@
   "scripts": {
     "build:dev": "ng build --configuration development",
     "build": "ng build",
+    "lint-staged": "lint-staged",
     "ng": "ng",
-    "prepare": "husky",
+    "prepare": "cd .. && husky ui/.husky",
     "prettier": "prettier . --write --ignore-unknown",
     "start": "ng serve",
     "test": "ng test",
