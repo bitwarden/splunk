@@ -17,7 +17,6 @@ type SubmitResult = {
   selector: "[id=app-root]",
   imports: [ReactiveFormsModule],
   templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
 })
 export class AppComponent {
   protected setupForm;
