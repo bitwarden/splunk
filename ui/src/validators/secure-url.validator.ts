@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 /**
  * Validator function that ensures URLs are secure (https) and properly formatted.
@@ -13,7 +13,7 @@ export function secureUrlValidator(): ValidatorFn {
     const value = (control.value as string).trim();
 
     // Check for insecure http:// protocol
-    if (value.startsWith('http://')) {
+    if (value.startsWith("http://")) {
       return { insecureUrl: true };
     }
 
@@ -23,8 +23,8 @@ export function secureUrlValidator(): ValidatorFn {
     }
 
     // Try prepending https:// if not present
-    if (!value.startsWith('https://')) {
-      const newValue = 'https://' + value;
+    if (!value.startsWith("https://")) {
+      const newValue = "https://" + value;
       if (URL.canParse(newValue)) {
         return null;
       }
