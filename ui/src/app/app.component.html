@@ -49,7 +49,7 @@
             type="text"
             formControlName="clientId"
             id="clientId"
-            class="form-control block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+            class="form-control block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
           />
         </div>
         @if (
@@ -72,7 +72,7 @@
             type="password"
             formControlName="clientSecret"
             id="clientSecret"
-            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+            class="block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
           />
         </div>
         @if (
@@ -100,7 +100,7 @@
           <select
             id="serverUrlType"
             formControlName="serverUrlType"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
           >
             <option value="bitwarden.com">Bitwarden US (bitwarden.com)</option>
             <option value="bitwarden.eu">Bitwarden EU (bitwarden.eu)</option>
@@ -112,7 +112,7 @@
             type="url"
             formControlName="serverUrl"
             id="serverUrl"
-            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+            class="block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
             placeholder="Select server url from dropdown or type your self-hosted domain"
           />
         </div>
@@ -145,7 +145,7 @@
           <select
             id="index"
             formControlName="index"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
           >
             @if (indexes !== undefined) {
               @for (name of indexes(); track name) {
@@ -163,7 +163,7 @@
             type="text"
             formControlName="indexOverride"
             id="indexOverride"
-            class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+            class="block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
             placeholder="Select index from the dropdown or type the index name manually"
           />
         </div>
@@ -199,7 +199,7 @@
               type="date"
               formControlName="startDate"
               id="startDate"
-              class="block flex-1 border-1 rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+              class="block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -207,7 +207,7 @@
 
       @if (setupForm.invalid && setupForm.touched) {
         <div
-          class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative"
           role="alert"
         >
           Form contains errors.
@@ -217,14 +217,14 @@
       @if (submitResult()) {
         @if (submitResult()!.success) {
           <div
-            class="mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+            class="mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-sm relative"
             role="alert"
           >
             Setup configuration saved.
           </div>
         } @else {
           <div
-            class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative"
             role="alert"
           >
             <strong class="font-bold">Error: </strong>
@@ -236,7 +236,7 @@
       <div class="mt-6 flex items-center justify-start gap-x-6">
         <button
           type="submit"
-          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400"
+          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400"
           [disabled]="setupForm.invalid || submitLoading()"
         >
           Save
