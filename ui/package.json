@@ -41,7 +41,7 @@
     "jquery": "3.7.1",
     "lint-staged": "16.2.7",
     "prettier": "3.7.4",
-    "tailwindcss": "^4.1.18",
+    "tailwindcss": "4.1.18",
     "typescript": "5.9.3"
   },
   "lint-staged": {
