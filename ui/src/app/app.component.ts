@@ -1,4 +1,10 @@
-import { Component, Signal, signal, WritableSignal } from "@angular/core";
+import {
+  Component,
+  Signal,
+  signal,
+  ViewEncapsulation,
+  WritableSignal,
+} from "@angular/core";
 import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
 
 import { SplunkService } from "../splunk/splunk.service";
@@ -17,6 +23,15 @@ type SubmitResult = {
   selector: "[id=app-root]",
   imports: [ReactiveFormsModule],
   templateUrl: "./app.component.html",
+  // When deployed, our app runs in the Splunk page context
+  // which uses unknown Bootstrap styling (undocumented bootstrap-enterprise.css).
+  // This interferes withour Tailwind styles, so we run in a ShadowDOM for
+  // (mostly) isolated styling.
+  encapsulation: ViewEncapsulation.ShadowDom,
+  // Hack: Tailwind needs to be imported globally for its variables to work,
+  // but then we need it in the ShadowDOM as well for its styles to work.
+  // Ideally we wouldn't import it twice.
+  styleUrl: "../styles.css",
 })
 export class AppComponent {
   protected setupForm;
