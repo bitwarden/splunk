@@ -129,8 +129,6 @@ jobs:
           rm -rf output/bitwarden_event_logs/appserver/templates/base.html
           rm -rf output/bitwarden_event_logs/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
           rm -rf output/bitwarden_event_logs/README/bitwarden_event_logs_settings.conf.spec
-          rm -rf output/bitwarden_event_logs/lib/charset_normalizer
-          mv output/bitwarden_event_logs/lib/linux/charset_normalizer output/bitwarden_event_logs/lib/charset_normalizer
           poetry run ucc-gen package --path output/bitwarden_event_logs -o output/
           mv output/bitwarden_event_logs*.tar.gz output/bitwarden_event_logs.tar.gz
 
