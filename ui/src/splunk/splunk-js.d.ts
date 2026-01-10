@@ -42,13 +42,13 @@ export interface ConfigurationEntity extends Configuration, Entity {}
 export type ConfigurationFileStanza = {};
 
 export interface ConfigurationFileStanzaEntity
-  extends ConfigurationFileStanza,
-    Entity {}
+  extends ConfigurationFileStanza, Entity {}
 
 export type ConfigurationFile = {};
 
 export interface ConfigurationFileEntity
-  extends ConfigurationFile,
+  extends
+    ConfigurationFile,
     Entity,
     CollectionService<ConfigurationFileStanzaEntity> {}
 
@@ -56,13 +56,11 @@ export interface AppEntity extends Entity {}
 
 export interface IndexesService extends CollectionService<IndexEntity> {}
 
-export interface StoragePasswordsService
-  extends CollectionService<StoragePasswordEntity> {
+export interface StoragePasswordsService extends CollectionService<StoragePasswordEntity> {
   createOrReplace(params: StoragePassword): Promise<StoragePassword>;
 }
 
-export interface ConfigurationsService
-  extends CollectionService<ConfigurationEntity> {
+export interface ConfigurationsService extends CollectionService<ConfigurationEntity> {
   createAsync(
     filename: string,
     stanzaName: string,
