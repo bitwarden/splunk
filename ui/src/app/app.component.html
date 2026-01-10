@@ -7,9 +7,7 @@
       Bitwarden Event Logs Setup
     </h1>
     @if (loadingConfiguration()) {
-      <div class="mt-1 alert alert-info text-gray-600">
-        Loading configuration...
-      </div>
+      <div class="mt-1 text-gray-600">Loading configuration...</div>
     }
     <p class="mt-1 text-gray-600">
       Enter the information below to complete setup.<br />
@@ -25,7 +23,7 @@
       for more information.
     </p>
 
-    <div class="form-group mt-8 grid gap-x-4 gap-y-2">
+    <div class="mt-8 grid gap-x-4 gap-y-2">
       <h3 class="font-semibold text-gray-900">Bitwarden API Key</h3>
       <p>
         Your
@@ -49,16 +47,14 @@
             type="text"
             formControlName="clientId"
             id="clientId"
-            class="form-control block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+            class="block flex-1 border rounded-md border-gray-300 focus:border-indigo-600 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
           />
         </div>
         @if (
           setupForm.controls.clientId.invalid &&
           setupForm.controls.clientId.touched
         ) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            Client Id is required
-          </div>
+          <div class="text-red-600 text-sm">Client Id is required</div>
         }
       </div>
       <div>
@@ -79,9 +75,7 @@
           setupForm.controls.clientSecret.invalid &&
           setupForm.controls.clientSecret.touched
         ) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            Client Secret is required
-          </div>
+          <div class="text-red-600 text-sm">Client Secret is required</div>
         }
       </div>
 
@@ -120,7 +114,7 @@
           setupForm.controls.serverUrl.invalid &&
           setupForm.controls.serverUrl.touched
         ) {
-          <div class="alert alert-danger text-red-600 text-sm">
+          <div class="text-red-600 text-sm">
             @if (setupForm.controls.serverUrl.hasError("required")) {
               Server Url is required
             } @else if (setupForm.controls.serverUrl.hasError("insecureUrl")) {
@@ -172,9 +166,7 @@
           (setupForm.controls.index.touched ||
             setupForm.controls.indexOverride.touched)
         ) {
-          <div class="alert alert-danger text-red-600 text-sm">
-            Index is required
-          </div>
+          <div class="text-red-600 text-sm">Index is required</div>
         }
       </div>
 
