@@ -29,8 +29,6 @@ poetry run ucc-gen build --ta-version "${VERSION}"
 ## cleanup python files
 rm -rf output/$APP_NAME/{bin,lib}/__pycache__
 rm -rf output/$APP_NAME/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
-## remove platform-specific binaries (charset-normalizer will use pure Python fallback)
-rm -f output/$APP_NAME/lib/charset_normalizer/*.so
 ## remove ucc-gen not used files
 rm -rf output/$APP_NAME/appserver/static/{css,js,openapi.json}
 rm -rf output/$APP_NAME/appserver/templates/base.html
