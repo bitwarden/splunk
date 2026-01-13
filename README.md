@@ -15,7 +15,11 @@ The app consists of two main components:
 -   **Event Collection**: Fetches event logs from the Bitwarden API at scheduled intervals
 -   **Splunk Integration**: Indexes events into Splunk using the Splunk SDK
 -   **Configuration Management**: Handles authentication and connection settings
--   Built using the Splunk UCC (Universal Configuration Console) framework
+-   Built using the Splunk UCC (Universal Configuration Console) framework: https://splunk.github.io/addonfactory-ucc-generator/
+-   Uses the Splunk AppInspect CLI to validate compliance with Splunk requirements:
+    -   Overview: https://dev.splunk.com/enterprise/docs/developapps/testvalidate/appinspect/
+    -   Check criteria: https://dev.splunk.com/enterprise/reference/appinspect/appinspectcheck/
+
 -   Dependencies are managed by poetry
 
 ### Angular Frontend (`ui/`)
