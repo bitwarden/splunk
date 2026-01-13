@@ -70,6 +70,8 @@ jobs:
 
   build-artifacts:
     name: Build artifacts
+    # Splunk AppInspect requires aarch64/arm64 binaries, the easiest way to comply with this is to build on an arm64 runner.
+    # This is most important here, but we use it in all jobs in this workflow for consistency.
     runs-on: ubuntu-22.04-arm
     needs: build-ui
     permissions:
