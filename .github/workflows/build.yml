@@ -12,7 +12,7 @@ permissions: {}
 jobs:
   cloc:
     name: CLOC
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     permissions:
       contents: read
     steps:
@@ -31,7 +31,7 @@ jobs:
 
   build-ui:
     name: Build UI
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     defaults:
       run:
         working-directory: ./ui
@@ -70,7 +70,9 @@ jobs:
 
   build-artifacts:
     name: Build artifacts
-    runs-on: ubuntu-22.04
+    # Splunk AppInspect requires aarch64/arm64 binaries, the easiest way to comply with this is to build on an arm64 runner.
+    # This is most important here, but we use it in all jobs in this workflow for consistency.
+    runs-on: ubuntu-22.04-arm
     needs: build-ui
     permissions:
       contents: read
@@ -129,8 +131,6 @@ jobs:
           rm -rf output/bitwarden_event_logs/appserver/templates/base.html
           rm -rf output/bitwarden_event_logs/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
           rm -rf output/bitwarden_event_logs/README/bitwarden_event_logs_settings.conf.spec
-          rm -rf output/bitwarden_event_logs/lib/charset_normalizer
-          mv output/bitwarden_event_logs/lib/linux/charset_normalizer output/bitwarden_event_logs/lib/charset_normalizer
           poetry run ucc-gen package --path output/bitwarden_event_logs -o output/
           mv output/bitwarden_event_logs*.tar.gz output/bitwarden_event_logs.tar.gz
 
@@ -162,7 +162,7 @@ jobs:
   check-failures:
     name: Check for failures
     if: always()
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     needs:
       - cloc
       - build-artifacts

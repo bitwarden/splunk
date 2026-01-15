@@ -34,8 +34,6 @@ rm -rf output/$APP_NAME/appserver/static/{css,js,openapi.json}
 rm -rf output/$APP_NAME/appserver/templates/base.html
 rm -rf output/$APP_NAME/default/{restmap.conf,web.conf,bitwarden_event_logs_settings.conf}
 rm -rf output/$APP_NAME/README/bitwarden_event_logs_settings.conf.spec
-rm -rf output/$APP_NAME/lib/charset_normalizer
-mv output/$APP_NAME/lib/linux/charset_normalizer output/$APP_NAME/lib/charset_normalizer
 poetry run ucc-gen package --path output/$APP_NAME/ -o output/
 
 mv "output/${APP_NAME}-${VERSION}.tar.gz" output/bitwarden_event_logs.tar.gz
