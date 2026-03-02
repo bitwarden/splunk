@@ -5,10 +5,10 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Default file owners
-* @bitwarden/team-admin-console-dev
+* @bitwarden/team-data-insights-and-reporting-dev
 
 # Shared workflows ownership
-.github/workflows/build.yml @bitwarden/dept-bre @bitwarden/team-admin-console-dev
+.github/workflows/build.yml @bitwarden/dept-bre @bitwarden/team-data-insights-and-reporting-dev
 
 # Docker-related files
 **/Dockerfile @bitwarden/team-appsec @bitwarden/dept-bre
