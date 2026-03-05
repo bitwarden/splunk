@@ -39,8 +39,8 @@
     "jquery": "4.0.0",
     "lint-staged": "16.2.7",
     "prettier": "3.8.1",
-    "tailwindcss": "4.1.18",
-    "@tailwindcss/postcss": "4.1.18",
+    "tailwindcss": "4.2.1",
+    "@tailwindcss/postcss": "4.2.1",
     "postcss": "8.5.6",
     "typescript": "5.9.3"
   },
