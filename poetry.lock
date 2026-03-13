@@ -1357,14 +1357,14 @@ deprecation = "*"
 
 [[package]]
 name = "splunktaucclib"
-version = "8.0.0"
+version = "8.1.0"
 description = ""
 optional = false
 python-versions = "<3.14,>=3.7"
 groups = ["main"]
 files = [
-    {file = "splunktaucclib-8.0.0-py3-none-any.whl", hash = "sha256:ca296f8bb2ec3218ef27b635918dd260d573653077d6c0e7a4a966b373234265"},
-    {file = "splunktaucclib-8.0.0.tar.gz", hash = "sha256:596766965f22cd093fccea45b7f147e6b3e98b0e0c4fc34ed7d2b94501143e2d"},
+    {file = "splunktaucclib-8.1.0-py3-none-any.whl", hash = "sha256:f779e32b531a5b42de89d2361d222db1d7a4f7cb43b7db9123369faa633e0ab7"},
+    {file = "splunktaucclib-8.1.0.tar.gz", hash = "sha256:11a429669e2fd60e5e2e2264541d9cf8b4a24031e5dd12b018d0b261c5db365a"},
 ]
 
 [package.dependencies]
@@ -1544,4 +1544,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "68cef5bdf45e482083835b3bb52079a307cd4c6db298280ce966310bd8803d96"
+content-hash = "ab8077ca762100aa4bcd77aec5315ba79d7586b3376a553055dcc48e3cc9ae46"
