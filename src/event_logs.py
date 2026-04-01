@@ -1,4 +1,5 @@
 import sys
+import time
 from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, List
@@ -14,6 +15,12 @@ from models import (
     BitwardenMember
 )
 from utils import get_logger, obj_to_json
+
+
+# Minimum delay between API calls in seconds.
+# Bitwarden rate limit is 400 calls/minute ≈ 6.67 calls/second.
+# 0.2s delay = 5 calls/second (safe margin under the limit).
+API_CALL_DELAY = 0.2
 
 
 class EventLogsWriter:
@@ -50,6 +57,10 @@ class EventLogsWriter:
 
             if events_response.continuationToken is None:
                 break
+
+            # Rate limiting: pause between API calls to stay under Bitwarden's
+            # rate limit of 400 calls/minute
+            time.sleep(API_CALL_DELAY)
 
     def write_events(self, events: List[Any]):
         self.logger.info('writing %s events', len(events))
