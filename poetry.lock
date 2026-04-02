@@ -705,7 +705,7 @@ version = "26.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev", "test"]
+groups = ["main", "dev", "splunkslim", "test"]
 files = [
     {file = "packaging-26.0-py3-none-any.whl", hash = "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529"},
     {file = "packaging-26.0.tar.gz", hash = "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"},
@@ -1325,21 +1325,21 @@ mcp = ["fastmcp (>=2.13.0.2,<3) ; python_full_version >= \"3.10.0\""]
 
 [[package]]
 name = "splunk-packaging-toolkit"
-version = "1.2.6"
+version = "1.2.7"
 description = "Splunk Packaging Toolkit"
 optional = false
 python-versions = "<3.14,>=3.5.1"
 groups = ["splunkslim"]
 files = [
-    {file = "splunk_packaging_toolkit-1.2.6-py3-none-any.whl", hash = "sha256:2c7a799921bf227ea536aba8e406c7675555df5b499c128d01fa0a6124c93021"},
-    {file = "splunk_packaging_toolkit-1.2.6.tar.gz", hash = "sha256:ab5bb39a872edeaffcd0f97a6ba6722dab27a41b4b33f7d6a9314f144d40bcfb"},
+    {file = "splunk_packaging_toolkit-1.2.7-py3-none-any.whl", hash = "sha256:baa27fd9e33e293c90d4b135e4af801513d5fe4081ef3ae9f5782e8296398c75"},
+    {file = "splunk_packaging_toolkit-1.2.7.tar.gz", hash = "sha256:dbc95266ca9055ecef5c9a51ece99abba64a292d2e34e2cbdf0fde861cdbf473"},
 ]
 
 [package.dependencies]
 future = ">=0.18.3"
 semantic_version = "2.10.0"
 setuptools = "80.9.0"
-wheel = "0.45.1"
+wheel = "0.46.3"
 
 [[package]]
 name = "splunk-sdk"
@@ -1507,18 +1507,21 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "wheel"
-version = "0.45.1"
-description = "A built-package format for Python"
+version = "0.46.3"
+description = "Command line tool for manipulating wheel files"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["splunkslim"]
 files = [
-    {file = "wheel-0.45.1-py3-none-any.whl", hash = "sha256:708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248"},
-    {file = "wheel-0.45.1.tar.gz", hash = "sha256:661e1abd9198507b1409a20c02106d9670b2576e916d58f520316666abca6729"},
+    {file = "wheel-0.46.3-py3-none-any.whl", hash = "sha256:4b399d56c9d9338230118d705d9737a2a468ccca63d5e813e2a4fc7815d8bc4d"},
+    {file = "wheel-0.46.3.tar.gz", hash = "sha256:e3e79874b07d776c40bd6033f8ddf76a7dad46a7b8aa1b2787a83083519a1803"},
 ]
 
+[package.dependencies]
+packaging = ">=24.0"
+
 [package.extras]
-test = ["pytest (>=6.0.0)", "setuptools (>=65)"]
+test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 
 [[package]]
 name = "zipp"
@@ -1544,4 +1547,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "ab8077ca762100aa4bcd77aec5315ba79d7586b3376a553055dcc48e3cc9ae46"
+content-hash = "0873708da65028f5a1eb18d481fe5532a39dbd1e447b8ceac1541eb7270a8d2d"
