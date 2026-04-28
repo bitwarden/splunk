@@ -1291,14 +1291,14 @@ validate = ["splunk-appinspect[validate] (>=4.0.0,<5.0.0)"]
 
 [[package]]
 name = "splunk-appinspect"
-version = "4.1.2"
+version = "4.2.0"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
 files = [
-    {file = "splunk_appinspect-4.1.2-py3-none-any.whl", hash = "sha256:0020ce9dd76f57afc0486411bcbeba06f5d1c752e962967bc9debdbf412836c5"},
-    {file = "splunk_appinspect-4.1.2.tar.gz", hash = "sha256:0e8001167fcf0735d71d67659e09f8ab07e630476e8b10c5b0e94fbaa63af477"},
+    {file = "splunk_appinspect-4.2.0-py3-none-any.whl", hash = "sha256:b95d15f94850eb2319f1990b405065b59a9ea3e7dcab099b14ba7c5d93e826ae"},
+    {file = "splunk_appinspect-4.2.0.tar.gz", hash = "sha256:93c7801b143ef03a4b2da91f32e7c9a51399d8cb0aa1f834f187cbb72c2771bc"},
 ]
 
 [package.dependencies]
@@ -1317,7 +1317,7 @@ python-magic = {version = "0.4.24", markers = "sys_platform != \"win32\""}
 python-magic-bin = {version = "0.4.14", markers = "sys_platform == \"win32\""}
 pywin32 = {version = "310", markers = "sys_platform == \"win32\""}
 pyyaml = ">=6.0.1,<7.0.0"
-semver = ">=2.13.0"
+semver = ">=3.0.0"
 structlog = ">=23.1.0,<=24.4.0"
 
 [package.extras]
@@ -1547,4 +1547,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "0873708da65028f5a1eb18d481fe5532a39dbd1e447b8ceac1541eb7270a8d2d"
+content-hash = "52ca24df713814506d0e44f7665d80974172484bcd5f3df614a2146a4ff095dc"
