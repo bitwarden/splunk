@@ -28,8 +28,8 @@
     "zone.js": "0.16.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "21.1.1",
-    "@angular/cli": "21.1.1",
+    "@angular-devkit/build-angular": "21.2.8",
+    "@angular/cli": "21.2.8",
     "@angular/compiler-cli": "21.2.4",
     "@tailwindcss/forms": "0.5.9",
     "@types/jasmine": "6.0.0",
