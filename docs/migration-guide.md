@@ -14,10 +14,10 @@ Once the application has been updated, **no changes to existing polling setups f
 
 ## Complete the Setup for Push Delivery
 
-While existing event polling setups will still work, the old polling setup form will be removed, and the application admin will be prompted to set up push based event delivery. This process includes a new setup form, which will ensure that the Splunk instance has HEC enabled, a token has been generated for use, and the proper setup in the Bitwarden Admin Console has been completed.
+While existing event polling setups will still work, the application admin will be prompted to set up push based event delivery. This process includes a new setup form, which will ensure that the Splunk instance has HEC enabled, a token has been generated for use, and the proper setup in the Bitwarden Admin Console has been completed.
 
 After following this setup form and entering the HEC endpoint and token into Bitwarden's Admin Console, the user will be prompted to disable their old polling configuration. Upon confirmation, the application will stop polling for events. Note that duplicate events for the Bitwarden Organization will be received in Splunk for the entire timespan where both push and polling based event delivery models are enabled. **For this reason, it is strongly recommended that the admin disable the polling setup immediately after confirmation that events are being received with the push based model.**
 
 ### New Application Users
 
-First time users of the Bitwarden Splunk application that install the newest version will not have the option to configure polling based event collection. They will only see the push based event delivery setup instructions.
+First time users of the Bitwarden Splunk application that install the newest version will have the option to configure either polling based or push based event collection.
