@@ -1,23 +1,31 @@
-# Migration Guide: Splunk Application to Event Push Delivery
+# Migration Guide: Event Polling to Push Delivery
 
-This guide will outline the process that the Splunk admin will need to follow to successfully upgrade the Bitwarden Splunk application to receive events from their Bitwarden Organizations using a push based model.
+This guide outlines how a Splunk admin can migrate the [Bitwarden Event Logs](https://splunkbase.splunk.com/app/6592) Splunk application from polling events to pushed events from their Bitwarden Organizations.
 
-Past versions of the application used a polling based model, where the Splunk application used repeated calls to the Bitwarden API for ingesting event data. After application installation, this required the admin to complete a setup form to enable making authenticated HTTP requests to the Bitwarden API. This polling based model will be deprecated in the newest version of the application, in favor of the new push based model.
+Past versions of the Splunk application exclusively used a polling model, where the application used repeated calls to the Bitwarden API to retrieve event data. New versions of the application include the ability to retrieve events pushed from the Bitwarden platform into a HTTP Event Collector exposed on the Splunk instance ([see docs](https://help.splunk.com/en/splunk-enterprise/get-started/get-data-in/9.3/get-data-with-http-event-collector/set-up-and-use-http-event-collector-in-splunk-web)).
 
-Users will be encouraged to complete setup for the new push based model, where the Bitwarden platform will send events into Splunk via the HTTP Event Collector ([see docs](https://help.splunk.com/en/splunk-enterprise/get-started/get-data-in/9.3/get-data-with-http-event-collector/set-up-and-use-http-event-collector-in-splunk-web)).
+## Migration Steps
 
-## Upgrading the Application
+In order migrate Bitwarden Organization logs from a polling configuration to a push based configuration, admins will complete the following (each step detailed below):
 
-Splunk admins will be able to find the Bitwarden application through Splunkbase, where the latest version update will be available for download. This download happens in place on their instance and does not require uninstalling their existing version of the Bitwarden Splunk application.
+1. Update the Bitwarden Splunk application
+2. Complete set up for event push delivery
+3. Disable event polling configurations
 
-Once the application has been updated, **no changes to existing polling setups for receiving events will occur on their own**. This means that when opening the upgraded application, any existing event polling setups will continue to run as they did on previous versions of the app.
+### Update the Bitwarden Splunk application
 
-## Complete the Setup for Push Delivery
+Splunk admins need to update to any version after [TODO: add version number here] through Splunkbase. The download happens in place on their instance and does not require uninstalling their existing version of the Bitwarden Splunk application.
 
-While existing event polling setups will still work, the application admin will be prompted to set up push based event delivery. This process includes a new setup form, which will ensure that the Splunk instance has HEC enabled, a token has been generated for use, and the proper setup in the Bitwarden Admin Console has been completed.
+Updating the application will not effect existing event polling configurations, events will continue to be polled just as before the update.
 
-After following this setup form and entering the HEC endpoint and token into Bitwarden's Admin Console, the user will be prompted to disable their old polling configuration. Upon confirmation, the application will stop polling for events. Note that duplicate events for the Bitwarden Organization will be received in Splunk for the entire timespan where both push and polling based event delivery models are enabled. **For this reason, it is strongly recommended that the admin disable the polling setup immediately after confirmation that events are being received with the push based model.**
+### Complete set up for event push delivery
 
-### New Application Users
+In the application, a new form for configuring event push delivery is present. This set up will ensure that the Splunk instance has HEC enabled, a token has been generated for use, and proper set up in the Bitwarden Admin Console has been completed.
 
-First time users of the Bitwarden Splunk application that install the newest version will have the option to configure either polling based or push based event collection.
+The admin will complete this form, and the Bitwarden platform will begin to push event logs for the Organization into Splunk.
+
+### Disable event polling configurations
+
+Last, it is important to ensure any remaining polling configurations are removed from the application. This prevents the retrieval of duplicate event logs for the Organization, and should be completed as soon as possible. When both poll and push configurations are enabled for an Organization at the same time, the same events will be ingested twice.
+
+[TODO: clarify on how we would like to build disabling polling configurations. should the admin delete them manually (i.e. button click), or should completing push based delivery delete polling configurations automatically?)]
