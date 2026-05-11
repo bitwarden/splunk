@@ -1,8 +1,10 @@
 name: splunk
 
 services:
+  # Primary dev target. Splunk 10.2+ ships Python 3.13, matching the app's
+  # pyproject.toml constraint (>=3.13, <3.14). Use this for normal local testing.
   splunk:
-    image: splunk/splunk:10.0
+    image: splunk/splunk:10.2
     container_name: splunk
     platform: linux/amd64
     ports:
@@ -12,6 +14,12 @@ services:
       SPLUNK_GENERAL_TERMS: "--accept-sgt-current-at-splunk-com"
       SPLUNK_START_ARGS: "--accept-license"
       SPLUNK_PASSWORD: password
+  # Retained intentionally to manually verify the pre-10.2 install-time
+  # rejection path. Splunk 9.3 ships Python 3.7, which is outside the app's
+  # >=3.13 constraint, so installation here should fail cleanly. Not for
+  # day-to-day development; remove this service once Splunkbase recertification
+  # (PM-35800) declares an explicit `requires_splunk_version` in app.conf and
+  # the rejection signal is enforced by package metadata instead.
   splunk93:
     image: splunk/splunk:9.3
     container_name: splunk
