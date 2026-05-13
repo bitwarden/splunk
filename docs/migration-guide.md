@@ -23,6 +23,6 @@ In the application, a new form for configuring event push delivery is present. T
 
 The admin will complete this form, and the Bitwarden platform will begin to push event logs for the Organization into Splunk.
 
-**Note that completing the setup form for event push delivery (push or poll) will automatically disable any existing polling configuration.** For example, if your existing configuration uses polling to retrieve events, completing the setup form for event push delivery will overwrite the old polling configuration.
+**Note that completing the setup form for event push delivery (push or poll) will automatically disable any existing polling configuration.** For example, if your existing configuration uses polling to retrieve events, completing the setup form for event push delivery will overwrite the old polling configuration. Having both event polling and push configurations is not allowed, in order to prevent the same events from being received in Splunk multiple times.
 
 
