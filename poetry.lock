@@ -45,14 +45,14 @@ lxml = ["lxml"]
 
 [[package]]
 name = "certifi"
-version = "2025.11.12"
+version = "2026.4.22"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.7"
 groups = ["main", "dev"]
 files = [
-    {file = "certifi-2025.11.12-py3-none-any.whl", hash = "sha256:97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b"},
-    {file = "certifi-2025.11.12.tar.gz", hash = "sha256:d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316"},
+    {file = "certifi-2026.4.22-py3-none-any.whl", hash = "sha256:3cb2210c8f88ba2318d29b0388d1023c8492ff72ecdde4ebdaddbb13a31b1c4a"},
+    {file = "certifi-2026.4.22.tar.gz", hash = "sha256:8d455352a37b71bf76a79caa83a3d6c25afee4a385d632127b6afb3963f1c580"},
 ]
 
 [[package]]
@@ -1265,19 +1265,19 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "6.1.0"
+version = "6.4.0"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = "<3.14,>=3.9"
 groups = ["dev"]
 files = [
-    {file = "splunk_add_on_ucc_framework-6.1.0-py3-none-any.whl", hash = "sha256:8e6751763bda7f065aa711522df6ed9f4cd9cbfaab3e5145f779c8649322b4cd"},
-    {file = "splunk_add_on_ucc_framework-6.1.0.tar.gz", hash = "sha256:576ec3f5d84efc221df6fda94e1b040ebae2355bdff170676b1fc7cc03bbc74c"},
+    {file = "splunk_add_on_ucc_framework-6.4.0-py3-none-any.whl", hash = "sha256:82f217fe181cbd7eaa48550db413f080c33a2734515e3b250bebf64a822011f6"},
+    {file = "splunk_add_on_ucc_framework-6.4.0.tar.gz", hash = "sha256:27f8afabb51b7270b34c23705e99d7d2c9c659edd321c2770e2f3d5e9b037a86"},
 ]
 
 [package.dependencies]
 addonfactory-splunk-conf-parser-lib = ">=1.0.0,<2.0.0"
-certifi = ">=2025.6.15,<2026.0.0"
+certifi = ">=2026.0.0,<2027.0.0"
 colorama = ">=0.4.6,<0.5.0"
 defusedxml = ">=0.7.1,<0.8.0"
 dunamai = ">=1.22.0,<2.0.0"
@@ -1291,14 +1291,14 @@ validate = ["splunk-appinspect[validate] (>=4.0.0,<5.0.0)"]
 
 [[package]]
 name = "splunk-appinspect"
-version = "4.1.2"
+version = "4.2.0"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
 files = [
-    {file = "splunk_appinspect-4.1.2-py3-none-any.whl", hash = "sha256:0020ce9dd76f57afc0486411bcbeba06f5d1c752e962967bc9debdbf412836c5"},
-    {file = "splunk_appinspect-4.1.2.tar.gz", hash = "sha256:0e8001167fcf0735d71d67659e09f8ab07e630476e8b10c5b0e94fbaa63af477"},
+    {file = "splunk_appinspect-4.2.0-py3-none-any.whl", hash = "sha256:b95d15f94850eb2319f1990b405065b59a9ea3e7dcab099b14ba7c5d93e826ae"},
+    {file = "splunk_appinspect-4.2.0.tar.gz", hash = "sha256:93c7801b143ef03a4b2da91f32e7c9a51399d8cb0aa1f834f187cbb72c2771bc"},
 ]
 
 [package.dependencies]
@@ -1317,7 +1317,7 @@ python-magic = {version = "0.4.24", markers = "sys_platform != \"win32\""}
 python-magic-bin = {version = "0.4.14", markers = "sys_platform == \"win32\""}
 pywin32 = {version = "310", markers = "sys_platform == \"win32\""}
 pyyaml = ">=6.0.1,<7.0.0"
-semver = ">=2.13.0"
+semver = ">=3.0.0"
 structlog = ">=23.1.0,<=24.4.0"
 
 [package.extras]
@@ -1547,4 +1547,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "0873708da65028f5a1eb18d481fe5532a39dbd1e447b8ceac1541eb7270a8d2d"
+content-hash = "ec04624879f048d9f6420188db525a30dc84ced58f31436a6862b19f8015a6d9"
