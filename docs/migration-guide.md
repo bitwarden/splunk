@@ -10,7 +10,6 @@ In order migrate Bitwarden Organization logs from a polling configuration to a p
 
 1. Update the Bitwarden Splunk application
 2. Complete set up for event push delivery
-3. Disable event polling configurations
 
 ### Update the Bitwarden Splunk application
 
@@ -24,8 +23,6 @@ In the application, a new form for configuring event push delivery is present. T
 
 The admin will complete this form, and the Bitwarden platform will begin to push event logs for the Organization into Splunk.
 
-### Disable event polling configurations
+**Note that completing the setup form for event push delivery (push or poll) will automatically disable any existing polling configuration.** For example, if your existing configuration uses polling to retrieve events, completing the setup form for event push delivery will overwrite the old polling configuration.
 
-Last, it is important to ensure any remaining polling configurations are removed from the application. This prevents the retrieval of duplicate event logs for the Organization, and should be completed as soon as possible. When both poll and push configurations are enabled for an Organization at the same time, the same events will be ingested twice.
 
-[TODO: clarify on how we would like to build disabling polling configurations. should the admin delete them manually (i.e. button click), or should completing push based delivery delete polling configurations automatically?)]
