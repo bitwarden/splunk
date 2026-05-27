@@ -6,7 +6,7 @@ Past versions of the Splunk application exclusively used a polling model, where 
 
 ## Migration Steps
 
-In order migrate Bitwarden Organization logs from a polling configuration to a push based configuration, admins will complete the following (each step detailed below):
+In order to migrate Bitwarden Organization logs from a polling configuration to a push based configuration, admins will complete the following (each step detailed below):
 
 1. Update the Bitwarden Splunk application
 2. Complete set up for event push delivery
