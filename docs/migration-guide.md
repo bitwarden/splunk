@@ -15,7 +15,7 @@ In order to migrate Bitwarden Organization logs from a polling configuration to 
 
 Splunk admins need to update to any version after [TODO: add version number here] through Splunkbase. The download happens in place on their instance and does not require uninstalling their existing version of the Bitwarden Splunk application.
 
-Updating the application will not effect existing event polling configurations, events will continue to be polled just as before the update.
+Updating the application will not affect existing event polling configurations, events will continue to be polled just as before the update.
 
 ### Complete set up for event push delivery
 
