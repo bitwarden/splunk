@@ -22,7 +22,7 @@ Updating the application will not affect existing event polling configurations, 
 
 Once in the updated application, the admin should navigate to the setup form. The setup form includes an option for "push" event delivery. Select it, and the form will assist the admin in ensuring that their Splunk instance is properly configured to receive events using the Http Event Collector (HEC).
 
-Take note of both the HEC endpoint and authentication token, and proceed to the next step where the push delivery is configured in the Bitwarden Admin Console.
+Take note of both the HEC endpoint and authentication token, and proceed to the next step where push delivery is configured in the Bitwarden Admin Console.
 
 ### Bitwarden Admin Console: Complete set up for event push delivery
 
@@ -32,6 +32,7 @@ The configuration form requires the HEC endpoint and authentication token receiv
 
 You have now successfully configured Bitwarden to push Organization event data into your Splunk instance! 
 
+Follow the Bitwarden Help Center [documentation](TODO) if necessary.
 
 ## Important Notes
 
@@ -49,10 +50,10 @@ Upon completing the configuration in Bitwarden's Admin Console for the Organizat
 
 ### Duplicate or Lost Events
 
-### Duplicate Events
+#### Duplicate Events
 
 Bitwarden event data may be received by Splunk multiple times, which can result in events appearing duplicated. This happens when push and poll configurations are enabled at the same time for the same Bitwarden Organization. This should only happen momentarily, while transitioning between the event delivery configuration types.
 
-### Missing Events
+#### Missing Events
 
 Bitwarden event data may be missing if an existing polling configuration is deleted, or a push configuration is not properly completed in the Bitwarden Admin Console. Push configurations will not begin receiving event data until the setup is finished in the Bitwarden Admin Console.
