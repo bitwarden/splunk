@@ -8,8 +8,9 @@ Past versions of the Splunk application exclusively used a polling model, where 
 
 In order to migrate Bitwarden Organization logs from a polling configuration to a push based configuration, admins will complete the following (each step detailed below):
 
-1. Update the Bitwarden Splunk application
-2. Complete set up for event push delivery
+1. [Update the Bitwarden Splunk application](#update-the-bitwarden-splunk-application)
+2. [Bitwarden Splunk application: Configure event push delivery (HEC setup)](#bitwarden-splunk-application-configure-event-push-delivery-hec-setup)
+3. [Bitwarden Admin Console: Complete setup for event push delivery](#bitwarden-admin-console-complete-set-up-for-event-push-delivery)
 
 ### Update the Bitwarden Splunk application
 
@@ -17,12 +18,41 @@ Splunk admins need to update to any version after [TODO: add version number here
 
 Updating the application will not affect existing event polling configurations, events will continue to be polled just as before the update.
 
-### Complete set up for event push delivery
+### Bitwarden Splunk application: Configure event push delivery (HEC setup)
 
-In the application, a new form for configuring event push delivery is present. This set up will ensure that the Splunk instance has HEC enabled, a token has been generated for use, and proper set up in the Bitwarden Admin Console has been completed.
+Once in the updated application, the admin should navigate to the setup form. The setup form includes an option for "push" event delivery. Select it, and the form will assist the admin in ensuring that their Splunk instance is properly configured to receive events using the Http Event Collector (HEC).
 
-The admin will complete this form, and the Bitwarden platform will begin to push event logs for the Organization into Splunk.
+Take note of both the HEC endpoint and authentication token, and proceed to the next step where the push delivery is configured in the Bitwarden Admin Console.
 
-**Note that completing the setup form for event push delivery (push or poll) will automatically disable any existing polling configuration.** For example, if your existing configuration uses polling to retrieve events, completing the setup form for event push delivery will overwrite the old polling configuration. Having both event polling and push configurations is not allowed, in order to prevent the same events from being received in Splunk multiple times.
+### Bitwarden Admin Console: Complete set up for event push delivery
+
+Login to the Bitwarden Admin Console as a member of the Organization you wish to receive event data for. From there, navigate to the "Integrations" page, then to the "Event management" tab. Locate the Splunk option in the list, and click "Connect Splunk".
+
+The configuration form requires the HEC endpoint and authentication token received from Splunk in the step before. Enter them and save the configuration.
+
+You have now successfully configured Bitwarden to push Organization event data into your Splunk instance! 
 
 
+## Important Notes
+
+### Event Availability in Splunk
+
+For either configuration type, you will know event data is being properly delivered into Splunk once you see the Bitwarden Splunk application's included dashboards populate with data. See sections below about when event data should be delivered for each configuration type.
+
+#### Poll Configurations
+
+Upon completing the setup form for polling event data in the Bitwarden Splunk application, the application will begin polling Bitwarden endpoints for event data. 
+
+#### Push Configurations
+
+Upon completing the configuration in Bitwarden's Admin Console for the Organization of your choice, the Bitwarden platform will begin to push events into your Splunk instance. 
+
+### Duplicate or Lost Events
+
+### Duplicate Events
+
+Bitwarden event data may be received by Splunk multiple times, which can result in events appearing duplicated. This happens when push and poll configurations are enabled at the same time for the same Bitwarden Organization. This should only happen momentarily, while transitioning between the event delivery configuration types.
+
+### Missing Events
+
+Bitwarden event data may be missing if an existing polling configuration is deleted, or a push configuration is not properly completed in the Bitwarden Admin Console. Push configurations will not begin receiving event data until the setup is finished in the Bitwarden Admin Console.
