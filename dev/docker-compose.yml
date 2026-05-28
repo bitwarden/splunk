@@ -2,9 +2,10 @@ name: splunk
 
 services:
   # Primary dev target. Splunk 10.2+ ships Python 3.13, matching the app's
-  # pyproject.toml constraint (>=3.13, <3.14). Use this for normal local testing.
+  # pyproject.toml constraint (>=3.13, <3.14). Pinned to the current latest
+  # (10.4) so local dev tracks what most customers will be running.
   splunk:
-    image: splunk/splunk:10.2
+    image: splunk/splunk:10.4
     container_name: splunk
     platform: linux/amd64
     ports:
