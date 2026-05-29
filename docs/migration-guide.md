@@ -24,7 +24,7 @@ Once in the updated application, the admin should navigate to the setup form. Th
 
 Take note of both the HEC endpoint and authentication token, and proceed to the next step where push delivery is configured in the Bitwarden Admin Console.
 
-### Bitwarden Admin Console: Complete set up for event push delivery
+### Bitwarden Admin Console: Complete setup for event push delivery
 
 Login to the Bitwarden Admin Console as a member of the Organization you wish to receive event data for. From there, navigate to the "Integrations" page, then to the "Event management" tab. Locate the Splunk option in the list, and click "Connect Splunk".
 
