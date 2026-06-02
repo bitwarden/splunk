@@ -84,11 +84,13 @@ class Config:
         identity_url = identity_url.strip(" \"")
 
         start_date = datetime_from_str(settings_config.get('startDate', None))
+        event_delivery_mode = settings_config.get('eventDeliveryMode', 'poll')
 
         return SettingsConfig(api_url=secure_url(api_url),
                               identity_url=secure_url(identity_url),
                               start_date=start_date,
-                              logging_level=settings_config.get('loggingLevel', None))
+                              logging_level=settings_config.get('loggingLevel', None),
+                              event_delivery_mode=event_delivery_mode)
 
     @classmethod
     def __parse_bitwarden_api_key(cls, bitwarden_api_key: Optional[str]) -> BitwardenApiKey:
