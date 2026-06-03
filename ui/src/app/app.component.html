@@ -108,13 +108,13 @@
           Self-hosted Bitwarden servers may need to reconfigure their
           installation's URL.
         </p>
-        <div>
-          <label
-            for="serverUrl"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Server Url</label
-          >
+        <div class="flex flex-col gap-y-2">
           <div class="mt-2">
+            <label
+              for="serverUrl"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Server Url</label
+            >
             <select
               id="serverUrlType"
               formControlName="serverUrlType"
@@ -157,13 +157,13 @@
 
         <h3 class="mt-6 font-semibold text-gray-900">Splunk Index</h3>
         <p>Choose a Splunk index for the Bitwarden event logs.</p>
-        <div>
-          <label
-            for="index"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Index</label
-          >
+        <div class="flex flex-col gap-y-2">
           <div class="mt-2">
+            <label
+              for="index"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Index</label
+            >
             <select
               id="index"
               formControlName="index"
