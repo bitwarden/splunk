@@ -114,7 +114,26 @@ export class AppComponent {
         takeUntilDestroyed(),
       )
       .subscribe((eventDeliveryMode) => {
-        this.isPushEventDelivery.set(eventDeliveryMode === "push");
+        const isPush = eventDeliveryMode === "push";
+        this.isPushEventDelivery.set(isPush);
+
+        // disable form validators when push is selected, reapply when polling is selected
+        if (isPush) {
+          this.setupForm.controls.clientId.clearValidators();
+          this.setupForm.controls.clientSecret.clearValidators();
+          this.setupForm.controls.serverUrl.clearValidators();
+          this.setupForm.setValidators(null);
+          this.setupForm.controls.clientId.updateValueAndValidity();
+          this.setupForm.controls.clientSecret.updateValueAndValidity();
+          this.setupForm.controls.serverUrl.updateValueAndValidity();
+          this.setupForm.updateValueAndValidity();
+        } else {
+          this.setupForm.controls.clientId.setValidators(Validators.required);
+          this.setupForm.controls.clientSecret.setValidators(
+            Validators.required,
+          );
+          this.setupForm.setValidators(indexRequiredValidator());
+        }
       });
 
     // Load indexes
