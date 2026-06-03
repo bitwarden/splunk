@@ -36,6 +36,8 @@ type SubmitResult = {
 export class AppComponent {
   protected setupForm;
 
+  protected isPushEventDelivery = signal(false);
+
   protected loadingConfiguration = signal(true);
 
   protected indexes: Signal<string[] | undefined>;
@@ -59,6 +61,7 @@ export class AppComponent {
         startDate: [""],
         index: [""],
         indexOverride: [""],
+        eventDeliveryMode: ["poll"],
       },
       {
         validators: indexRequiredValidator(),
@@ -102,6 +105,16 @@ export class AppComponent {
         } else {
           indexControl.enable();
         }
+      });
+
+    // To hide polling setup input fields, keep boolean signal for push delivery mode
+    this.setupForm.controls.eventDeliveryMode.valueChanges
+      .pipe(
+        startWith(this.setupForm.controls.eventDeliveryMode.value),
+        takeUntilDestroyed(),
+      )
+      .subscribe((eventDeliveryMode) => {
+        this.isPushEventDelivery.set(eventDeliveryMode === "push");
       });
 
     // Load indexes
