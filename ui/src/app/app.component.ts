@@ -160,53 +160,11 @@ export class AppComponent {
     const formValue = this.setupForm.value as SetupForm;
 
     try {
-      // Store secrets
-      await this.bitwardenSplunkService.upsertApiKey(
-        formValue.clientId,
-        formValue.clientSecret,
-      );
-
-      // Update inputs.conf
-      const index = formValue.indexOverride
-        ? formValue.indexOverride
-        : formValue.index;
-      console.debug("Index", index);
-      await this.bitwardenSplunkService.updateInputsConfigurationFile({
-        index,
-      });
-
-      // Update script.conf
-      let apiUrl: string;
-      let identityUrl: string;
-      if (this.isServerUrlBitwardenCloud(formValue.serverUrlType)) {
-        const serverHost =
-          formValue.serverUrlType === "bitwarden.com"
-            ? "bitwarden.com"
-            : "bitwarden.eu";
-        apiUrl = `https://api.${serverHost}`;
-        identityUrl = `https://identity.${serverHost}`;
+      if (formValue.eventDeliveryMode === "poll") {
+        await this.submitPollingConfiguration(formValue);
       } else {
-        const containsProtocol = /^https?:\/\//.test(formValue.serverUrl);
-        const serverUrl = new URL(
-          containsProtocol
-            ? formValue.serverUrl
-            : "https://" + formValue.serverUrl,
-        );
-
-        if (!serverUrl.pathname.endsWith("/")) {
-          serverUrl.pathname = serverUrl.pathname + "/";
-        }
-
-        apiUrl = serverUrl.href + "api";
-        identityUrl = serverUrl.href + "identity";
+        await this.submitPushConfiguration(formValue);
       }
-
-      console.debug("Bitwarden urls", apiUrl, identityUrl);
-      await this.bitwardenSplunkService.updateScriptConfigurationFile({
-        apiUrl,
-        identityUrl,
-        startDate: formValue.startDate,
-      });
 
       // Complete setup
       await this.bitwardenSplunkService.updateAppConfigurationFile(true);
@@ -224,6 +182,63 @@ export class AppComponent {
     } finally {
       this.submitLoading.set(false);
     }
+  }
+
+  private async submitPollingConfiguration(formValue: SetupForm) {
+    // Store secrets
+    await this.bitwardenSplunkService.upsertApiKey(
+      formValue.clientId,
+      formValue.clientSecret,
+    );
+
+    // Update inputs.conf
+    const index = formValue.indexOverride
+      ? formValue.indexOverride
+      : formValue.index;
+    console.debug("Index", index);
+    await this.bitwardenSplunkService.updateInputsConfigurationFile({
+      index,
+    });
+
+    // Update script.conf
+    let apiUrl: string;
+    let identityUrl: string;
+    if (this.isServerUrlBitwardenCloud(formValue.serverUrlType)) {
+      const serverHost =
+        formValue.serverUrlType === "bitwarden.com"
+          ? "bitwarden.com"
+          : "bitwarden.eu";
+      apiUrl = `https://api.${serverHost}`;
+      identityUrl = `https://identity.${serverHost}`;
+    } else {
+      const containsProtocol = /^https?:\/\//.test(formValue.serverUrl);
+      const serverUrl = new URL(
+        containsProtocol
+          ? formValue.serverUrl
+          : "https://" + formValue.serverUrl,
+      );
+
+      if (!serverUrl.pathname.endsWith("/")) {
+        serverUrl.pathname = serverUrl.pathname + "/";
+      }
+
+      apiUrl = serverUrl.href + "api";
+      identityUrl = serverUrl.href + "identity";
+    }
+
+    console.debug("Bitwarden urls", apiUrl, identityUrl);
+    await this.bitwardenSplunkService.updateScriptConfigurationFile({
+      apiUrl,
+      identityUrl,
+      startDate: formValue.startDate,
+      eventDeliveryMode: formValue.eventDeliveryMode,
+    });
+  }
+
+  private async submitPushConfiguration(formValue: SetupForm) {
+    await this.bitwardenSplunkService.updateScriptConfigurationFile({
+      eventDeliveryMode: formValue.eventDeliveryMode,
+    });
   }
 
   private loadConfiguration(indexesObservable: Observable<string[]>) {
@@ -252,6 +267,7 @@ export class AppComponent {
 
           if (
             scriptConfiguration !== undefined &&
+            scriptConfiguration.apiUrl !== undefined &&
             URL.canParse(scriptConfiguration.apiUrl)
           ) {
             const apiUrl = new URL(scriptConfiguration.apiUrl);

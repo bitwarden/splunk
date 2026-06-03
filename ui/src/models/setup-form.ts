@@ -8,4 +8,5 @@ export type SetupForm = {
   startDate: string;
   index: string;
   indexOverride: string;
+  eventDeliveryMode: "poll" | "push";
 };
