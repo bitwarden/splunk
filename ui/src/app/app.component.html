@@ -33,7 +33,7 @@
           id="poll"
           value="poll"
         />
-        <label for="poll">Poll</label>
+        <label for="poll">REST API</label>
       </span>
 
       <span class="gap-x-2 flex items-center">
@@ -44,10 +44,23 @@
           id="push"
           value="push"
         />
-        <label for="push">Push</label>
+        <label for="push">HEC Event Collector</label>
       </span>
 
-      @if (!isPushEventDelivery()) {
+      @if (isPushEventDelivery()) {
+        <p class="mt-6 text-gray-600">
+          To complete setup for receiving event logs with the HEC Event
+          Collector, follow the instructions in the
+          <a
+            class="font-medium text-blue-600 hover:underline"
+            href="https://bitwarden.com/help/splunk-siem/#connect-your-bitwarden-organization"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Bitwarden Splunk documentation</a
+          >.
+        </p>
+      } @else {
         <h3 class="mt-6 font-semibold text-gray-900">Bitwarden API Key</h3>
         <p>
           Your
