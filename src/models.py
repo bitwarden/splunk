@@ -9,6 +9,7 @@ class SettingsConfig:
     identity_url: str
     start_date: Optional[datetime] = None
     logging_level: Optional[str] = None
+    event_delivery_mode: str = 'poll'
 
 
 @dataclass

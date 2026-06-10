@@ -41,6 +41,10 @@ class App:
         return EventLogsWriter(self.bitwarden_api, self.checkpoint, self.settings_config)
 
     def run(self):
+        if self.settings_config.event_delivery_mode == 'push':
+            self.logger.info('using push event delivery mode, no polling necessary. exiting.')
+            return
+
         for next_request, events in self.event_logs_writer.read_events():
             self.event_logs_writer.write_events(events)
 
