@@ -12,7 +12,7 @@ readme = "README.md"
 keywords = ["splunk", "bitwarden"]
 
 [tool.poetry.dependencies]
-python = ">=3.9, <3.11"
+python = ">=3.13, <3.14"
 requests = "2.32.5"
 splunk-sdk = "2.1.1"
 splunktaucclib = "8.1.0"
@@ -22,7 +22,7 @@ python-dateutil = "2.9.0.post0"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-python = ">=3.9, <3.11"
+python = ">=3.13, <3.14"
 types-requests = "2.31.0.6"
 splunk-add-on-ucc-framework = "6.4.0"
 splunk-appinspect = "4.2.0"
@@ -31,14 +31,14 @@ splunk-appinspect = "4.2.0"
 optional = true
 
 [tool.poetry.group.splunkslim.dependencies]
-python = ">=3.9"
+python = ">=3.13, <3.14"
 splunk-packaging-toolkit = "1.2.7"
 
 [tool.poetry.group.test]
 optional = true
 
 [tool.poetry.group.test.dependencies]
-python = ">=3.9"
+python = ">=3.13, <3.14"
 pytest = "8.4.2"
 
 [tool.pytest.ini_options]
