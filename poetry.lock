@@ -246,21 +246,6 @@ files = [
 ]
 
 [[package]]
-name = "deprecation"
-version = "2.1.0"
-description = "A library to handle automated deprecations"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "deprecation-2.1.0-py2.py3-none-any.whl", hash = "sha256:a10811591210e1fb0e768a8c25517cabeabcba6f0bf96564f8ff45189f90b14a"},
-    {file = "deprecation-2.1.0.tar.gz", hash = "sha256:72b3bde64e5d778694b0cf68178aed03d15e15477116add3fb773e581f9518ff"},
-]
-
-[package.dependencies]
-packaging = "*"
-
-[[package]]
 name = "dunamai"
 version = "1.26.0"
 description = "Dynamic version generation"
@@ -659,7 +644,7 @@ version = "26.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev", "splunkslim", "test"]
+groups = ["dev", "splunkslim", "test"]
 files = [
     {file = "packaging-26.0-py3-none-any.whl", hash = "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529"},
     {file = "packaging-26.0.tar.gz", hash = "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"},
@@ -1295,17 +1280,22 @@ wheel = "0.46.3"
 
 [[package]]
 name = "splunk-sdk"
-version = "2.1.1"
-description = "The Splunk Software Development Kit for Python."
+version = "3.0.0"
+description = "Splunk Software Development Kit for Python"
 optional = false
-python-versions = "*"
+python-versions = ">=3.13"
 groups = ["main"]
 files = [
-    {file = "splunk-sdk-2.1.1.tar.gz", hash = "sha256:46300d52f09e0aed7e5962ce2ba08ef54421ffb3a538c6af6164dcbf9f075faa"},
+    {file = "splunk_sdk-3.0.0-py3-none-any.whl", hash = "sha256:e70c08f7370c3ff38a41ea0c014fc1fff360818718d76e7eb2b75e42c6189cf4"},
+    {file = "splunk_sdk-3.0.0.tar.gz", hash = "sha256:9e2c0be4ada75c6cb536c3add636fe634d31b670c141f2a59dcf8d623753e192"},
 ]
 
-[package.dependencies]
-deprecation = "*"
+[package.extras]
+ai = ["httpx (==0.28.1)", "langchain (>=1.2.18)", "mcp (>=1.27.1)", "pydantic (>=2.13.4)"]
+anthropic = ["langchain-anthropic (>=1.4.3)", "splunk-sdk[ai] (>=2.1.1)"]
+compat = ["six (>=1.17.0)"]
+google = ["google-auth (>=2.52.0)", "langchain-google-genai (==4.2.2)", "splunk-sdk[ai] (>=2.1.1)"]
+openai = ["langchain-openai (>=1.2.1)", "splunk-sdk[ai] (>=2.1.1)"]
 
 [[package]]
 name = "splunktaucclib"
@@ -1409,4 +1399,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13, <3.14"
-content-hash = "6b832bb7032d365c5a331e62b1b370a5b9368218cb95cf420a01a58b0c8652cd"
+content-hash = "907237976ae99cb6a9f12ad22dd97282d6a51557e7ff63b331c92780dfe38c48"
