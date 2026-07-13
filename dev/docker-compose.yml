@@ -8,6 +8,7 @@ services:
     ports:
       - "8001:8000"
       - "8089:8089"
+      - "8088:8088"
     environment:
       SPLUNK_GENERAL_TERMS: "--accept-sgt-current-at-splunk-com"
       SPLUNK_START_ARGS: "--accept-license"
@@ -19,6 +20,7 @@ services:
     ports:
       - "8001:8000"
       - "8089:8089"
+      - "8088:8088"
     environment:
       SPLUNK_START_ARGS: "--accept-license"
       SPLUNK_PASSWORD: password

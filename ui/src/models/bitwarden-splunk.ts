@@ -3,7 +3,8 @@ export type InputsConfiguration = {
 };
 
 export type ScriptsConfiguration = {
-  apiUrl: string;
-  identityUrl: string;
+  apiUrl?: string;
+  identityUrl?: string;
   startDate?: string;
+  eventDeliveryMode?: "poll" | "push";
 };
