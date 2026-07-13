@@ -123,17 +123,27 @@ export class AppComponent {
           this.setupForm.controls.clientSecret.clearValidators();
           this.setupForm.controls.serverUrl.clearValidators();
           this.setupForm.setValidators(null);
-          this.setupForm.controls.clientId.updateValueAndValidity();
-          this.setupForm.controls.clientSecret.updateValueAndValidity();
-          this.setupForm.controls.serverUrl.updateValueAndValidity();
-          this.setupForm.updateValueAndValidity();
         } else {
           this.setupForm.controls.clientId.setValidators(Validators.required);
           this.setupForm.controls.clientSecret.setValidators(
             Validators.required,
           );
+
+          if (this.setupForm.controls.serverUrlType.value === "self-hosted") {
+            this.setupForm.controls.serverUrl.setValidators([
+              Validators.required,
+              secureUrlValidator(),
+            ]);
+            this.setupForm.controls.serverUrl.enable();
+          }
+
           this.setupForm.setValidators(indexRequiredValidator());
         }
+
+        this.setupForm.controls.clientId.updateValueAndValidity();
+        this.setupForm.controls.clientSecret.updateValueAndValidity();
+        this.setupForm.controls.serverUrl.updateValueAndValidity();
+        this.setupForm.updateValueAndValidity();
       });
 
     // Load indexes
