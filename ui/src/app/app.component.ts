@@ -275,23 +275,26 @@ export class AppComponent {
             }
           }
 
-          if (
-            scriptConfiguration !== undefined &&
-            scriptConfiguration.apiUrl !== undefined &&
-            URL.canParse(scriptConfiguration.apiUrl)
-          ) {
-            const apiUrl = new URL(scriptConfiguration.apiUrl);
-            if (apiUrl.host === "api.bitwarden.com") {
-              updates.serverUrlType = "bitwarden.com";
-            } else if (apiUrl.host === "api.bitwarden.eu") {
-              updates.serverUrlType = "bitwarden.eu";
-            } else {
-              updates.serverUrlType = "self-hosted";
-              apiUrl.pathname = apiUrl.pathname.replace(/\/api$/i, "");
-              updates.serverUrl = apiUrl.href;
-            }
+          if (scriptConfiguration !== undefined) {
+            updates.eventDeliveryMode = scriptConfiguration.eventDeliveryMode;
 
-            updates.startDate = scriptConfiguration.startDate ?? "";
+            if (
+              scriptConfiguration.apiUrl !== undefined &&
+              URL.canParse(scriptConfiguration.apiUrl)
+            ) {
+              const apiUrl = new URL(scriptConfiguration.apiUrl);
+              if (apiUrl.host === "api.bitwarden.com") {
+                updates.serverUrlType = "bitwarden.com";
+              } else if (apiUrl.host === "api.bitwarden.eu") {
+                updates.serverUrlType = "bitwarden.eu";
+              } else {
+                updates.serverUrlType = "self-hosted";
+                apiUrl.pathname = apiUrl.pathname.replace(/\/api$/i, "");
+                updates.serverUrl = apiUrl.href;
+              }
+
+              updates.startDate = scriptConfiguration.startDate ?? "";
+            }
           }
 
           // Apply all updates at once
