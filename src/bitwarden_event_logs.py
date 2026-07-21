@@ -20,6 +20,11 @@ class App:
 
         self.config = Config(self.splunk_api)
         self.settings_config = self.config.get_settings_config()
+
+        # push configurations do not require polling resources, skip initialization for them
+        if self.settings_config.event_delivery_mode == 'push':
+            return
+
         self.bitwarden_api_key = self.config.get_bitwarden_api_key()
         self.checkpoint = self.config.get_checkpoint()
 
@@ -41,6 +46,10 @@ class App:
         return EventLogsWriter(self.bitwarden_api, self.checkpoint, self.settings_config)
 
     def run(self):
+        if self.settings_config.event_delivery_mode == 'push':
+            self.logger.info('using push event delivery mode, no polling necessary. exiting.')
+            return
+
         for next_request, events in self.event_logs_writer.read_events():
             self.event_logs_writer.write_events(events)
 

@@ -98,6 +98,9 @@ export class BitwardenSplunkService {
         startDate: keys.includes("startDate")
           ? properties["startDate"]
           : undefined,
+        eventDeliveryMode: keys.includes("eventDeliveryMode")
+          ? properties["eventDeliveryMode"]
+          : undefined,
       } as ScriptsConfiguration;
     }
     return undefined;
