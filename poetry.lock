@@ -1381,14 +1381,14 @@ validate = ["splunk-appinspect[validate] (>=4.0.0,<5.0.0)"]
 
 [[package]]
 name = "splunk-appinspect"
-version = "4.2.1"
+version = "4.3.1"
 description = "Automatic validation checks for Splunk Apps"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
 files = [
-    {file = "splunk_appinspect-4.2.1-py3-none-any.whl", hash = "sha256:fb66f55d5a8cd05f4628906c05216028d0c69f687267a91c6b4edcac25fb01eb"},
-    {file = "splunk_appinspect-4.2.1.tar.gz", hash = "sha256:33e8651809780d60789a71a5b8ed35bdc4fc6e6aff7a6a52e406b266587daeff"},
+    {file = "splunk_appinspect-4.3.1-py3-none-any.whl", hash = "sha256:a14a6508a20383c529b5d170f703f9a5d80fedbd006e4a94a0434f1a46f63007"},
+    {file = "splunk_appinspect-4.3.1.tar.gz", hash = "sha256:6ca96179321c9b23ecf5e6ee1a8c27a4e5badde6ebd19d91de7e913003a29565"},
 ]
 
 [package.dependencies]
@@ -1411,7 +1411,7 @@ semver = ">=3.0.0"
 structlog = ">=23.1.0,<=24.4.0"
 
 [package.extras]
-mcp = ["fastmcp (>=2.13.0.2,<3) ; python_full_version >= \"3.10.0\""]
+mcp = ["fastmcp (>=3.4.4,<4) ; python_full_version >= \"3.10.0\""]
 
 [[package]]
 name = "splunk-packaging-toolkit"
@@ -1564,4 +1564,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13, <3.14"
-content-hash = "907237976ae99cb6a9f12ad22dd97282d6a51557e7ff63b331c92780dfe38c48"
+content-hash = "3f7d53f68730485144941d54301dfe5aa3eddebc53610a73127bf289885b2aa4"
