@@ -1452,14 +1452,14 @@ openai = ["langchain-openai (>=1.2.1)", "splunk-sdk[ai] (>=2.1.1)"]
 
 [[package]]
 name = "splunktaucclib"
-version = "8.1.0"
+version = "8.2.0"
 description = ""
 optional = false
 python-versions = "<3.14,>=3.7"
 groups = ["main"]
 files = [
-    {file = "splunktaucclib-8.1.0-py3-none-any.whl", hash = "sha256:f779e32b531a5b42de89d2361d222db1d7a4f7cb43b7db9123369faa633e0ab7"},
-    {file = "splunktaucclib-8.1.0.tar.gz", hash = "sha256:11a429669e2fd60e5e2e2264541d9cf8b4a24031e5dd12b018d0b261c5db365a"},
+    {file = "splunktaucclib-8.2.0-py3-none-any.whl", hash = "sha256:30d4e4659a9a3221d8b01dc3eb4503a9a2cfa50ae87dfd5ee847145391b1968c"},
+    {file = "splunktaucclib-8.2.0.tar.gz", hash = "sha256:6a4a2fa2aad3f4fcc35822259c066510233a27afa758c6561ebf15aa0d010155"},
 ]
 
 [package.dependencies]
@@ -1564,4 +1564,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13, <3.14"
-content-hash = "907237976ae99cb6a9f12ad22dd97282d6a51557e7ff63b331c92780dfe38c48"
+content-hash = "8922db2ed719c32696b15e617cbda8a6f442fc4ba65d9d1526de0c87466ea44b"
