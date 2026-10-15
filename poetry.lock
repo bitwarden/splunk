@@ -1355,14 +1355,14 @@ files = [
 
 [[package]]
 name = "splunk-add-on-ucc-framework"
-version = "6.4.0"
+version = "6.6.0"
 description = "Splunk Add-on SDK formerly UCC is a build and code generation framework"
 optional = false
 python-versions = "<3.14,>=3.9"
 groups = ["dev"]
 files = [
-    {file = "splunk_add_on_ucc_framework-6.4.0-py3-none-any.whl", hash = "sha256:82f217fe181cbd7eaa48550db413f080c33a2734515e3b250bebf64a822011f6"},
-    {file = "splunk_add_on_ucc_framework-6.4.0.tar.gz", hash = "sha256:27f8afabb51b7270b34c23705e99d7d2c9c659edd321c2770e2f3d5e9b037a86"},
+    {file = "splunk_add_on_ucc_framework-6.6.0-py3-none-any.whl", hash = "sha256:09683c0c7879223526d4e54017872ab48c0f6fb7d8cb659570c79841d8ad8120"},
+    {file = "splunk_add_on_ucc_framework-6.6.0.tar.gz", hash = "sha256:ee566eab265709426041c6a88f0d73f60de399905534952c7e9d3a66b7c3fa02"},
 ]
 
 [package.dependencies]
@@ -1375,9 +1375,6 @@ jinja2 = ">=3.1.6,<4"
 jsonschema = ">=4.25.0,<5.0.0"
 packaging = ">=25.0"
 PyYAML = ">=6.0,<7.0"
-
-[package.extras]
-validate = ["splunk-appinspect[validate] (>=4.0.0,<5.0.0)"]
 
 [[package]]
 name = "splunk-appinspect"
@@ -1564,4 +1561,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13, <3.14"
-content-hash = "907237976ae99cb6a9f12ad22dd97282d6a51557e7ff63b331c92780dfe38c48"
+content-hash = "df74ce6e0aa5467c49f371dfd83712bba0684dd041ad9ae558759433c11bd366"
