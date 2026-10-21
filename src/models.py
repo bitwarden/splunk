@@ -90,6 +90,5 @@ class BitwardenEventsResponse:
 
 @dataclass
 class EventLogsCheckpoint:
-    key_id: Optional[str] = None
     next_request: Optional[BitwardenEventsRequest] = None
     last_log_date: Optional[datetime] = None
