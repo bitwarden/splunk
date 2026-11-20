@@ -191,7 +191,9 @@ cp ui/dist/setup/{scripts.js,runtime.js,polyfills.js,main.js,styles.css} package
 poetry export -f requirements.txt --output package/lib/requirements.txt
 cp -R src/* package/bin/
 
-poetry run ucc-gen build --ta-version "${VERSION}"
+# Pin pip version to 26.0.1 to keep compatibility
+poetry run ucc-gen build --ta-version "${VERSION}" --pip-version 26.0.1
+
 ## cleanup python files
 rm -rf output/$APP_NAME/{bin,lib}/__pycache__
 rm -rf output/$APP_NAME/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
