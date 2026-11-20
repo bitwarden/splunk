@@ -122,7 +122,7 @@ jobs:
           mkdir package/bin
           cp -R src/* package/bin/
           APP_VERSION=$(poetry version | awk -F ' ' '{print $2}')
-          poetry run ucc-gen build --ta-version "${APP_VERSION}"
+          poetry run ucc-gen build --ta-version "${APP_VERSION}" --pip-version 26.0.1
           # cleanup python files
           rm -rf output/bitwarden_event_logs/{bin,lib}/__pycache__
           rm -rf output/bitwarden_event_logs/bin/{bitwarden_event_logs_rh_settings.py,import_declare_test.py}
